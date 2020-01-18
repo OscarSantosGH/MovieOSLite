@@ -20,8 +20,7 @@ class HomeVC: UIViewController {
     
     
     func getMovies() {
-        NetworkManager.shared.getPopulars { [weak self] (result) in
-            guard let self = self else {return}
+        NetworkManager.shared.getPopulars { (result) in
             switch result{
             case .failure(let error):
                 print(error.rawValue)
