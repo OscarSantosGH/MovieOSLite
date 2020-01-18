@@ -52,8 +52,8 @@ class NetworkManager{
             do{
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let movies = try decoder.decode([Movie].self, from: data)
-                completed(.success(movies))
+                let apiResponse = try decoder.decode(MovieAPIResponse.self, from: data)
+                completed(.success(apiResponse.results))
             } catch {
                 completed(.failure(.invalidData))
             }

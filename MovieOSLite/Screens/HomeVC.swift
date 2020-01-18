@@ -14,7 +14,21 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemTeal
+        
+        getMovies()
     }
     
+    
+    func getMovies() {
+        NetworkManager.shared.getPopulars { [weak self] (result) in
+            guard let self = self else {return}
+            switch result{
+            case .failure(let error):
+                print(error.rawValue)
+            case .success(let movies):
+                print(movies)
+            }
+        }
+    }
 
 }
