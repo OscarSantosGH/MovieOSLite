@@ -14,7 +14,7 @@ class NetworkManager{
     private let baseUrl = "https://api.themoviedb.org/3/movie/"
     private let API_KEY = ""
     
-    private let baseImgUrl = "https://image.tmdb.org/t/p/w154"
+    private let basePosterImgUrl = "https://image.tmdb.org/t/p/w154"
     private let baseBackdropImgUrl = "https://image.tmdb.org/t/p/w500"
     private let baseCastImgUrl = "https://image.tmdb.org/t/p/w92"
     
@@ -57,6 +57,38 @@ class NetworkManager{
             } catch {
                 completed(.failure(.invalidData))
             }
+        }
+        
+        task.resume()
+    }
+    
+    func downloadPosterImage(from urlString:String, completed: @escaping (Result<UIImage,MOError>)->Void) {
+        let cacheKey = NSString(string: urlString)
+        let endPoint = basePosterImgUrl + urlString
+        guard let url = URL(string: endPoint) else {return}
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            }
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completed(.failure(.invalidResponse))
+                return
+            }
+            guard let data = data else {
+                completed(.failure(.invalidData))
+                return
+            }
+            
+            guard let image = UIImage(data: data) else {
+                completed(.failure(.invalidData))
+                return
+            }
+            self.cache.setObject(image, forKey: cacheKey)
+            
+            completed(.success(image))
         }
         
         task.resume()

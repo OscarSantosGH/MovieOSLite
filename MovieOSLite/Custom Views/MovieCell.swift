@@ -24,6 +24,8 @@ class MovieCell: UICollectionViewCell {
     
     func set(movie: Movie){
         titleLabel.text = movie.title
+        guard let posterURL = movie.posterPath else {return}
+        posterImageView.setPoster(from: posterURL)
     }
     
     private func configure(){
