@@ -32,7 +32,8 @@ class MOTitleLabel: UILabel {
     
     private func configure(){
         textColor = .label
-        textAlignment = .left
+        numberOfLines = 2
+        textAlignment = .center
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = 0.8
         lineBreakMode = .byTruncatingTail

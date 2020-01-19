@@ -34,12 +34,12 @@ class MovieCell: UICollectionViewCell {
             posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
             posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            posterImageView.heightAnchor.constraint(equalToConstant: 200),
+            posterImageView.heightAnchor.constraint(equalToConstant: 170),
             
             titleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: padding),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
+            titleLabel.heightAnchor.constraint(equalToConstant: 25)
         ])
     }
 }
