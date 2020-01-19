@@ -1,5 +1,5 @@
 //
-//  MOBodyLabel.swift
+//  MORatingLabel.swift
 //  MovieOSLite
 //
 //  Created by Oscar Santos on 1/19/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MOBodyLabel: UILabel {
+class MORatingLabel: UILabel {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,12 +19,17 @@ class MOBodyLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
+    init(ofSize size:CGFloat) {
+        super.init(frame: .zero)
+        self.font = UIFont.systemFont(ofSize: size, weight: .black)
+        configure()
+    }
+    
     private func configure(){
-        textColor = .secondaryLabel
-        font = UIFont.preferredFont(forTextStyle: .body)
-        adjustsFontSizeToFitWidth = true
-        minimumScaleFactor = 0.75
-        lineBreakMode = .byWordWrapping
+        textColor = .systemOrange
+        textAlignment = .center
+        minimumScaleFactor = 0.8
+        lineBreakMode = .byTruncatingTail
         translatesAutoresizingMaskIntoConstraints = false
     }
 }

@@ -39,20 +39,13 @@ class HomeVC: UIViewController {
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
-        flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 80)
+        flowLayout.itemSize = CGSize(width: itemWidth, height: 245)
         
         collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: flowLayout)
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseID)
-//        collectionView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-//            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-//            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-//            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
-//        ])
     }
     
     func configureDataSource(){
