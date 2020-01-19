@@ -11,7 +11,7 @@ import UIKit
 class MovieCell: UICollectionViewCell {
     static let reuseID = "MovieCell"
     let posterImageView = MOPosterImageView(frame: .zero)
-    let titleLabel = MOTitleLabel(of: .small)
+    let titleLabel = MOTitleLabel(ofSize: 12, textAlignment: .center)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

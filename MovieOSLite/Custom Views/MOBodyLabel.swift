@@ -1,15 +1,14 @@
 //
-//  MOTitleLabel.swift
+//  MOBodyLabel.swift
 //  MovieOSLite
 //
-//  Created by Oscar Santos on 1/17/20.
+//  Created by Oscar Santos on 1/19/20.
 //  Copyright © 2020 Oscar Santos. All rights reserved.
 //
 
 import UIKit
 
-
-class MOTitleLabel: UILabel {
+class MOBodyLabel: UILabel {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,20 +19,18 @@ class MOTitleLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(ofSize size:CGFloat, textAlignment: NSTextAlignment) {
+    init(textAlignment: NSTextAlignment) {
         super.init(frame: .zero)
         self.textAlignment = textAlignment
-        self.font = UIFont.systemFont(ofSize: size, weight: .medium)
         configure()
     }
     
     private func configure(){
-        textColor = .label
-        numberOfLines = 2
+        textColor = .secondaryLabel
+        font = UIFont.preferredFont(forTextStyle: .body)
         adjustsFontSizeToFitWidth = true
-        minimumScaleFactor = 0.8
-        lineBreakMode = .byTruncatingTail
+        minimumScaleFactor = 0.75
+        lineBreakMode = .byWordWrapping
         translatesAutoresizingMaskIntoConstraints = false
     }
-    
 }
