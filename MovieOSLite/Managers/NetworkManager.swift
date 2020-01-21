@@ -24,9 +24,15 @@ class NetworkManager{
         
     }
     
-    func getPopulars(completed: @escaping (Result<[Movie], MOError>)-> Void){
+    enum MoviesList: String {
+        case popular = "popular"
+        case upcoming = "upcoming"
+        case nowPlaying = "now_playing"
+    }
+    
+    func getMovies(from list:MoviesList, completed: @escaping (Result<[Movie], MOError>)-> Void){
         
-        let endPoint = baseUrl + "popular?api_key=\(API_KEY)"
+        let endPoint = baseUrl + "\(list.rawValue)?api_key=\(API_KEY)"
         
         guard let url = URL(string: endPoint) else {
             completed(.failure(.invalidURL))
@@ -61,6 +67,7 @@ class NetworkManager{
         
         task.resume()
     }
+    
     
     func downloadPosterImage(from urlString:String, completed: @escaping (Result<UIImage,MOError>)->Void) {
         let cacheKey = NSString(string: urlString)

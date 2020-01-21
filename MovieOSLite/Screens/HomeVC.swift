@@ -69,7 +69,7 @@ class HomeVC: UIViewController {
     
     
     func getMovies() {
-        NetworkManager.shared.getPopulars { [weak self] (result) in
+        NetworkManager.shared.getMovies(from: .upcoming) { [weak self] (result) in
             guard let self = self else {return}
             
             switch result{

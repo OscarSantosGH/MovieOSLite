@@ -19,6 +19,12 @@ class MOBodyLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
+    init(alignment:NSTextAlignment) {
+        super.init(frame: .zero)
+        textAlignment = alignment
+        configure()
+    }
+    
     private func configure(){
         textColor = .secondaryLabel
         font = UIFont.preferredFont(forTextStyle: .body)

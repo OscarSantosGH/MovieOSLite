@@ -13,14 +13,14 @@ class MovieCell: UICollectionViewCell {
     let posterImageView = MOPosterImageView(frame: .zero)
     let titleLabel = MOTitleLabel(ofSize: 12, textAlignment: .center)
     let ratingLabel = MORatingLabel(ofSize: 13)
-    let ratingTextLabel = MOBodyLabel()
-    var rating = "0"
+    let ratingTextLabel = MOBodyLabel(alignment: .left)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .secondarySystemBackground
         clipsToBounds = true
         layer.cornerRadius = 10
+        configure()
     }
     
     required init?(coder: NSCoder) {
@@ -29,65 +29,44 @@ class MovieCell: UICollectionViewCell {
     
     func set(movie: Movie){
         titleLabel.text = movie.title
-        configure(with: String(movie.voteAverage))
+        if movie.voteAverage == 0.0{
+            ratingTextLabel.text = "Not rated"
+            ratingLabel.alpha = 0
+        }else{
+            ratingTextLabel.text = "Rating: "
+            ratingLabel.alpha = 1
+        }
+        ratingLabel.text = String(movie.voteAverage)
         guard let posterURL = movie.posterPath else {return}
         posterImageView.setPoster(from: posterURL)
     }
     
-    private func configure(with rating:String){
+    private func configure(){
         let padding: CGFloat = 5
-        if rating == "0"{
-            addSubview(posterImageView)
-            addSubview(titleLabel)
-            addSubview(ratingTextLabel)
-            NSLayoutConstraint.activate([
-                posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-                posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-                posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
-                posterImageView.heightAnchor.constraint(equalToConstant: 190),
-                
-                titleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: padding),
-                titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-                titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-                titleLabel.heightAnchor.constraint(equalToConstant: 25),
-                
-                ratingTextLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
-                ratingTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-                ratingTextLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-                ratingTextLabel.heightAnchor.constraint(equalToConstant: 25)
-            ])
-            ratingTextLabel.textAlignment = .center
-            ratingTextLabel.text = "Not rated"
-        }else{
-            addSubview(posterImageView)
-            addSubview(titleLabel)
-            addSubview(ratingTextLabel)
-            addSubview(ratingLabel)
-            NSLayoutConstraint.activate([
-                posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-                posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-                posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
-                posterImageView.heightAnchor.constraint(equalToConstant: 190),
-                
-                titleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: padding),
-                titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-                titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-                titleLabel.heightAnchor.constraint(equalToConstant: 25),
-                
-                ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
-                ratingLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-                ratingLabel.heightAnchor.constraint(equalToConstant: 25),
-                ratingLabel.widthAnchor.constraint(equalToConstant: 25),
-                
-                ratingTextLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
-                ratingTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-                ratingTextLabel.trailingAnchor.constraint(equalTo: ratingLabel.leadingAnchor, constant: -padding),
-                ratingTextLabel.heightAnchor.constraint(equalToConstant: 25)
-            ])
-            ratingTextLabel.textAlignment = .left
-            ratingTextLabel.text = "Rating: "
-            ratingLabel.text = rating
-        }
-        
+        addSubview(posterImageView)
+        addSubview(titleLabel)
+        addSubview(ratingTextLabel)
+        addSubview(ratingLabel)
+        NSLayoutConstraint.activate([
+            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+            posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+            posterImageView.heightAnchor.constraint(equalToConstant: 190),
+            
+            titleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: padding),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            titleLabel.heightAnchor.constraint(equalToConstant: 25),
+            
+            ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
+            ratingLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            ratingLabel.heightAnchor.constraint(equalToConstant: 25),
+            ratingLabel.widthAnchor.constraint(equalToConstant: 25),
+            
+            ratingTextLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
+            ratingTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+            ratingTextLabel.trailingAnchor.constraint(equalTo: ratingLabel.leadingAnchor, constant: -padding),
+            ratingTextLabel.heightAnchor.constraint(equalToConstant: 25)
+        ])
     }
 }
