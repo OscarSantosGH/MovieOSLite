@@ -43,10 +43,8 @@ class MovieCell: UICollectionViewCell {
     
     private func configure(){
         let padding: CGFloat = 5
-        addSubview(posterImageView)
-        addSubview(titleLabel)
-        addSubview(ratingTextLabel)
-        addSubview(ratingLabel)
+        addSubviews(posterImageView, titleLabel, ratingLabel, ratingTextLabel)
+        
         NSLayoutConstraint.activate([
             posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
             posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),

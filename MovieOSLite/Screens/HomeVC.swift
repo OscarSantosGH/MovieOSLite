@@ -41,6 +41,7 @@ class HomeVC: UIViewController {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
+        collectionView.pinToEdges(of: view)
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseID)
     }
     
@@ -93,7 +94,7 @@ class HomeVC: UIViewController {
             case .failure(let error):
                 print(error.rawValue)
             case .success(let movies):
-                self.upcomingMovies = movies
+                self.upcomingMovies = movies.shuffled()
                 self.getNowPlayingMovies()
             }
         }
@@ -107,7 +108,7 @@ class HomeVC: UIViewController {
             case .failure(let error):
                 print(error.rawValue)
             case .success(let movies):
-                self.nowPlayingMovies = movies
+                self.nowPlayingMovies = movies.shuffled()
                 self.updateData()
             }
         }
