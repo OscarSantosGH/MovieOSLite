@@ -10,8 +10,7 @@ import UIKit
 
 class HomeVC: UIViewController {
     
-    enum Section{
-        case main
+    enum Section: CaseIterable{
         case popular
         case nowPlaying
         case upcoming
@@ -20,7 +19,9 @@ class HomeVC: UIViewController {
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section,Movie>!
     
-    var movies: [Movie] = []
+    var popularMovies: [Movie] = []
+    var upcomingMovies: [Movie] = []
+    var nowPlayingMovies: [Movie] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,50 +29,15 @@ class HomeVC: UIViewController {
         view.backgroundColor = .systemTeal
         
         configureCollectionView()
-        getMovies()
+        getPopularMovies()
         configureDataSource()
     }
     
-    func createLayout() -> UICollectionViewLayout {
-        let sectionProvider = { (sectionIndex: Int,
-            layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                 heightDimension: .fractionalHeight(1.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-            // if we have the space, adapt and go 2-up + peeking 3rd item
-//            let groupFractionalWidth = CGFloat(layoutEnvironment.container.effectiveContentSize.width > 500 ?
-//                0.425 : 0.85)
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.30),
-                                                  heightDimension: .absolute(245))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
-            let section = NSCollectionLayoutSection(group: group)
-            section.orthogonalScrollingBehavior = .continuous
-            section.interGroupSpacing = 5
-            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 5, bottom: 0, trailing: 0)
-
-//            let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-//                                                  heightDimension: .estimated(44))
-//            let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(
-//                layoutSize: titleSize,
-//                elementKind: ConferenceVideoSessionsViewController.titleElementKind,
-//                alignment: .top)
-//            section.boundarySupplementaryItems = [titleSupplementary]
-            return section
-        }
-
-        let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 20
-
-        let layout = UICollectionViewCompositionalLayout(
-            sectionProvider: sectionProvider, configuration: config)
-        return layout
-    }
+    
     
     func configureCollectionView(){
         
-        collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: createLayout())
+        collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: UIHelper.createHomeLayout())
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
@@ -87,10 +53,17 @@ class HomeVC: UIViewController {
         })
     }
     
-    func updateData(on movies:[Movie]){
+    func updateData(){
         var snapshot = NSDiffableDataSourceSnapshot<Section,Movie>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(movies)
+        
+        Section.allCases.forEach {
+            snapshot.appendSections([$0])
+        }
+        
+        
+        snapshot.appendItems(popularMovies, toSection: .popular)
+        snapshot.appendItems(upcomingMovies, toSection: .upcoming)
+        snapshot.appendItems(nowPlayingMovies, toSection: .nowPlaying)
         
         DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: true)
@@ -98,16 +71,44 @@ class HomeVC: UIViewController {
     }
     
     
-    func getMovies() {
-        NetworkManager.shared.getMovies(from: .upcoming) { [weak self] (result) in
+    func getPopularMovies() {
+        NetworkManager.shared.getMovies(from: .popular ) { [weak self] (result) in
             guard let self = self else {return}
             
             switch result{
             case .failure(let error):
                 print(error.rawValue)
             case .success(let movies):
-                self.movies = movies
-                self.updateData(on: self.movies)
+                self.popularMovies = movies
+                self.getUpcomingMovies()
+            }
+        }
+    }
+    
+    func getUpcomingMovies() {
+        NetworkManager.shared.getMovies(from: .upcoming ) { [weak self] (result) in
+            guard let self = self else {return}
+            
+            switch result{
+            case .failure(let error):
+                print(error.rawValue)
+            case .success(let movies):
+                self.upcomingMovies = movies
+                self.getNowPlayingMovies()
+            }
+        }
+    }
+    
+    func getNowPlayingMovies() {
+        NetworkManager.shared.getMovies(from: .nowPlaying ) { [weak self] (result) in
+            guard let self = self else {return}
+            
+            switch result{
+            case .failure(let error):
+                print(error.rawValue)
+            case .success(let movies):
+                self.nowPlayingMovies = movies
+                self.updateData()
             }
         }
     }

@@ -9,6 +9,8 @@
 import Foundation
 
 struct Movie: Codable, Hashable {
+    let identifier: UUID = UUID()
+    
     let id: Int
     var posterPath: String?
     var backdropPath: String?
@@ -18,4 +20,12 @@ struct Movie: Codable, Hashable {
     let overview: String
     let releaseDate: String
     let genreIds: [Int]
+    
+    func hash(into hasher: inout Hasher) {
+        return hasher.combine(identifier)
+    }
+    
+    static func == (lhs: Movie, rhs: Movie) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
 }
