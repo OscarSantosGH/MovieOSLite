@@ -20,14 +20,7 @@ class MOTitleLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(ofSize size:CGFloat, textAlignment: NSTextAlignment) {
-        self.init(frame: .zero)
-        self.textAlignment = textAlignment
-        font = UIFont.systemFont(ofSize: size, weight: .medium)
-        self.textColor = .label
-    }
-    
-    convenience init(ofSize size:CGFloat, textAlignment: NSTextAlignment, textColor: UIColor) {
+    convenience init(ofSize size:CGFloat, textAlignment: NSTextAlignment, textColor: UIColor = .label) {
         self.init(frame: .zero)
         self.textAlignment = textAlignment
         font = UIFont.systemFont(ofSize: size, weight: .medium)

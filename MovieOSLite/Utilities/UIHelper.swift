@@ -8,8 +8,10 @@
 
 import UIKit
 
-class UIHelper {
+enum UIHelper {
 
+    static let titleElementKind = "title-element-kind"
+    
     static func createThreeColumnsLayout(in view:UIView) -> UICollectionViewLayout{
         let width = view.bounds.width
         let padding: CGFloat = 1
@@ -43,13 +45,13 @@ class UIHelper {
                 section.interGroupSpacing = 5
                 section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 5, bottom: 0, trailing: 0)
 
-    //            let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-    //                                                  heightDimension: .estimated(44))
-    //            let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(
-    //                layoutSize: titleSize,
-    //                elementKind: ConferenceVideoSessionsViewController.titleElementKind,
-    //                alignment: .top)
-    //            section.boundarySupplementaryItems = [titleSupplementary]
+                let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .estimated(20))
+                let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: titleSize,
+                    elementKind: titleElementKind,
+                    alignment: .top)
+                section.boundarySupplementaryItems = [titleSupplementary]
                 return section
             }
 

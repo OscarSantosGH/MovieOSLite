@@ -14,10 +14,22 @@ class HomeVC: UIViewController {
         case popular
         case nowPlaying
         case upcoming
+        
+        var title: String{
+            switch self {
+            case .popular:
+                return "Popular"
+            case .nowPlaying:
+                return "Now Playing"
+            case .upcoming:
+                return "Upcoming"
+            }
+        }
     }
     
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section,Movie>!
+    var currentSnapshot: NSDiffableDataSourceSnapshot<Section,Movie>! = nil
     
     var popularMovies: [Movie] = []
     var upcomingMovies: [Movie] = []
@@ -43,6 +55,7 @@ class HomeVC: UIViewController {
         collectionView.backgroundColor = .systemBackground
         collectionView.pinToEdges(of: view)
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseID)
+        collectionView.register(TitleSupplementaryView.self, forSupplementaryViewOfKind: UIHelper.titleElementKind, withReuseIdentifier: TitleSupplementaryView.reuseIdentifier)
     }
     
     func configureDataSource(){
@@ -52,22 +65,40 @@ class HomeVC: UIViewController {
             cell.set(movie: movie)
             return cell
         })
+        dataSource.supplementaryViewProvider = { [weak self] (collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
+            guard let self = self, let snapshot = self.currentSnapshot else { return nil }
+            
+            // Get a supplementary view of the desired kind.
+            if let titleSupplementary = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
+                for: indexPath) as? TitleSupplementaryView {
+
+                // Populate the view with our section's description.
+                let moviesCategory = snapshot.sectionIdentifiers[indexPath.section]
+                titleSupplementary.label.text = moviesCategory.title
+
+                // Return the view.
+                return titleSupplementary
+            } else {
+                fatalError("Cannot create new supplementary")
+            }
+        }
     }
     
     func updateData(){
-        var snapshot = NSDiffableDataSourceSnapshot<Section,Movie>()
+        currentSnapshot = NSDiffableDataSourceSnapshot<Section,Movie>()
         
         Section.allCases.forEach {
-            snapshot.appendSections([$0])
+            currentSnapshot.appendSections([$0])
         }
         
-        
-        snapshot.appendItems(popularMovies, toSection: .popular)
-        snapshot.appendItems(upcomingMovies, toSection: .upcoming)
-        snapshot.appendItems(nowPlayingMovies, toSection: .nowPlaying)
+        currentSnapshot.appendItems(popularMovies, toSection: .popular)
+        currentSnapshot.appendItems(upcomingMovies, toSection: .upcoming)
+        currentSnapshot.appendItems(nowPlayingMovies, toSection: .nowPlaying)
         
         DispatchQueue.main.async {
-            self.dataSource.apply(snapshot, animatingDifferences: true)
+            self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
         }
     }
     
