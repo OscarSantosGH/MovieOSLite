@@ -13,7 +13,7 @@ class MovieCell: UICollectionViewCell {
     let posterImageView = MOPosterImageView(frame: .zero)
     let titleLabel = MOTitleLabel(ofSize: 12, textAlignment: .center)
     let ratingLabel = MORatingLabel(ofSize: 13)
-    let ratingTextLabel = MOBodyLabel(alignment: .left)
+    let ratingTextLabel = MOTitleLabel(ofSize:15, textAlignment: .left, textColor: .secondaryLabel)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -19,10 +19,9 @@ class MORatingLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(ofSize size:CGFloat) {
-        super.init(frame: .zero)
+    convenience init(ofSize size:CGFloat) {
+        self.init(frame: .zero)
         self.font = UIFont.systemFont(ofSize: size, weight: .black)
-        configure()
     }
     
     private func configure(){
