@@ -69,33 +69,33 @@ class NetworkManager{
     }
     
     
-    func downloadPosterImage(from urlString:String, completed: @escaping (Result<UIImage,MOError>)->Void) {
-        let cacheKey = NSString(string: urlString)
-        let endPoint = basePosterImgUrl + urlString
-        guard let url = URL(string: endPoint) else {return}
+    func downloadPosterImage(from urlString:String, completed: @escaping (UIImage)->Void) {
+        let imagePlaceHolder = UIImage(named: "posterPlaceholder")!
         
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let cacheKey = NSString(string: urlString)
+        if let image = cache.object(forKey: cacheKey){
+            completed(image)
+            return
+        }
+        
+        let endPoint = basePosterImgUrl + urlString
+        guard let url = URL(string: endPoint) else {
+            completed(imagePlaceHolder)
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+            guard let self = self,
+                error == nil,
+                let response = response as? HTTPURLResponse, response.statusCode == 200,
+                let data = data,
+                let image = UIImage(data: data) else {
+                    completed(imagePlaceHolder)
+                    return
+                }
             
-            if let _ = error {
-                completed(.failure(.unableToComplete))
-                return
-            }
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                completed(.failure(.invalidResponse))
-                return
-            }
-            guard let data = data else {
-                completed(.failure(.invalidData))
-                return
-            }
-            
-            guard let image = UIImage(data: data) else {
-                completed(.failure(.invalidData))
-                return
-            }
             self.cache.setObject(image, forKey: cacheKey)
-            
-            completed(.success(image))
+            completed(image)
         }
         
         task.resume()
