@@ -37,6 +37,7 @@ class HomeVC: UIViewController {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.backgroundColor = .systemBackground
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.pinToEdges(of: view)
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseID)
         collectionView.register(FeatureMovieCell.self, forCellWithReuseIdentifier: FeatureMovieCell.reuseID)

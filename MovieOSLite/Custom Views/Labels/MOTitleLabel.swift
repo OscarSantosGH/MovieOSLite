@@ -23,7 +23,7 @@ class MOTitleLabel: UILabel {
     convenience init(ofSize size:CGFloat, textAlignment: NSTextAlignment, textColor: UIColor = .label) {
         self.init(frame: .zero)
         self.textAlignment = textAlignment
-        font = UIFont.systemFont(ofSize: size, weight: .medium)
+        font = UIFont.systemFont(ofSize: size, weight: .bold)
         self.textColor = textColor
     }
     

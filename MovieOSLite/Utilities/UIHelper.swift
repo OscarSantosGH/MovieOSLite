@@ -54,7 +54,7 @@ enum UIHelper {
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
                 guard let sectionKind = Section(rawValue: sectionIndex) else { return nil }
-                let groupWidth = sectionKind.rawValue == 0 ? NSCollectionLayoutDimension.fractionalWidth(1.0) : NSCollectionLayoutDimension.fractionalWidth(0.30)
+                let groupWidth = sectionKind.rawValue == 0 ? NSCollectionLayoutDimension.fractionalWidth(0.94) : NSCollectionLayoutDimension.fractionalWidth(0.30)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth,
                                                       heightDimension: .absolute(245))
@@ -65,7 +65,7 @@ enum UIHelper {
                 section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 5, bottom: 0, trailing: 0)
                 
                 if sectionKind.rawValue == 0{
-                    section.orthogonalScrollingBehavior = .groupPaging
+                    section.orthogonalScrollingBehavior = .groupPagingCentered
                 }else{
                     let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                           heightDimension: .estimated(20))

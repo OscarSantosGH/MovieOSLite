@@ -11,6 +11,7 @@ import UIKit
 class FeatureMovieCell: UICollectionViewCell {
     static let reuseID = "FeatureMovieCell"
     var backdropImage = MOBackdropImageView(frame: .zero)
+    var titleLabel = MOTitleLabel(ofSize: 15, textAlignment: .left)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,7 +23,7 @@ class FeatureMovieCell: UICollectionViewCell {
     }
     
     func set(movie: Movie){
-        backgroundColor = .blue
+        self.titleLabel.text = movie.title
         guard let imagePath = movie.backdropPath else {return}
         backdropImage.setImage(from: imagePath)
     }
@@ -30,8 +31,25 @@ class FeatureMovieCell: UICollectionViewCell {
     private func configure(){
         layer.cornerRadius = 5
         clipsToBounds = true
-        addSubview(backdropImage)
+        addSubviews(backdropImage, titleLabel)
         backdropImage.pinToEdges(of: self)
-        backgroundColor = .blue
+        
+        let layer = CAGradientLayer()
+        let color1 = UIColor.rgb(red: 10, green: 10, blue: 10, alpha: 0.9)
+        let color2 = UIColor.rgb(red: 10, green: 10, blue: 10, alpha: 0)
+        layer.frame = CGRect(x: 0, y: 0, width: frame.width, height: 95)
+        layer.startPoint = CGPoint(x: 0, y: 0)
+        layer.endPoint = CGPoint(x: 0, y: 1)
+        layer.colors = [color1.cgColor, color2.cgColor]
+        backdropImage.layer.addSublayer(layer)
+        
+        let padding:CGFloat = 5
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
+            titleLabel.heightAnchor.constraint(equalToConstant: 40)
+        ])
     }
 }
