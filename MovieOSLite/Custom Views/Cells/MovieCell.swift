@@ -38,7 +38,7 @@ class MovieCell: UICollectionViewCell {
         }
         ratingLabel.text = String(movie.voteAverage)
         guard let posterURL = movie.posterPath else {return}
-        posterImageView.setPoster(from: posterURL)
+        posterImageView.setImage(from: posterURL)
     }
     
     private func configure(){

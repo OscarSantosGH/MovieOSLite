@@ -1,15 +1,15 @@
 //
-//  MOPosterImageView.swift
+//  MOBackdropImageView.swift
 //  MovieOSLite
 //
-//  Created by Oscar Santos on 1/17/20.
+//  Created by Oscar Santos on 2/15/20.
 //  Copyright © 2020 Oscar Santos. All rights reserved.
 //
 
 import UIKit
 
-class MOPosterImageView: UIImageView {
-    
+class MOBackdropImageView: UIImageView {
+
     let imagePlaceHolder = UIImage(named: "posterPlaceholder")
     
     override init(frame: CGRect) {
@@ -22,7 +22,7 @@ class MOPosterImageView: UIImageView {
     }
     
     private func configure(){
-        layer.cornerRadius = 10
+        layer.cornerRadius = 5
         contentMode = .scaleAspectFill
         clipsToBounds = true
         image = imagePlaceHolder
@@ -30,7 +30,7 @@ class MOPosterImageView: UIImageView {
     }
     
     func setImage(from urlString:String) {
-        NetworkManager.shared.downloadPosterImage(from: urlString) { [weak self] (image) in
+        NetworkManager.shared.downloadBackdropImage(from: urlString) { [weak self] (image) in
             guard let self = self else {return}
             DispatchQueue.main.async {
                 self.image = image
