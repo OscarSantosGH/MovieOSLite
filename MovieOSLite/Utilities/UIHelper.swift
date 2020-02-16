@@ -12,6 +12,26 @@ enum UIHelper {
 
     static let titleElementKind = "title-element-kind"
     
+    enum Section: Int, CaseIterable{
+        case feature
+        case popular
+        case nowPlaying
+        case upcoming
+        
+        var title: String{
+            switch self {
+            case .feature:
+                return "Feature"
+            case .popular:
+                return "Popular"
+            case .nowPlaying:
+                return "Now Playing"
+            case .upcoming:
+                return "Upcoming"
+            }
+        }
+    }
+    
     static func createThreeColumnsLayout(in view:UIView) -> UICollectionViewLayout{
         let width = view.bounds.width
         let padding: CGFloat = 1
@@ -32,26 +52,31 @@ enum UIHelper {
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                      heightDimension: .fractionalHeight(1.0))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-                // if we have the space, adapt and go 2-up + peeking 3rd item
-    //            let groupFractionalWidth = CGFloat(layoutEnvironment.container.effectiveContentSize.width > 500 ?
-    //                0.425 : 0.85)
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.30),
+                
+                guard let sectionKind = Section(rawValue: sectionIndex) else { return nil }
+                let groupWidth = sectionKind.rawValue == 0 ? NSCollectionLayoutDimension.fractionalWidth(1.0) : NSCollectionLayoutDimension.fractionalWidth(0.30)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth,
                                                       heightDimension: .absolute(245))
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
                 let section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .continuous
                 section.interGroupSpacing = 5
                 section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 5, bottom: 0, trailing: 0)
-
-                let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                      heightDimension: .estimated(20))
-                let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(
-                    layoutSize: titleSize,
-                    elementKind: titleElementKind,
-                    alignment: .top)
-                section.boundarySupplementaryItems = [titleSupplementary]
+                
+                if sectionKind.rawValue == 0{
+                    section.orthogonalScrollingBehavior = .groupPaging
+                }else{
+                    let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                          heightDimension: .estimated(20))
+                    let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(
+                        layoutSize: titleSize,
+                        elementKind: titleElementKind,
+                        alignment: .top)
+                    section.boundarySupplementaryItems = [titleSupplementary]
+                    section.orthogonalScrollingBehavior = .continuous
+                }
+                
                 return section
             }
 

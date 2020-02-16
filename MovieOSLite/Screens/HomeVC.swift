@@ -10,30 +10,14 @@ import UIKit
 
 class HomeVC: UIViewController {
     
-    enum Section: CaseIterable{
-        case popular
-        case nowPlaying
-        case upcoming
-        
-        var title: String{
-            switch self {
-            case .popular:
-                return "Popular"
-            case .nowPlaying:
-                return "Now Playing"
-            case .upcoming:
-                return "Upcoming"
-            }
-        }
-    }
-    
     var collectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<Section,Movie>!
-    var currentSnapshot: NSDiffableDataSourceSnapshot<Section,Movie>! = nil
+    var dataSource: UICollectionViewDiffableDataSource<UIHelper.Section,Movie>!
+    var currentSnapshot: NSDiffableDataSourceSnapshot<UIHelper.Section,Movie>! = nil
     
     var popularMovies: [Movie] = []
     var upcomingMovies: [Movie] = []
     var nowPlayingMovies: [Movie] = []
+    var featuresMovies: [Movie] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,15 +39,24 @@ class HomeVC: UIViewController {
         collectionView.backgroundColor = .systemBackground
         collectionView.pinToEdges(of: view)
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseID)
+        collectionView.register(FeatureMovieCell.self, forCellWithReuseIdentifier: FeatureMovieCell.reuseID)
         collectionView.register(TitleSupplementaryView.self, forSupplementaryViewOfKind: UIHelper.titleElementKind, withReuseIdentifier: TitleSupplementaryView.reuseIdentifier)
     }
     
     func configureDataSource(){
-        dataSource = UICollectionViewDiffableDataSource<Section,Movie>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<UIHelper.Section,Movie>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> UICollectionViewCell? in
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.reuseID, for: indexPath) as! MovieCell
-            cell.set(movie: movie)
-            return cell
+            let section = UIHelper.Section(rawValue: indexPath.section)!
+            if section == .feature{
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeatureMovieCell.reuseID, for: indexPath) as! FeatureMovieCell
+                cell.set(movie: movie)
+                return cell
+            }else{
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.reuseID, for: indexPath) as! MovieCell
+                cell.set(movie: movie)
+                return cell
+            }
+            
         })
         dataSource.supplementaryViewProvider = { [weak self] (collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
             guard let self = self, let snapshot = self.currentSnapshot else { return nil }
@@ -87,12 +80,13 @@ class HomeVC: UIViewController {
     }
     
     func updateData(){
-        currentSnapshot = NSDiffableDataSourceSnapshot<Section,Movie>()
+        currentSnapshot = NSDiffableDataSourceSnapshot<UIHelper.Section,Movie>()
         
-        Section.allCases.forEach {
+        UIHelper.Section.allCases.forEach {
             currentSnapshot.appendSections([$0])
         }
         
+        currentSnapshot.appendItems(featuresMovies, toSection: .feature)
         currentSnapshot.appendItems(popularMovies, toSection: .popular)
         currentSnapshot.appendItems(upcomingMovies, toSection: .upcoming)
         currentSnapshot.appendItems(nowPlayingMovies, toSection: .nowPlaying)
@@ -140,6 +134,20 @@ class HomeVC: UIViewController {
                 print(error.rawValue)
             case .success(let movies):
                 self.nowPlayingMovies = movies.shuffled()
+                self.getFeaturesMovies()
+            }
+        }
+    }
+    
+    func getFeaturesMovies(){
+        NetworkManager.shared.getMovies(from: .nowPlaying ) { [weak self] (result) in
+            guard let self = self else {return}
+            
+            switch result{
+            case .failure(let error):
+                print(error.rawValue)
+            case .success(let movies):
+                self.featuresMovies = movies
                 self.updateData()
             }
         }
