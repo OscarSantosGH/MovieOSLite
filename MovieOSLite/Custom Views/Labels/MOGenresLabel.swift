@@ -53,6 +53,7 @@ class MOGenresLabel: UILabel {
         textColor = UIColor(named: "MOSsecondLabel")
         clipsToBounds = true
         font = UIFont.systemFont(ofSize: 12)
+        translatesAutoresizingMaskIntoConstraints = false
     }
     
 
