@@ -157,5 +157,7 @@ class HomeVC: UIViewController {
 }
 
 extension HomeVC: UICollectionViewDelegate{
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
 }

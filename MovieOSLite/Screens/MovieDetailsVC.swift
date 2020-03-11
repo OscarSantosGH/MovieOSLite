@@ -10,13 +10,27 @@ import UIKit
 
 class MovieDetailsVC: UIViewController {
     
-    var headerImageView = UIImageView()
+    let headerImageView = MOBackdropImageView(frame: .zero)
+    
+    var movie:Movie!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        headerConfig()
     }
     
+    private func headerConfig(){
+        view.addSubview(headerImageView)
+        
+        headerImageView.setImage(from: movie.backdropPath)
+        
+        NSLayoutConstraint.activate([
+            headerImageView.topAnchor.constraint(equalTo: view.topAnchor),
+            headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerImageView.heightAnchor.constraint(equalToConstant: 200)
+        ])
+    }
 
 }

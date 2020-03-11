@@ -29,8 +29,9 @@ class MOBackdropImageView: UIImageView {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func setImage(from urlString:String) {
-        NetworkManager.shared.downloadBackdropImage(from: urlString) { [weak self] (image) in
+    func setImage(from urlString:String?) {
+        guard let url = urlString else {return}
+        NetworkManager.shared.downloadBackdropImage(from: url) { [weak self] (image) in
             guard let self = self else {return}
             DispatchQueue.main.async {
                 self.image = image
