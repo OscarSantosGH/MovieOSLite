@@ -28,6 +28,7 @@ class NetworkManager{
         case popular = "popular"
         case upcoming = "upcoming"
         case nowPlaying = "now_playing"
+        case topRated = "top_rated"
     }
     
     func getMovies(from list:MoviesList, completed: @escaping (Result<[Movie], MOError>)-> Void){
@@ -59,7 +60,13 @@ class NetworkManager{
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let apiResponse = try decoder.decode(MovieAPIResponse.self, from: data)
-                completed(.success(apiResponse.results))
+                var moviesWithCategories:[Movie] = []
+                for m in apiResponse.results{
+                    var newMovie = m
+                    newMovie.category = list.rawValue
+                    moviesWithCategories.append(newMovie)
+                }
+                completed(.success(moviesWithCategories))
             } catch {
                 completed(.failure(.invalidData))
             }

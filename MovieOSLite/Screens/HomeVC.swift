@@ -141,7 +141,7 @@ class HomeVC: UIViewController {
     }
     
     func getFeaturesMovies(){
-        NetworkManager.shared.getMovies(from: .nowPlaying ) { [weak self] (result) in
+        NetworkManager.shared.getMovies(from: .topRated ) { [weak self] (result) in
             guard let self = self else {return}
             
             switch result{
