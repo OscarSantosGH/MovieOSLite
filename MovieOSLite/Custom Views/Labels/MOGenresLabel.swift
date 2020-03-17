@@ -44,7 +44,7 @@ class MOGenresLabel: UILabel {
     
     convenience init(genresCode code:Int){
         self.init(frame: .zero)
-        label.text = genresDic[code]
+        label.text = " " + (genresDic[code] ?? "unknown") + " "
     }
     
     private func configure(){
