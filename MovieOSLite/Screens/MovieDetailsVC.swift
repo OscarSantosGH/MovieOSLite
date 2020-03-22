@@ -28,6 +28,7 @@ class MovieDetailsVC: UIViewController {
         super.viewDidLoad()
         navbarConfigure()
         configure()
+        layoutUI()
     }
     
     private func navbarConfigure(){
@@ -38,10 +39,9 @@ class MovieDetailsVC: UIViewController {
     private func configure(){
         headerImageView.setImage(from: movie.backdropPath)
         movieInfoView = MOMovieInfoView(withMovie: movie)
-        layoutView()
     }
     
-    private func layoutView(){
+    private func layoutUI(){
         view.addSubviews(headerImageView, movieInfoView)
         
         NSLayoutConstraint.activate([
@@ -55,6 +55,8 @@ class MovieDetailsVC: UIViewController {
             movieInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             //movieInfoView.heightAnchor.constraint(equalToConstant: 400)
         ])
+        
+        movieInfoView.genresStackView.layoutGenresLabels()
     }
 
 }

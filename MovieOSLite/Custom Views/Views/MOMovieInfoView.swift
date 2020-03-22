@@ -28,6 +28,7 @@ class MOMovieInfoView: UIView {
         self.init(frame: .zero)
         self.movie = movie
         configure()
+        layoutUI()
     }
     
     required init?(coder: NSCoder) {
@@ -40,18 +41,16 @@ class MOMovieInfoView: UIView {
         titleLabel.text = movie.title
         ratingLabel = MOHighlightInfoView(info: String(movie.voteAverage), desc: "Ratings")
         configureReleaseDate()
-        genresStackView = MOGenresTagStackView(withGenres: movie.genreIds, parentWidth: self.frame.width)
+        genresStackView = MOGenresTagStackView(withGenres: movie.genreIds)
         storylineLabel.text = "Overview"
         storylineBodyLabel.text = movie.overview
-        
-        layoutViews()
     }
     
     private func configureReleaseDate(){
         releaseDateLabel = MOHighlightInfoView(info: movie.releaseDate, desc: "Release Date")
     }
     
-    private func layoutViews(){
+    private func layoutUI(){
         addSubviews(posterImageView,
                     titleLabel,
                     ratingLabel,
@@ -98,7 +97,5 @@ class MOMovieInfoView: UIView {
             storylineBodyLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             storylineBodyLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding)
         ])
-        
-        
     }
 }

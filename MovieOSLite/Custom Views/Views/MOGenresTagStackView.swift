@@ -11,7 +11,6 @@ import UIKit
 class MOGenresTagStackView: UIStackView {
 
     var genresLabels:[MOGenresLabel] = []
-    var totalWidth:CGFloat = 0
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -22,14 +21,12 @@ class MOGenresTagStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(withGenres codes:[Int], parentWidth viewWidth:CGFloat){
+    convenience init(withGenres codes:[Int]){
         self.init(frame: .zero)
-        totalWidth = 279
         for code in codes{
             let newLabel = MOGenresLabel(genresCode: code)
             genresLabels.append(newLabel)
         }
-        addGenreLabelToStackView()
     }
     
     private func configure(){
@@ -50,7 +47,8 @@ class MOGenresTagStackView: UIStackView {
         return rowStackView
     }
     
-    private func addGenreLabelToStackView(){
+    func layoutGenresLabels(){
+        layoutIfNeeded()
         var isFirstGenreLoad = true
         
         for label in genresLabels{
@@ -62,17 +60,13 @@ class MOGenresTagStackView: UIStackView {
             }else{
                 let lastRowStackView = self.arrangedSubviews.last as! UIStackView
                 lastRowStackView.layoutIfNeeded()
-                print("lastRow frame width + label widht: \(lastRowStackView.frame.width + label.intrinsicContentSize.width)")
-                print("frame width: \(self.totalWidth)")
-                if (lastRowStackView.frame.width + label.intrinsicContentSize.width) < self.totalWidth{
+                if (lastRowStackView.frame.width + label.intrinsicContentSize.width) < self.frame.width{
                     lastRowStackView.addArrangedSubview(label)
                     self.addArrangedSubview(lastRowStackView)
-                    print("new label")
                 }else{
                     let newRowStackView = getNewRowStackView()
                     newRowStackView.addArrangedSubview(label)
                     self.addArrangedSubview(newRowStackView)
-                    print("new row")
                 }
             }
         }
