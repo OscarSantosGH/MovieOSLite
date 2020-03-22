@@ -19,5 +19,4 @@ struct Movie: Codable, Hashable {
     let releaseDate: String
     let genreIds: [Int]
     var category: String?
-    
 }
