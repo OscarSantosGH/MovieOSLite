@@ -11,6 +11,7 @@ import UIKit
 class MOGenresTagStackView: UIStackView {
 
     var genresLabels:[MOGenresLabel] = []
+    var totalWidth:CGFloat = 0
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -21,16 +22,22 @@ class MOGenresTagStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(withGenres codes:[Int]){
+    convenience init(withGenres codes:[Int], parentWidth viewWidth:CGFloat){
         self.init(frame: .zero)
+        totalWidth = 279
         for code in codes{
             let newLabel = MOGenresLabel(genresCode: code)
             genresLabels.append(newLabel)
         }
+        addGenreLabelToStackView()
     }
     
     private func configure(){
         translatesAutoresizingMaskIntoConstraints = false
+        axis = .vertical
+        distribution = .fillEqually
+        alignment = .leading
+        spacing = 5
     }
     
     private func getNewRowStackView() -> UIStackView{
@@ -39,11 +46,12 @@ class MOGenresTagStackView: UIStackView {
         rowStackView.alignment = .center
         rowStackView.distribution = .equalSpacing
         rowStackView.spacing = 2
+        rowStackView.translatesAutoresizingMaskIntoConstraints = false
         return rowStackView
     }
     
     private func addGenreLabelToStackView(){
-        var isFirstGenreLoad = false
+        var isFirstGenreLoad = true
         
         for label in genresLabels{
             if isFirstGenreLoad{
@@ -54,13 +62,17 @@ class MOGenresTagStackView: UIStackView {
             }else{
                 let lastRowStackView = self.arrangedSubviews.last as! UIStackView
                 lastRowStackView.layoutIfNeeded()
-                if (lastRowStackView.frame.width + label.intrinsicContentSize.width) < self.frame.width{
+                print("lastRow frame width + label widht: \(lastRowStackView.frame.width + label.intrinsicContentSize.width)")
+                print("frame width: \(self.totalWidth)")
+                if (lastRowStackView.frame.width + label.intrinsicContentSize.width) < self.totalWidth{
                     lastRowStackView.addArrangedSubview(label)
                     self.addArrangedSubview(lastRowStackView)
+                    print("new label")
                 }else{
                     let newRowStackView = getNewRowStackView()
                     newRowStackView.addArrangedSubview(label)
                     self.addArrangedSubview(newRowStackView)
+                    print("new row")
                 }
             }
         }

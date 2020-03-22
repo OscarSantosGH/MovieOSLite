@@ -10,7 +10,7 @@ import UIKit
 
 class MOHighlightInfoView: UIView {
 
-    var infoLabel = MOTitleLabel(ofSize: 20, textAlignment: .left, textColor: UIColor(named: "MOSorange")!)
+    var infoLabel = MOTitleLabel(ofSize: 15, textAlignment: .left, textColor: UIColor(named: "MOSorange")!)
     var descLabel = MOBodyLabel(alignment: .left)
     
     override init(frame: CGRect) {
@@ -29,20 +29,21 @@ class MOHighlightInfoView: UIView {
     }
     
     private func configure(){
+        translatesAutoresizingMaskIntoConstraints = false
         addSubviews(infoLabel, descLabel)
         
         let padding:CGFloat = 5
         
         NSLayoutConstraint.activate([
-            infoLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
+            infoLabel.topAnchor.constraint(equalTo: self.topAnchor),
             infoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
             infoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
-            infoLabel.heightAnchor.constraint(equalToConstant: 26),
+            infoLabel.heightAnchor.constraint(equalToConstant: 20),
             
-            descLabel.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: padding),
+            descLabel.topAnchor.constraint(equalTo: infoLabel.bottomAnchor),
             descLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
             descLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
-            descLabel.heightAnchor.constraint(equalToConstant: 20)
+            descLabel.heightAnchor.constraint(equalToConstant: 15)
         ])
     }
 }

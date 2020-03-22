@@ -31,8 +31,6 @@ fileprivate let genresDic:Dictionary<Int,String> = [
 
 class MOGenresLabel: UILabel {
     
-    var label = UILabel()
-    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         configure()
@@ -44,7 +42,7 @@ class MOGenresLabel: UILabel {
     
     convenience init(genresCode code:Int){
         self.init(frame: .zero)
-        label.text = " " + (genresDic[code] ?? "unknown") + " "
+        text = (genresDic[code] ?? "unknown") + "   "
     }
     
     private func configure(){
@@ -53,6 +51,7 @@ class MOGenresLabel: UILabel {
         textColor = UIColor(named: "MOSsecondLabel")
         clipsToBounds = true
         font = UIFont.systemFont(ofSize: 12)
+        textAlignment = .center
         translatesAutoresizingMaskIntoConstraints = false
     }
     

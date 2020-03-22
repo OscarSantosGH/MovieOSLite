@@ -11,6 +11,7 @@ import UIKit
 class MovieDetailsVC: UIViewController {
     
     let headerImageView = MOBackdropImageView(frame: .zero)
+    var movieInfoView = MOMovieInfoView(frame: .zero)
     
     var movie:Movie!
     
@@ -25,21 +26,34 @@ class MovieDetailsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        navigationController?.navigationBar.tintColor = .label
-        headerConfig()
+        navbarConfigure()
+        configure()
     }
     
-    private func headerConfig(){
-        view.addSubview(headerImageView)
-        
+    private func navbarConfigure(){
+        view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.tintColor = .label
+    }
+    
+    private func configure(){
         headerImageView.setImage(from: movie.backdropPath)
+        movieInfoView = MOMovieInfoView(withMovie: movie)
+        layoutView()
+    }
+    
+    private func layoutView(){
+        view.addSubviews(headerImageView, movieInfoView)
         
         NSLayoutConstraint.activate([
             headerImageView.topAnchor.constraint(equalTo: view.topAnchor),
             headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerImageView.heightAnchor.constraint(equalToConstant: 300)
+            headerImageView.heightAnchor.constraint(equalToConstant: 300),
+            
+            movieInfoView.topAnchor.constraint(equalTo: headerImageView.bottomAnchor),
+            movieInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            movieInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            //movieInfoView.heightAnchor.constraint(equalToConstant: 400)
         ])
     }
 
