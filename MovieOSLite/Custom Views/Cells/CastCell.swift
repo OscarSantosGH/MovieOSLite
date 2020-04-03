@@ -12,7 +12,7 @@ class CastCell: UICollectionViewCell {
     static let reuseID = "CastCell"
     let actorImageView = MOCastImageView(frame: .zero)
     let actorName = MOTitleLabel(ofSize: 12, textAlignment: .center)
-    let actorCharacter = MORatingLabel(ofSize: 12)
+    let actorCharacter = MOTitleLabel(ofSize: 12, textAlignment: .center, textColor: .systemOrange)
     
     var actor:Actor!
     
@@ -30,6 +30,7 @@ class CastCell: UICollectionViewCell {
     
     func set(actor: Actor){
         self.actor = actor
+        actorImageView.image = nil
         actorName.text = actor.name
         actorCharacter.text = actor.character
         actorImageView.setImage(from: actor.profilePath)
@@ -41,20 +42,20 @@ class CastCell: UICollectionViewCell {
         addSubviews(actorImageView, actorName, actorCharacter)
         
         NSLayoutConstraint.activate([
-            actorImageView.topAnchor.constraint(equalTo: topAnchor),
-            actorImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            actorImageView.widthAnchor.constraint(equalToConstant: 60),
-            actorImageView.heightAnchor.constraint(equalToConstant: 80),
+            actorImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            actorImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            actorImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            actorImageView.heightAnchor.constraint(equalToConstant: 190),
             
-            actorName.topAnchor.constraint(equalTo: topAnchor),
-            actorName.leadingAnchor.constraint(equalTo: actorImageView.trailingAnchor, constant: padding),
-            actorName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            actorName.heightAnchor.constraint(equalToConstant: 20),
+            actorName.topAnchor.constraint(equalTo: actorImageView.bottomAnchor),
+            actorName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+            actorName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            actorName.heightAnchor.constraint(equalToConstant: 25),
             
-            actorCharacter.topAnchor.constraint(equalTo: actorName.bottomAnchor, constant: padding),
-            actorCharacter.leadingAnchor.constraint(equalTo: actorImageView.trailingAnchor, constant: padding),
-            actorCharacter.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            actorCharacter.heightAnchor.constraint(equalToConstant: 20)
+            actorCharacter.topAnchor.constraint(equalTo: actorName.bottomAnchor),
+            actorCharacter.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+            actorCharacter.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            actorCharacter.heightAnchor.constraint(equalToConstant: 25)
         ])
     }
 }

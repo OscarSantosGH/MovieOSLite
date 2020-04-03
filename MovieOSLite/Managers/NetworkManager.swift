@@ -77,7 +77,7 @@ class NetworkManager{
     
     func getCast(from movieId:Int, completed: @escaping (Result<[Actor], MOError>)-> Void){
         
-        let endPoint = baseUrl + "\(String(movieId))credits?api_key=\(API_KEY)"
+        let endPoint = baseUrl + "\(String(movieId))/credits?api_key=\(API_KEY)"
         
         guard let url = URL(string: endPoint) else {
             completed(.failure(.invalidURL))
@@ -107,6 +107,7 @@ class NetworkManager{
                 completed(.success(apiResponse.cast))
             } catch {
                 completed(.failure(.invalidData))
+                print("decoder fails")
             }
         }
         
@@ -114,8 +115,7 @@ class NetworkManager{
     }
     
     
-    func downloadPosterImage(from urlString:String, completed: @escaping (UIImage)->Void) {
-        let imagePlaceHolder = UIImage(named: "posterPlaceholder")!
+    func downloadPosterImage(from urlString:String, completed: @escaping (UIImage?)->Void) {
         
         let cacheKey = NSString(string: urlString)
         if let image = cache.object(forKey: cacheKey){
@@ -125,7 +125,7 @@ class NetworkManager{
         
         let endPoint = basePosterImgUrl + urlString
         guard let url = URL(string: endPoint) else {
-            completed(imagePlaceHolder)
+            completed(nil)
             return
         }
         
@@ -135,7 +135,7 @@ class NetworkManager{
                 let response = response as? HTTPURLResponse, response.statusCode == 200,
                 let data = data,
                 let image = UIImage(data: data) else {
-                    completed(imagePlaceHolder)
+                    completed(nil)
                     return
                 }
             
@@ -146,8 +146,7 @@ class NetworkManager{
         task.resume()
     }
     
-    func downloadBackdropImage(from urlString:String, completed: @escaping (UIImage)->Void) {
-        let imagePlaceHolder = UIImage(named: "posterPlaceholder")!
+    func downloadBackdropImage(from urlString:String, completed: @escaping (UIImage?)->Void) {
         
         let cacheKey = NSString(string: urlString)
         if let image = cache.object(forKey: cacheKey){
@@ -157,7 +156,7 @@ class NetworkManager{
         
         let endPoint = baseBackdropImgUrl + urlString
         guard let url = URL(string: endPoint) else {
-            completed(imagePlaceHolder)
+            completed(nil)
             return
         }
         
@@ -167,7 +166,7 @@ class NetworkManager{
                 let response = response as? HTTPURLResponse, response.statusCode == 200,
                 let data = data,
                 let image = UIImage(data: data) else {
-                    completed(imagePlaceHolder)
+                    completed(nil)
                     return
                 }
             
@@ -178,8 +177,7 @@ class NetworkManager{
         task.resume()
     }
     
-    func downloadCastImage(from urlString:String, completed: @escaping (UIImage)->Void) {
-        let imagePlaceHolder = UIImage(named: "placeholderCastImage")!
+    func downloadCastImage(from urlString:String, completed: @escaping (UIImage?)->Void) {
         
         let cacheKey = NSString(string: urlString)
         if let image = cache.object(forKey: cacheKey){
@@ -189,7 +187,7 @@ class NetworkManager{
         
         let endPoint = baseCastImgUrl + urlString
         guard let url = URL(string: endPoint) else {
-            completed(imagePlaceHolder)
+            completed(nil)
             return
         }
         
@@ -199,7 +197,7 @@ class NetworkManager{
                 let response = response as? HTTPURLResponse, response.statusCode == 200,
                 let data = data,
                 let image = UIImage(data: data) else {
-                    completed(imagePlaceHolder)
+                    completed(nil)
                     return
                 }
             

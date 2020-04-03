@@ -11,6 +11,7 @@ import UIKit
 class MOBackdropImageView: UIImageView {
 
     let imagePlaceHolder = UIImage(named: "posterPlaceholder")
+    var imageURLPath: String?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,11 +31,15 @@ class MOBackdropImageView: UIImageView {
     }
     
     func setImage(from urlString:String?) {
+        image = imagePlaceHolder
+        imageURLPath = urlString
         guard let url = urlString else {return}
         NetworkManager.shared.downloadBackdropImage(from: url) { [weak self] (image) in
             guard let self = self else {return}
             DispatchQueue.main.async {
-                self.image = image
+                if self.imageURLPath == urlString{
+                    self.image = image
+                }
             }
         }
     }

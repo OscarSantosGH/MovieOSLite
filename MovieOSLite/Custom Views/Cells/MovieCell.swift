@@ -31,6 +31,8 @@ class MovieCell: UICollectionViewCell {
     
     func set(movie: Movie){
         titleLabel.text = movie.title
+        posterImageView.image = nil
+        posterImageView.setImage(from: movie.posterPath)
         self.movie = movie
         if movie.voteAverage == 0.0{
             ratingTextLabel.text = "Not rated"
@@ -40,7 +42,6 @@ class MovieCell: UICollectionViewCell {
             ratingLabel.alpha = 1
         }
         ratingLabel.text = String(movie.voteAverage)
-        posterImageView.setImage(from: movie.posterPath)
     }
     
     private func configure(){
