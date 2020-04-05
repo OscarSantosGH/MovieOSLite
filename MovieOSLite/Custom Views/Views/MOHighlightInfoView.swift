@@ -28,6 +28,11 @@ class MOHighlightInfoView: UIView {
         descLabel.text = desc
     }
     
+    convenience init(desc:String){
+        self.init(frame: .zero)
+        descLabel.text = desc
+    }
+    
     private func configure(){
         translatesAutoresizingMaskIntoConstraints = false
         addSubviews(infoLabel, descLabel)

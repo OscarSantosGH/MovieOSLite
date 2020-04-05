@@ -32,9 +32,9 @@ enum UIHelper {
         }
     }
     
-    static func createThreeColumnsLayout(in view:UIView) -> UICollectionViewLayout{
+    static func createThreeColumnFlowLayout(in view: UIView) -> UICollectionViewFlowLayout {
         let width = view.bounds.width
-        let padding: CGFloat = 1
+        let padding: CGFloat = 12
         let minimunItemSpacing: CGFloat = 10
         let availableWidth = width - (padding * 2) - (minimunItemSpacing * 2)
         let itemWidth = availableWidth / 3
@@ -42,6 +42,18 @@ enum UIHelper {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
         flowLayout.itemSize = CGSize(width: itemWidth, height: 245)
+        
+        return flowLayout
+    }
+    
+    static func create2ColumnsLayout(with width:CGFloat) -> UICollectionViewLayout{
+        let padding: CGFloat = 5
+        let availableWidth = width - (padding * 4) - 16
+        let itemWidth = availableWidth / 2
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+        flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth/1.5)
         
         return flowLayout
     }
@@ -87,5 +99,24 @@ enum UIHelper {
                 sectionProvider: sectionProvider, configuration: config)
             return layout
         }
+    
+    static func createOneHorizontalLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                             heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupWidth = NSCollectionLayoutDimension.fractionalWidth(0.30)
+        let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth,
+                                              heightDimension: .absolute(245))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 5
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 5, bottom: 0, trailing: 0)
+        section.orthogonalScrollingBehavior = .continuous
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
 
 }

@@ -160,7 +160,8 @@ extension HomeVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let movie = dataSource.itemIdentifier(for: indexPath) else {return}
         
-        let destinationVC = MovieDetailsVC(movie: movie)
+        let destinationVC = MovieDetailsVC()
+        destinationVC.movie = movie
         navigationController?.pushViewController(destinationVC, animated: true)
         
     }

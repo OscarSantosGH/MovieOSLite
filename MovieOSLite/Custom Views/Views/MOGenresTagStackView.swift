@@ -13,7 +13,7 @@ class MOGenresTagStackView: UIStackView {
     var genresLabels:[MOGenresLabel] = []
     
     override init(frame: CGRect) {
-        super.init(frame: .zero)
+        super.init(frame: frame)
         configure()
     }
     
@@ -27,6 +27,7 @@ class MOGenresTagStackView: UIStackView {
             let newLabel = MOGenresLabel(genresCode: code)
             genresLabels.append(newLabel)
         }
+        layoutGenresLabels()
     }
     
     private func configure(){
@@ -60,7 +61,7 @@ class MOGenresTagStackView: UIStackView {
             }else{
                 let lastRowStackView = self.arrangedSubviews.last as! UIStackView
                 lastRowStackView.layoutIfNeeded()
-                if (lastRowStackView.frame.width + label.intrinsicContentSize.width) < self.frame.width{
+                if (lastRowStackView.frame.width + label.intrinsicContentSize.width) < MOElementsSize.GenresStackiewWidth{
                     lastRowStackView.addArrangedSubview(label)
                     self.addArrangedSubview(lastRowStackView)
                 }else{

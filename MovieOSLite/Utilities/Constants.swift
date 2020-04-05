@@ -15,3 +15,8 @@ enum ScreenSize {
     static let maxLength    = max(ScreenSize.width, ScreenSize.height)
     static let minLength    = min(ScreenSize.width, ScreenSize.height)
 }
+
+enum MOElementsSize{
+    static let DetailMoviePosterWidth = ScreenSize.width * 0.27
+    static let GenresStackiewWidth = ScreenSize.width * 0.673
+}

@@ -21,7 +21,7 @@ class MOMovieInfoView: UIView {
     var movie:Movie!
     
     override init(frame: CGRect) {
-        super.init(frame: .zero)
+        super.init(frame: frame)
     }
     
     convenience init(withMovie movie:Movie){
@@ -86,8 +86,9 @@ class MOMovieInfoView: UIView {
             genresStackView.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: padding),
             genresStackView.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
             genresStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
+            //genresStackView.heightAnchor.constraint(equalToConstant: 34),
 
-            storylineLabel.topAnchor.constraint(equalTo: genresStackView.bottomAnchor, constant: 40),
+            storylineLabel.topAnchor.constraint(equalTo: genresStackView.bottomAnchor, constant: 35),
             storylineLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
             storylineLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             storylineLabel.heightAnchor.constraint(equalToConstant: 20),
@@ -95,7 +96,8 @@ class MOMovieInfoView: UIView {
             storylineBodyLabel.topAnchor.constraint(equalTo: storylineLabel.bottomAnchor, constant: padding),
             storylineBodyLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
             storylineBodyLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            storylineBodyLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding)
+            storylineBodyLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding),
+            storylineBodyLabel.heightAnchor.constraint(lessThanOrEqualToConstant: 150)
         ])
     }
 }

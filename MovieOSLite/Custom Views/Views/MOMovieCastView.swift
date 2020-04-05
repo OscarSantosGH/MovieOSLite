@@ -17,7 +17,7 @@ class MOMovieCastView: UIView {
     var movieID: Int!
     
     override init(frame: CGRect) {
-        super.init(frame: .zero)
+        super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         castLabel.text = "The Cast"
     }
@@ -26,10 +26,11 @@ class MOMovieCastView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(withMovie id:Int) {
+    convenience init(withMovieId id:Int) {
         self.init(frame: .zero)
         movieID = id
         getCast()
+        
         configureCollectionView()
         layoutUI()
     }
@@ -53,11 +54,13 @@ class MOMovieCastView: UIView {
     }
     
     private func configureCollectionView(){
-        collectionView = UICollectionView(frame: bounds, collectionViewLayout: UIHelper.createThreeColumnsLayout(in: self))
-        collectionView.delegate = self
+        collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: UIHelper.createOneHorizontalLayout())
+        collectionView.dataSource = self
         collectionView.backgroundColor = .systemBackground
+        collectionView.isScrollEnabled = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(CastCell.self, forCellWithReuseIdentifier: CastCell.reuseID)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func getCast(){
@@ -69,7 +72,10 @@ class MOMovieCastView: UIView {
                 break
             case .success(let cast):
                 self.cast = cast
-                self.collectionView.reloadData()
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
                 break
             }
         }
@@ -78,7 +84,7 @@ class MOMovieCastView: UIView {
 
 extension MOMovieCastView: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        cast.count
+        return cast.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -86,9 +92,5 @@ extension MOMovieCastView: UICollectionViewDataSource{
         cell.set(actor: cast[indexPath.item])
         return cell
     }
-    
-}
-
-extension MOMovieCastView: UICollectionViewDelegate{
     
 }
