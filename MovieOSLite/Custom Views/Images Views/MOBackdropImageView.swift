@@ -22,8 +22,14 @@ class MOBackdropImageView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    convenience init(withCornerRadius withCorner:Bool = true){
+        self.init(frame: .zero)
+        if withCorner{
+            layer.cornerRadius = 5
+        }
+    }
+    
     private func configure(){
-        layer.cornerRadius = 5
         contentMode = .scaleAspectFill
         clipsToBounds = true
         image = imagePlaceHolder

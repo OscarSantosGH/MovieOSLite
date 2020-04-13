@@ -13,7 +13,7 @@ class MovieDetailsVC: UIViewController {
     let scrollView = UIScrollView()
     let contentView = UIView()
     
-    let headerImageView = MOBackdropImageView(frame: .zero)
+    var headerImageView:MOHeaderBackdropView!
     var movieInfoView = MOMovieInfoView(frame: .zero)
     var movieCastView = MOMovieCastView(frame: .zero)
     var allViews: [UIView] = []
@@ -34,11 +34,12 @@ class MovieDetailsVC: UIViewController {
     }
     
     private func configure(){
-        headerImageView.setImage(from: movie.backdropPath)
+        headerImageView = MOHeaderBackdropView(withNavBarHeight: topbarHeight)
+        headerImageView.setImage(withURLPath: movie.backdropPath)
         movieInfoView = MOMovieInfoView(withMovie: movie)
         movieCastView = MOMovieCastView(withMovieId: movie.id)
         movieCastView.collectionView.delegate = self
-        movieCastView.setNeedsFocusUpdate()
+        //movieCastView.setNeedsFocusUpdate()
     }
     
     func configureScrollView(){
@@ -51,13 +52,15 @@ class MovieDetailsVC: UIViewController {
         
         NSLayoutConstraint.activate([
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.topAnchor.constraint(equalTo: view.topAnchor)
+            //contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            //contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
             //contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 950)
         ])
     }
     
     private func layoutUI(){
-        allViews = [headerImageView, movieInfoView, movieCastView]
+        allViews = [movieInfoView, movieCastView]
+        view.addSubview(headerImageView)
         
         for v in allViews{
             contentView.addSubview(v)
@@ -70,10 +73,12 @@ class MovieDetailsVC: UIViewController {
         }
         
         NSLayoutConstraint.activate([
-            headerImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            headerImageView.heightAnchor.constraint(equalToConstant: 300),
+            headerImageView.topAnchor.constraint(equalTo: view.topAnchor),
+            headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerImageView.heightAnchor.constraint(equalToConstant: 200),
             
-            movieInfoView.topAnchor.constraint(equalTo: headerImageView.bottomAnchor),
+            movieInfoView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 180),
             //movieInfoView.heightAnchor.constraint(greaterThanOrEqualToConstant: 350),
             
             movieCastView.topAnchor.constraint(equalTo: movieInfoView.bottomAnchor),
