@@ -19,6 +19,7 @@ class MOMovieCastView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = UIColor.systemBackground
         castLabel.text = "The Cast"
     }
     

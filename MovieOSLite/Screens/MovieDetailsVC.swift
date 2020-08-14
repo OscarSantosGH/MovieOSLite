@@ -10,57 +10,53 @@ import UIKit
 
 class MovieDetailsVC: UIViewController {
     
-    let scrollView = UIScrollView()
+    let myScrollView = UIScrollView()
     let contentView = UIView()
     
-    var headerImageView:MOHeaderBackdropView!
+    var headerImageView = MOHeaderBackdropView(frame: .zero)
     var movieInfoView = MOMovieInfoView(frame: .zero)
     var movieCastView = MOMovieCastView(frame: .zero)
     var allViews: [UIView] = []
     
     var movie:Movie!
     
+    var startScrolling = false
+    var initialOffset:CGFloat = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureScrollView()
-        navbarConfigure()
         configure()
         layoutUI()
     }
     
-    private func navbarConfigure(){
-        view.backgroundColor = .systemBackground
-        navigationController?.navigationBar.tintColor = .label
-    }
     
     private func configure(){
-        headerImageView = MOHeaderBackdropView(withNavBarHeight: topbarHeight)
-        headerImageView.setImage(withURLPath: movie.backdropPath)
+        view.clipsToBounds = true
+        headerImageView = MOHeaderBackdropView(withImageURLPath: movie.backdropPath)
         movieInfoView = MOMovieInfoView(withMovie: movie)
         movieCastView = MOMovieCastView(withMovieId: movie.id)
         movieCastView.collectionView.delegate = self
-        //movieCastView.setNeedsFocusUpdate()
     }
     
     func configureScrollView(){
-        view.addSubview(scrollView)
-        scrollView.delegate = self
-        scrollView.addSubview(contentView)
-        scrollView.pinToEdges(of: view)
-        scrollView.showsVerticalScrollIndicator = false
-        contentView.pinToEdges(of: scrollView)
+        view.addSubview(myScrollView)
+        myScrollView.delegate = self
+        myScrollView.addSubview(contentView)
+        myScrollView.pinToEdges(of: view)
+        myScrollView.showsVerticalScrollIndicator = false
+        contentView.pinToEdges(of: myScrollView)
         
         NSLayoutConstraint.activate([
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            //contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            //contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
-            //contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 950)
+            contentView.widthAnchor.constraint(equalTo: myScrollView.widthAnchor)
         ])
     }
     
     private func layoutUI(){
         allViews = [movieInfoView, movieCastView]
         view.addSubview(headerImageView)
+        headerImageView.layer.zPosition = 0
+        myScrollView.layer.zPosition = 1
         
         for v in allViews{
             contentView.addSubview(v)
@@ -73,13 +69,12 @@ class MovieDetailsVC: UIViewController {
         }
         
         NSLayoutConstraint.activate([
-            headerImageView.topAnchor.constraint(equalTo: view.topAnchor),
+            headerImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -100),
             headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             headerImageView.heightAnchor.constraint(equalToConstant: 200),
             
-            movieInfoView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 180),
-            //movieInfoView.heightAnchor.constraint(greaterThanOrEqualToConstant: 350),
+            movieInfoView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 200),
             
             movieCastView.topAnchor.constraint(equalTo: movieInfoView.bottomAnchor),
             movieCastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
@@ -88,18 +83,34 @@ class MovieDetailsVC: UIViewController {
         ])
         
     }
-    
-    private func add(childVC: UIViewController, to containerView: UIView){
-        addChild(childVC)
-        containerView.addSubview(childVC.view)
-        childVC.view.frame = containerView.bounds
-        childVC.didMove(toParent: self)
-    }
 
 }
 
 extension MovieDetailsVC:UIScrollViewDelegate{
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if !startScrolling{
+            initialOffset = scrollView.contentOffset.y
+            startScrolling = true
+        }
+    }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if startScrolling{
+            var headerTransform = CATransform3DIdentity
+            let offset = scrollView.contentOffset.y
+            
+            let headerScaleFactor:CGFloat = -(offset - (initialOffset)) / headerImageView.bounds.height
+
+            if offset < initialOffset {
+                headerTransform = CATransform3DScale(headerTransform, 1.0 + headerScaleFactor, 1.0 + headerScaleFactor, 0)
+                headerImageView.layer.transform = headerTransform
+            }else{
+                headerTransform = CATransform3DTranslate(headerTransform, 0, -(offset - (initialOffset)), 0)
+                headerImageView.layer.transform = headerTransform
+            }
+            let diff:CGFloat = -(offset - (initialOffset)) * 0.007
+            headerImageView.animateBlur(value: diff)
+        }
         
     }
 }

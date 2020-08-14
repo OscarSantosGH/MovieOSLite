@@ -37,6 +37,7 @@ class MOMovieInfoView: UIView {
     
     private func configure(){
         translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = UIColor.systemBackground
         posterImageView.setImage(from: movie.posterPath)
         titleLabel.text = movie.title
         ratingLabel = MOHighlightInfoView(info: String(movie.voteAverage), desc: "Ratings")
