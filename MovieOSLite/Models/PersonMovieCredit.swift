@@ -1,5 +1,5 @@
 //
-//  PersonMovieCreditsAPIResponse.swift
+//  PersonMovieCredits.swift
 //  MovieOSLite
 //
 //  Created by Oscar Santos on 8/16/20.
@@ -8,7 +8,9 @@
 
 import Foundation
 
-struct PersonMovieCreditsAPIResponse: Codable, Hashable {
+struct PersonMovieCredit: Codable, Hashable {
     let id:Int
-    let movieCredits: [PersonMovieCredits]
+    let title:String
+    let character:String
+    let posterPath:String
 }
