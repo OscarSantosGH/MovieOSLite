@@ -29,7 +29,7 @@ class MOHeaderBackdropView: UIView {
     
     private func configure(){
         translatesAutoresizingMaskIntoConstraints = false
-        
+        layer.anchorPoint = CGPoint(x: 0.5, y: 0)
         let blurFX = UIBlurEffect(style: .systemThinMaterial)
         blurView.effect = blurFX
         blurView.translatesAutoresizingMaskIntoConstraints = false

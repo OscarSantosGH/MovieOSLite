@@ -12,5 +12,5 @@ struct PersonMovieCredit: Codable, Hashable {
     let id:Int
     let title:String
     let character:String
-    let posterPath:String
+    let posterPath:String?
 }

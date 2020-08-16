@@ -117,8 +117,18 @@ extension MovieDetailsVC:UIScrollViewDelegate{
 
 extension MovieDetailsVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //let actor = movieCastView.cast[indexPath.row]
+        let actor = movieCastView.cast[indexPath.row]
         
+        NetworkManager.shared.getPersonInfo(from: actor.id) { [weak self] (response) in
+            guard let self = self else {return}
+            
+            switch response{
+            case .failure( let error):
+                print(error)
+            case .success(let person):
+                print(person)
+            }
+        }
     }
     
 }

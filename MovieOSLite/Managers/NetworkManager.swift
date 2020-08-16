@@ -11,7 +11,7 @@ import UIKit
 class NetworkManager{
     static let shared = NetworkManager()
     
-    private let baseUrl = "https://api.themoviedb.org/3/movie/"
+    private let baseUrl = "https://api.themoviedb.org/3/"
     private let API_KEY = ""
     
     private let basePosterImgUrl = "https://image.tmdb.org/t/p/w154"
@@ -33,7 +33,7 @@ class NetworkManager{
     
     func getMovies(from list:MoviesList, completed: @escaping (Result<[Movie], MOError>)-> Void){
         
-        let endPoint = baseUrl + "\(list.rawValue)?api_key=\(API_KEY)"
+        let endPoint = baseUrl + "movie/" + "\(list.rawValue)?api_key=\(API_KEY)"
         
         guard let url = URL(string: endPoint) else {
             completed(.failure(.invalidURL))
@@ -77,7 +77,7 @@ class NetworkManager{
     
     func getCast(from movieId:Int, completed: @escaping (Result<[Actor], MOError>)-> Void){
         
-        let endPoint = baseUrl + "\(String(movieId))/credits?api_key=\(API_KEY)"
+        let endPoint = baseUrl + "movie/" + "\(String(movieId))/credits?api_key=\(API_KEY)"
         
         guard let url = URL(string: endPoint) else {
             completed(.failure(.invalidURL))
@@ -107,7 +107,43 @@ class NetworkManager{
                 completed(.success(apiResponse.cast))
             } catch {
                 completed(.failure(.invalidData))
-                print("decoder fails")
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func getPersonInfo(from id:Int, completed: @escaping (Result<Person, MOError>)->Void){
+        let endPoint = baseUrl + "person/" + String(id) + "?api_key=\(API_KEY)" + "&append_to_response=movie_credits"
+        //print("MY URL: \(endPoint)")
+        guard let url = URL(string: endPoint) else {
+            completed(.failure(.invalidURL))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url){ (data, response, error) in
+            if let _ = error{
+                completed(.failure(.unableToComplete))
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
+                completed(.failure(.invalidResponse))
+                return
+            }
+            
+            guard let data = data else{
+                completed(.failure(.invalidData))
+                return
+            }
+            
+            do{
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let apiResponse = try decoder.decode(Person.self, from: data)
+                completed(.success(apiResponse))
+            }catch{
+                completed(.failure(.invalidData))
+                //print("error decoding: \(error)")
             }
         }
         
