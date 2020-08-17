@@ -38,14 +38,36 @@ class MOPersonInfoView: UIView {
         backgroundColor = UIColor.systemBackground
         posterImageView.setImage(from: person.profilePath)
         nameLabel.text = person.name
-        birthdayLabel = MOHighlightInfoView(info: String(person.birthday ?? "Unknown"), desc: "Age")
-        configureReleaseDate()
+        birthdayLabel = MOHighlightInfoView(info: getAgeFromString(stringDate: person.birthday), desc: "Age")
+        placeOfBirthLabel = MOHighlightInfoView(info: person.placeOfBirth ?? "Unknown", desc: "Place Of Birth")
         biographyLabel.text = "Biography"
         biographyBodyLabel.text = person.biography
     }
     
-    private func configureReleaseDate(){
-        placeOfBirthLabel = MOHighlightInfoView(info: person.placeOfBirth ?? "Unknown", desc: "Place Of Birth")
+    private func getAgeFromString(stringDate:String?) -> String{
+        guard let stringDateFromTMDB = stringDate else {return "??"}
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        guard let date = dateFormatter.date(from:stringDateFromTMDB) else {return "??"}
+        
+        let form = DateComponentsFormatter()
+        form.maximumUnitCount = 3
+        form.unitsStyle = .full
+        form.allowedUnits = [.year]
+        let s = form.string(from: date, to: Date())
+        
+        var age = ""
+        
+        for c in s!{
+            if c == " "{
+                break
+            }else{
+                age.append(c)
+            }
+        }
+        
+        return age
     }
     
     private func layoutUI(){
@@ -72,7 +94,7 @@ class MOPersonInfoView: UIView {
 
             birthdayLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: padding),
             birthdayLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
-            birthdayLabel.widthAnchor.constraint(equalToConstant: 60),
+            birthdayLabel.widthAnchor.constraint(equalToConstant: 35),
             birthdayLabel.heightAnchor.constraint(equalToConstant: 60),
 
             placeOfBirthLabel.topAnchor.constraint(equalTo: birthdayLabel.topAnchor),

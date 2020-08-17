@@ -41,14 +41,22 @@ class MOMovieInfoView: UIView {
         posterImageView.setImage(from: movie.posterPath)
         titleLabel.text = movie.title
         ratingLabel = MOHighlightInfoView(info: String(movie.voteAverage), desc: "Ratings")
-        configureReleaseDate()
+        releaseDateLabel = MOHighlightInfoView(info: configureReleaseDate(from: movie.releaseDate), desc: "Release Date")
         genresStackView = MOGenresTagStackView(withGenres: movie.genreIds)
         storylineLabel.text = "Overview"
         storylineBodyLabel.text = movie.overview
     }
     
-    private func configureReleaseDate(){
-        releaseDateLabel = MOHighlightInfoView(info: movie.releaseDate, desc: "Release Date")
+    private func configureReleaseDate(from stringDate:String) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        guard let date = dateFormatter.date(from:stringDate) else {return "Unknown"}
+        
+        let newFormatter = DateFormatter()
+        newFormatter.dateFormat = "MMM d, yyyy"
+        
+        return newFormatter.string(from: date)
     }
     
     private func layoutUI(){
