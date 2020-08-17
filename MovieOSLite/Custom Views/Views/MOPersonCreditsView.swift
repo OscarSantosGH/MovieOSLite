@@ -13,7 +13,6 @@ class MOPersonCreditsView: UIView {
     var collectionView: UICollectionView!
     
     var personMovieCredit:[PersonMovieCredit] = []
-    var personID: Int!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,10 +25,9 @@ class MOPersonCreditsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(withPersonId id:Int) {
+    convenience init(withCredits movieCredits:[PersonMovieCredit]) {
         self.init(frame: .zero)
-        personID = id
-        getCredits()
+        personMovieCredit = movieCredits
         
         configureCollectionView()
         layoutUI()
@@ -63,23 +61,6 @@ class MOPersonCreditsView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private func getCredits(){
-        NetworkManager.shared.getPersonInfo(from: personID) { [weak self] result in
-            guard let self = self else {return}
-            switch result{
-            case .failure(let error):
-                print(error.rawValue)
-                break
-            case .success(let cast):
-                self.personMovieCredit = cast.movieCredits.cast
-                
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-                break
-            }
-        }
-    }
 }
 
 extension MOPersonCreditsView: UICollectionViewDataSource{

@@ -10,7 +10,7 @@ import UIKit
 
 class MOHighlightInfoView: UIView {
 
-    var infoLabel = MOTitleLabel(ofSize: 15, textAlignment: .left, textColor: UIColor(named: "MOSorange")!)
+    var infoLabel = MOTitleLabel(ofSize: 18, textAlignment: .left, textColor: UIColor(named: "MOSorange")!)
     var descLabel = MOBodyLabel(alignment: .left)
     
     override init(frame: CGRect) {
@@ -25,6 +25,7 @@ class MOHighlightInfoView: UIView {
     convenience init(info:String, desc:String){
         self.init(frame: .zero)
         infoLabel.text = info
+        infoLabel.baselineAdjustment = .alignBaselines
         descLabel.text = desc
     }
     
@@ -43,7 +44,7 @@ class MOHighlightInfoView: UIView {
             infoLabel.topAnchor.constraint(equalTo: self.topAnchor),
             infoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),
             infoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -padding),
-            infoLabel.heightAnchor.constraint(equalToConstant: 20),
+            infoLabel.heightAnchor.constraint(equalToConstant: 30),
             
             descLabel.topAnchor.constraint(equalTo: infoLabel.bottomAnchor),
             descLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: padding),

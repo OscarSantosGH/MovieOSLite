@@ -118,7 +118,7 @@ extension MovieDetailsVC:UIScrollViewDelegate{
 extension MovieDetailsVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let actor = movieCastView.cast[indexPath.row]
-        getPersonInfo(withID: actor.castId)
+        getPersonInfo(withID: actor.id)
     }
     
     private func getPersonInfo(withID personID:Int){

@@ -32,7 +32,7 @@ class PersonDetailsVC: UIViewController {
     private func configure(){
         view.clipsToBounds = false
         personInfoView = MOPersonInfoView(withPerson: person)
-        personCreditsView = MOPersonCreditsView(withPersonId: person.id)
+        personCreditsView = MOPersonCreditsView(withCredits: person.movieCredits.cast)
         //personCreditsView.collectionView.delegate = self
     }
     
@@ -68,7 +68,6 @@ class PersonDetailsVC: UIViewController {
             personCreditsView.topAnchor.constraint(equalTo: personInfoView.bottomAnchor),
             personCreditsView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             personCreditsView.heightAnchor.constraint(equalToConstant: 290)
-            
         ])
         
     }

@@ -69,12 +69,12 @@ class MOMovieInfoView: UIView {
             posterImageView.widthAnchor.constraint(equalToConstant: 111),
             posterImageView.heightAnchor.constraint(equalToConstant: 152),
             
-            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             titleLabel.heightAnchor.constraint(equalToConstant: 45),
 
-            ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: padding),
+            ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             ratingLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
             ratingLabel.widthAnchor.constraint(equalToConstant: 60),
             ratingLabel.heightAnchor.constraint(equalToConstant: 44),
@@ -84,7 +84,7 @@ class MOMovieInfoView: UIView {
             releaseDateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             releaseDateLabel.heightAnchor.constraint(equalTo: ratingLabel.heightAnchor),
 
-            genresStackView.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: padding),
+            genresStackView.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: padding * 2),
             genresStackView.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
             genresStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             //genresStackView.heightAnchor.constraint(equalToConstant: 34),

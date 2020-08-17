@@ -65,7 +65,7 @@ class MOPersonInfoView: UIView {
             posterImageView.widthAnchor.constraint(equalToConstant: 111),
             posterImageView.heightAnchor.constraint(equalToConstant: 152),
             
-            nameLabel.topAnchor.constraint(equalTo: topAnchor),
+            nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             nameLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
             nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             nameLabel.heightAnchor.constraint(equalToConstant: 45),
@@ -73,7 +73,7 @@ class MOPersonInfoView: UIView {
             birthdayLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: padding),
             birthdayLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
             birthdayLabel.widthAnchor.constraint(equalToConstant: 60),
-            birthdayLabel.heightAnchor.constraint(equalToConstant: 44),
+            birthdayLabel.heightAnchor.constraint(equalToConstant: 60),
 
             placeOfBirthLabel.topAnchor.constraint(equalTo: birthdayLabel.topAnchor),
             placeOfBirthLabel.leadingAnchor.constraint(equalTo: birthdayLabel.trailingAnchor, constant: padding),
@@ -89,7 +89,7 @@ class MOPersonInfoView: UIView {
             biographyBodyLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
             biographyBodyLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             biographyBodyLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding),
-            biographyBodyLabel.heightAnchor.constraint(lessThanOrEqualToConstant: 150)
+            //biographyBodyLabel.heightAnchor.constraint(lessThanOrEqualToConstant: 150)
         ])
     }
 }
