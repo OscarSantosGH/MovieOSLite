@@ -75,6 +75,46 @@ class NetworkManager{
         task.resume()
     }
     
+    func getMovie(withID id:Int, completed: @escaping (Result<Movie,MOError>)->Void){
+        let endPoint = baseUrl + "movie/" + "\(String(id))?api_key=\(API_KEY)"
+        
+        guard let url = URL(string: endPoint) else {
+            completed(.failure(.invalidURL))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            if let _ = error{
+                completed(.failure(.unableToComplete))
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
+                completed(.failure(.invalidResponse))
+                return
+            }
+            
+            guard let data = data else{
+                completed(.failure(.invalidData))
+                return
+            }
+            
+            do{
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let apiResponse = try decoder.decode(MovieDetailAPIResponse.self, from: data)
+                let genresIds:[Int] = apiResponse.genres.compactMap{$0.id}
+                let movie = Movie(id: apiResponse.id, posterPath: apiResponse.posterPath, backdropPath: apiResponse.backdropPath, title: apiResponse.title, originalTitle: apiResponse.originalTitle, voteAverage: apiResponse.voteAverage, overview: apiResponse.overview, releaseDate: apiResponse.releaseDate, genreIds: genresIds, category: "")
+                completed(.success(movie))
+            } catch {
+                completed(.failure(.invalidData))
+            }
+        }
+        
+        task.resume()
+        
+    }
+    
     func getCast(from movieId:Int, completed: @escaping (Result<[Actor], MOError>)-> Void){
         
         let endPoint = baseUrl + "movie/" + "\(String(movieId))/credits?api_key=\(API_KEY)"

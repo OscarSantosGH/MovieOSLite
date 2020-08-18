@@ -35,6 +35,16 @@ class MOMovieInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func update(withMovie movie:Movie){
+        self.movie = movie
+        posterImageView.setImage(from: movie.posterPath)
+        titleLabel.text = movie.title
+        ratingLabel = MOHighlightInfoView(info: String(movie.voteAverage), desc: "Ratings")
+        releaseDateLabel = MOHighlightInfoView(info: configureReleaseDate(from: movie.releaseDate), desc: "Release Date")
+        genresStackView = MOGenresTagStackView(withGenres: movie.genreIds)
+        storylineBodyLabel.text = movie.overview
+    }
+    
     private func configure(){
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.systemBackground

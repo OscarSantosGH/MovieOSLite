@@ -36,6 +36,11 @@ class MOMovieCastView: UIView {
         layoutUI()
     }
     
+    func update(withMovieId id:Int){
+        movieID = id
+        getCast()
+    }
+    
     private func layoutUI(){
         addSubviews(castLabel, collectionView)
         

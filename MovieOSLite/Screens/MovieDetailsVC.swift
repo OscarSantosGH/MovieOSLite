@@ -140,9 +140,19 @@ extension MovieDetailsVC: UICollectionViewDelegate{
     private func presentPersonInfoVC(withPerson person:Person){
         let destinationVC = PersonDetailsVC()
         destinationVC.person = person
+        destinationVC.delegate = self
         let navigationController = UINavigationController(rootViewController: destinationVC)
         navigationController.navigationBar.isHidden = true
         present(navigationController, animated: true)
     }
     
+}
+
+extension MovieDetailsVC: PersonDetailsVCDelegate{
+    func updateMovieDetailsVC(withMovie movie: Movie) {
+        self.movie = movie
+        headerImageView.update(withImageURLPath: movie.backdropPath)
+        movieInfoView.update(withMovie: movie)
+        movieCastView.update(withMovieId: movie.id)
+    }
 }

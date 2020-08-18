@@ -27,6 +27,10 @@ class MOHeaderBackdropView: UIView {
         backdropImageView.setImage(from: URLPath)
     }
     
+    func update(withImageURLPath URLPath:String?){
+        backdropImageView.setImage(from: URLPath)
+    }
+    
     private func configure(){
         translatesAutoresizingMaskIntoConstraints = false
         layer.anchorPoint = CGPoint(x: 0.5, y: 0)

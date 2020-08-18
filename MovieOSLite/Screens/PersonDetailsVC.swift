@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol PersonDetailsVCDelegate: class {
+    func updateMovieDetailsVC(withMovie movie:Movie)
+}
+
 class PersonDetailsVC: UIViewController {
     let myScrollView = UIScrollView()
     let contentView = UIView()
@@ -21,6 +25,8 @@ class PersonDetailsVC: UIViewController {
     var startScrolling = false
     var initialOffset:CGFloat = 0
     
+    weak var delegate:PersonDetailsVCDelegate!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureScrollView()
@@ -33,7 +39,7 @@ class PersonDetailsVC: UIViewController {
         view.clipsToBounds = false
         personInfoView = MOPersonInfoView(withPerson: person)
         personCreditsView = MOPersonCreditsView(withCredits: person.movieCredits.cast)
-        //personCreditsView.collectionView.delegate = self
+        personCreditsView.collectionView.delegate = self
     }
     
     func configureScrollView(){
@@ -71,4 +77,28 @@ class PersonDetailsVC: UIViewController {
         ])
         
     }
+}
+
+extension PersonDetailsVC: UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieCredit = personCreditsView.personMovieCredit[indexPath.row]
+        getMovieWithID(id: movieCredit.id)
+    }
+    
+    private func getMovieWithID(id:Int){
+        NetworkManager.shared.getMovie(withID: id) { [weak self] (result) in
+            guard let self = self else {return}
+            switch result{
+            case .failure(let error):
+                print(error)
+                break
+            case .success(let movie):
+                DispatchQueue.main.async {
+                    self.delegate.updateMovieDetailsVC(withMovie: movie)
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
 }
