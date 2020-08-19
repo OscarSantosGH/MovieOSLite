@@ -39,8 +39,8 @@ class MOMovieInfoView: UIView {
         self.movie = movie
         posterImageView.setImage(from: movie.posterPath)
         titleLabel.text = movie.title
-        ratingLabel = MOHighlightInfoView(info: String(movie.voteAverage), desc: "Ratings")
-        releaseDateLabel = MOHighlightInfoView(info: configureReleaseDate(from: movie.releaseDate), desc: "Release Date")
+        ratingLabel.update(info: String(movie.voteAverage))
+        releaseDateLabel.update(info: configureReleaseDate(from: movie.releaseDate))
         genresStackView = MOGenresTagStackView(withGenres: movie.genreIds)
         storylineBodyLabel.text = movie.overview
     }
@@ -48,13 +48,10 @@ class MOMovieInfoView: UIView {
     private func configure(){
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.systemBackground
-        posterImageView.setImage(from: movie.posterPath)
-        titleLabel.text = movie.title
-        ratingLabel = MOHighlightInfoView(info: String(movie.voteAverage), desc: "Ratings")
-        releaseDateLabel = MOHighlightInfoView(info: configureReleaseDate(from: movie.releaseDate), desc: "Release Date")
-        genresStackView = MOGenresTagStackView(withGenres: movie.genreIds)
+        ratingLabel = MOHighlightInfoView(desc: "Ratings")
+        releaseDateLabel = MOHighlightInfoView(desc: "Release Date")
         storylineLabel.text = "Overview"
-        storylineBodyLabel.text = movie.overview
+        update(withMovie: movie)
     }
     
     private func configureReleaseDate(from stringDate:String) -> String{
