@@ -33,6 +33,7 @@ class MovieDetailsVC: UIViewController {
     
     private func configure(){
         view.clipsToBounds = true
+        view.backgroundColor = .systemBackground
         headerImageView = MOHeaderBackdropView(withImageURLPath: movie.backdropPath)
         movieInfoView = MOMovieInfoView(withMovie: movie)
         movieCastView = MOMovieCastView(withMovieId: movie.id)

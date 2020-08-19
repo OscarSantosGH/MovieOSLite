@@ -11,7 +11,7 @@ import UIKit
 class FeatureMovieCell: UICollectionViewCell {
     static let reuseID = "FeatureMovieCell"
     var backdropImage = MOBackdropImageView(frame: .zero)
-    var titleLabel = MOTitleLabel(ofSize: 15, textAlignment: .left)
+    var titleLabel = MOTitleLabel(ofSize: 15, textAlignment: .left, textColor: .white)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
