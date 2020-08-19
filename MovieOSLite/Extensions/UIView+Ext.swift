@@ -21,6 +21,17 @@ extension UIView{
         ])
     }
     
+    func pinToEdgesWithSafeArea(of superview: UIView, withPadding padding:CGFloat = 0){
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            topAnchor.constraint(equalTo: superview.safeAreaLayoutGuide.topAnchor, constant: padding),
+            leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: padding),
+            trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -padding),
+            bottomAnchor.constraint(equalTo: superview.safeAreaLayoutGuide.bottomAnchor, constant: -padding)
+        ])
+    }
+    
     func addSubviews(_ views: UIView...){
         for view in views{
             addSubview(view)

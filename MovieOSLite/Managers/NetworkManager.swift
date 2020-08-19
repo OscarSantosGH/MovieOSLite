@@ -20,9 +20,9 @@ class NetworkManager{
     
     let cache = NSCache<NSString, UIImage>()
     
-    private init(){
-        
-    }
+    private var searchMoviesDataTask: URLSessionDataTask?
+    
+    private init(){}
     
     enum MoviesList: String {
         case popular = "popular"
@@ -113,6 +113,51 @@ class NetworkManager{
         
         task.resume()
         
+    }
+    
+    
+    func searchMovies(withString txt:String, completed: @escaping (Result<[Movie], MOError>)-> Void){
+        
+        let endPoint = baseUrl + "search/movie?api_key=\(API_KEY)&query=\(txt)"
+        
+        guard let url = URL(string: endPoint) else {
+            completed(.failure(.invalidURL))
+            return
+        }
+        searchMoviesDataTask?.cancel()
+        searchMoviesDataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            if let _ = error{
+                completed(.failure(.unableToComplete))
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
+                completed(.failure(.invalidResponse))
+                return
+            }
+            
+            guard let data = data else{
+                completed(.failure(.invalidData))
+                return
+            }
+            
+            do{
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let apiResponse = try decoder.decode(MovieAPIResponse.self, from: data)
+                var moviesWithCategories:[Movie] = []
+                for m in apiResponse.results{
+                    var newMovie = m
+                    newMovie.category = "search"
+                    moviesWithCategories.append(newMovie)
+                }
+                completed(.success(moviesWithCategories))
+            } catch {
+                completed(.failure(.invalidData))
+            }
+        }
+        
+        searchMoviesDataTask?.resume()
     }
     
     func getCast(from movieId:Int, completed: @escaping (Result<[Actor], MOError>)-> Void){
