@@ -26,8 +26,8 @@ extension UIView{
         
         NSLayoutConstraint.activate([
             topAnchor.constraint(equalTo: superview.safeAreaLayoutGuide.topAnchor, constant: padding),
-            leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: padding),
-            trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -padding),
+            leadingAnchor.constraint(equalTo: superview.safeAreaLayoutGuide.leadingAnchor, constant: padding),
+            trailingAnchor.constraint(equalTo: superview.safeAreaLayoutGuide.trailingAnchor, constant: -padding),
             bottomAnchor.constraint(equalTo: superview.safeAreaLayoutGuide.bottomAnchor, constant: -padding)
         ])
     }

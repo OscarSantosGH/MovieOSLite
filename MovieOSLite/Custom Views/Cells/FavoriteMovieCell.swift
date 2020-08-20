@@ -14,7 +14,7 @@ class FavoriteMovieCell: UITableViewCell {
     let containerView = UIView()
     let blurView = UIVisualEffectView()
     let backdropImageView = MOBackdropImageView(withCornerRadius: false)
-    var titleLabel = MOTitleLabel(ofSize: 15, textAlignment: .left, textColor: .white)
+    var titleLabel = MOTitleLabel(ofSize: 20, textAlignment: .left, textColor: .white)
     
     var movie:Movie!
 
@@ -34,24 +34,26 @@ class FavoriteMovieCell: UITableViewCell {
     }
     
     private func configure(){
+        clipsToBounds = true
+        selectionStyle = .none
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.layer.cornerRadius = 10
         containerView.clipsToBounds = true
-        let blurFX = UIBlurEffect(style: .dark)
+        let blurFX = UIBlurEffect(style: .systemUltraThinMaterialDark)
         blurView.effect = blurFX
         blurView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(containerView)
-        containerView.addSubviews(backdropImageView, blurView, titleLabel)
+        containerView.pinToEdgesWithSafeArea(of: contentView, withPadding: 8)
         
-        containerView.pinToEdges(of: contentView, withPadding: 5)
+        containerView.addSubviews(backdropImageView, blurView, titleLabel)
         backdropImageView.pinToEdges(of: containerView)
         
         NSLayoutConstraint.activate([
             blurView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             blurView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             blurView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            blurView.heightAnchor.constraint(equalToConstant: 35),
+            blurView.heightAnchor.constraint(equalToConstant: 55),
             
             titleLabel.topAnchor.constraint(equalTo: blurView.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: blurView.leadingAnchor, constant: 8),
