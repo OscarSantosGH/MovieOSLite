@@ -14,7 +14,7 @@ class PersonCreditsCell: UICollectionViewCell {
     let movieName = MOTitleLabel(ofSize: 12, textAlignment: .center)
     let actorCharacter = MOTitleLabel(ofSize: 12, textAlignment: .center, textColor: .systemOrange)
     
-    var personMovieCredit:PersonMovieCredit!
+    //var personMovieCredit:PersonMovieCredit!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,7 +29,7 @@ class PersonCreditsCell: UICollectionViewCell {
     }
     
     func set(personMovieCredit: PersonMovieCredit){
-        self.personMovieCredit = personMovieCredit
+        //self.personMovieCredit = personMovieCredit
         movieImageView.image = nil
         movieName.text = personMovieCredit.title
         actorCharacter.text = personMovieCredit.character

@@ -41,8 +41,8 @@ class MOMovieInfoView: UIView {
         posterImageView.setImage(from: movie.posterPath)
         titleLabel.text = movie.title
         ratingLabel.update(info: String(movie.voteAverage))
-        releaseDateLabel.update(info: configureReleaseDate(from: movie.releaseDate))
-        genresStackView = MOGenresTagStackView(withGenres: movie.genreIds)
+        releaseDateLabel.update(info: configureReleaseDate(from: movie.releaseDate ?? ""))
+        genresStackView = MOGenresTagStackView(withGenres: movie.genreIds ?? [])
         storylineBodyLabel.text = movie.overview
     }
     

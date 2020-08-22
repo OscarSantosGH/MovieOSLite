@@ -9,5 +9,5 @@
 import Foundation
 
 struct PersonMovieCredits: Codable, Hashable {
-    let cast: [PersonMovieCredit]
+    let cast: [PersonMovieCreditResponse]
 }

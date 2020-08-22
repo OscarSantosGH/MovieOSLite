@@ -9,9 +9,9 @@
 import Foundation
 import CoreData
 
-class PersistenceManage{
+class PersistenceManager{
     
-    static let shared = PersistenceManage(modelName: "MovieOS")
+    static let shared = PersistenceManager(modelName: "MovieOS")
     let persistentContainer:NSPersistentContainer
     
     var viewContext:NSManagedObjectContext {

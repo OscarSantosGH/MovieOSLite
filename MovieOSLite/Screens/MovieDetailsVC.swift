@@ -36,7 +36,7 @@ class MovieDetailsVC: UIViewController {
         view.backgroundColor = .systemBackground
         headerImageView = MOHeaderBackdropView(withImageURLPath: movie.backdropPath)
         movieInfoView = MOMovieInfoView(withMovie: movie)
-        movieCastView = MOMovieCastView(withMovieId: movie.id)
+        movieCastView = MOMovieCastView(withMovieId: Int(movie.id))
         movieCastView.collectionView.delegate = self
         movieInfoView.favoriteButton.delegate = self
     }
@@ -131,8 +131,17 @@ extension MovieDetailsVC: UICollectionViewDelegate{
                 print(error.rawValue)
                 break
             case .success(let person):
+                let persistedPerson = Person(context: PersistenceManager.shared.viewContext)
+                persistedPerson.setDataFromPersonResponse(personResponse: person)
+                
+                for movieCredit in person.movieCredits.cast{
+                    let persistedMovieCredit = PersonMovieCredit(context: PersistenceManager.shared.viewContext)
+                    persistedMovieCredit.setDataFromPersonMovieCreditResponse(personMovieCreditResponse: movieCredit)
+                    persistedPerson.addToMovieCredits(persistedMovieCredit)
+                }
+                
                 DispatchQueue.main.async {
-                    self.presentPersonInfoVC(withPerson: person)
+                    self.presentPersonInfoVC(withPerson: persistedPerson)
                 }
                 break
             }
@@ -155,7 +164,7 @@ extension MovieDetailsVC: PersonDetailsVCDelegate{
         self.movie = movie
         headerImageView.update(withImageURLPath: movie.backdropPath)
         movieInfoView.update(withMovie: movie)
-        movieCastView.update(withMovieId: movie.id)
+        movieCastView.update(withMovieId: Int(movie.id))
     }
 }
 

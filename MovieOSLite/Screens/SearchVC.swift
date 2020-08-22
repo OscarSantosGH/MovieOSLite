@@ -13,7 +13,7 @@ class SearchVC: UIViewController {
     let searchController = UISearchController()
     var collectionView: UICollectionView!
     
-    var movies:[Movie] = []
+    var movies:[MovieResponse] = []
     var timer = Timer()
     
     override func viewDidLoad() {
@@ -61,8 +61,10 @@ extension SearchVC: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let movie = movies[indexPath.row]
+        let persistedMovie = Movie(context: PersistenceManager.shared.viewContext)
+        persistedMovie.setDataFromMovieResponse(movieResponse: movie)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.reuseID, for: indexPath) as! MovieCell
-        cell.set(movie: movie)
+        cell.set(movie: persistedMovie)
         return cell
     }
     
@@ -72,9 +74,10 @@ extension SearchVC: UICollectionViewDataSource{
 extension SearchVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movie = movies[indexPath.row]
-        
+        let persistedMovie = Movie(context: PersistenceManager.shared.viewContext)
+        persistedMovie.setDataFromMovieResponse(movieResponse: movie)
         let destinationVC = MovieDetailsVC()
-        destinationVC.movie = movie
+        destinationVC.movie = persistedMovie
         navigationController?.pushViewController(destinationVC, animated: true)
         
     }

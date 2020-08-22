@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PersonMovieCredit: Codable, Hashable {
+struct PersonMovieCreditResponse: Codable, Hashable {
     let id:Int
     let title:String
     let character:String

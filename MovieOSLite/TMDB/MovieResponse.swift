@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Movie: Codable, Hashable {
+struct MovieResponse: Codable, Hashable {
     let id: Int
     var posterPath: String?
     var backdropPath: String?

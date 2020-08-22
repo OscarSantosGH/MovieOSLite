@@ -32,19 +32,19 @@ class FavoritesVC: UIViewController {
     }
     
     private func getMovies(){
-        NetworkManager.shared.getMovies(from: .popular) { (result) in
-            switch result{
-            case .failure(let error):
-                print(error)
-                break
-            case .success(let movies):
-                self.movies = movies
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                break
-            }
-        }
+//        NetworkManager.shared.getMovies(from: .popular) { (result) in
+//            switch result{
+//            case .failure(let error):
+//                print(error)
+//                break
+//            case .success(let movies):
+//                self.movies = movies
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                }
+//                break
+//            }
+//        }
     }
 
 }

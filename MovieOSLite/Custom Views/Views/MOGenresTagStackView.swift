@@ -21,10 +21,10 @@ class MOGenresTagStackView: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(withGenres codes:[Int]){
+    convenience init(withGenres codes:[Int32]){
         self.init(frame: .zero)
         for code in codes{
-            let newLabel = MOGenresLabel(genresCode: code)
+            let newLabel = MOGenresLabel(genresCode: Int(code))
             genresLabels.append(newLabel)
         }
         layoutGenresLabels()

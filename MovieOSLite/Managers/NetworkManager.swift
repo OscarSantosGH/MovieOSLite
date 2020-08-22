@@ -31,7 +31,7 @@ class NetworkManager{
         case topRated = "top_rated"
     }
     
-    func getMovies(from list:MoviesList, completed: @escaping (Result<[Movie], MOError>)-> Void){
+    func getMovies(from list:MoviesList, completed: @escaping (Result<[MovieResponse], MOError>)-> Void){
         
         let endPoint = baseUrl + "movie/" + "\(list.rawValue)?api_key=\(API_KEY)"
         
@@ -59,8 +59,8 @@ class NetworkManager{
             do{
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let apiResponse = try decoder.decode(MovieAPIResponse.self, from: data)
-                var moviesWithCategories:[Movie] = []
+                let apiResponse = try decoder.decode(MoviesAPIResponse.self, from: data)
+                var moviesWithCategories:[MovieResponse] = []
                 for m in apiResponse.results{
                     var newMovie = m
                     newMovie.category = list.rawValue
@@ -75,7 +75,7 @@ class NetworkManager{
         task.resume()
     }
     
-    func getMovie(withID id:Int, completed: @escaping (Result<Movie,MOError>)->Void){
+    func getMovie(withID id:Int, completed: @escaping (Result<MovieResponse,MOError>)->Void){
         let endPoint = baseUrl + "movie/" + "\(String(id))?api_key=\(API_KEY)"
         
         guard let url = URL(string: endPoint) else {
@@ -104,7 +104,7 @@ class NetworkManager{
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let apiResponse = try decoder.decode(MovieDetailAPIResponse.self, from: data)
                 let genresIds:[Int] = apiResponse.genres.compactMap{$0.id}
-                let movie = Movie(id: apiResponse.id, posterPath: apiResponse.posterPath, backdropPath: apiResponse.backdropPath, title: apiResponse.title, originalTitle: apiResponse.originalTitle, voteAverage: apiResponse.voteAverage, overview: apiResponse.overview, releaseDate: apiResponse.releaseDate, genreIds: genresIds, category: "")
+                let movie = MovieResponse(id: apiResponse.id, posterPath: apiResponse.posterPath, backdropPath: apiResponse.backdropPath, title: apiResponse.title, originalTitle: apiResponse.originalTitle, voteAverage: apiResponse.voteAverage, overview: apiResponse.overview, releaseDate: apiResponse.releaseDate, genreIds: genresIds, category: "")
                 completed(.success(movie))
             } catch {
                 completed(.failure(.invalidData))
@@ -116,7 +116,7 @@ class NetworkManager{
     }
     
     
-    func searchMovies(withString txt:String, completed: @escaping (Result<[Movie], MOError>)-> Void){
+    func searchMovies(withString txt:String, completed: @escaping (Result<[MovieResponse], MOError>)-> Void){
         
         let endPoint = baseUrl + "search/movie?api_key=\(API_KEY)&query=\(txt)"
         
@@ -144,8 +144,8 @@ class NetworkManager{
             do{
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let apiResponse = try decoder.decode(MovieAPIResponse.self, from: data)
-                var moviesWithCategories:[Movie] = []
+                let apiResponse = try decoder.decode(MoviesAPIResponse.self, from: data)
+                var moviesWithCategories:[MovieResponse] = []
                 for m in apiResponse.results{
                     var newMovie = m
                     newMovie.category = "search"
@@ -198,7 +198,7 @@ class NetworkManager{
         task.resume()
     }
     
-    func getPersonInfo(from id:Int, completed: @escaping (Result<Person, MOError>)->Void){
+    func getPersonInfo(from id:Int, completed: @escaping (Result<PersonResponse, MOError>)->Void){
         let endPoint = baseUrl + "person/" + String(id) + "?api_key=\(API_KEY)" + "&append_to_response=movie_credits"
         //print("MY URL: \(endPoint)")
         guard let url = URL(string: endPoint) else {
@@ -224,7 +224,7 @@ class NetworkManager{
             do{
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let apiResponse = try decoder.decode(Person.self, from: data)
+                let apiResponse = try decoder.decode(PersonResponse.self, from: data)
                 completed(.success(apiResponse))
             }catch{
                 completed(.failure(.invalidData))

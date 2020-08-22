@@ -16,7 +16,7 @@ class FavoriteMovieCell: UITableViewCell {
     let backdropImageView = MOBackdropImageView(withCornerRadius: false)
     var titleLabel = MOTitleLabel(ofSize: 20, textAlignment: .left, textColor: .white)
     
-    var movie:Movie!
+    //var movie:Movie!
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -28,7 +28,7 @@ class FavoriteMovieCell: UITableViewCell {
     }
     
     func set(movie:Movie){
-        self.movie = movie
+        //self.movie = movie
         backdropImageView.setImage(from: movie.backdropPath)
         titleLabel.text = movie.title
     }

@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct MovieAPIResponse: Codable {
+struct MoviesAPIResponse: Codable {
     let page: Int
     let totalPages: Int
-    let results: [Movie]
+    let results: [MovieResponse]
 }

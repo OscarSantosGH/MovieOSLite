@@ -15,7 +15,7 @@ class MovieCell: UICollectionViewCell {
     let ratingLabel = MORatingLabel(ofSize: 13)
     let ratingTextLabel = MOTitleLabel(ofSize:15, textAlignment: .left, textColor: .secondaryLabel)
     
-    var movie:Movie!
+    //var movie:Movie!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,7 +33,7 @@ class MovieCell: UICollectionViewCell {
         titleLabel.text = movie.title
         posterImageView.image = nil
         posterImageView.setImage(from: movie.posterPath)
-        self.movie = movie
+        //self.movie = movie
         if movie.voteAverage == 0.0{
             ratingTextLabel.text = "Not rated"
             ratingLabel.alpha = 0

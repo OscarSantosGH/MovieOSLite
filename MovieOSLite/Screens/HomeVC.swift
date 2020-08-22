@@ -11,13 +11,13 @@ import UIKit
 class HomeVC: UIViewController {
     
     var collectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<UIHelper.Section,Movie>!
-    var currentSnapshot: NSDiffableDataSourceSnapshot<UIHelper.Section,Movie>! = nil
+    var dataSource: UICollectionViewDiffableDataSource<UIHelper.Section,MovieResponse>!
+    var currentSnapshot: NSDiffableDataSourceSnapshot<UIHelper.Section,MovieResponse>! = nil
     
-    var popularMovies: [Movie] = []
-    var upcomingMovies: [Movie] = []
-    var nowPlayingMovies: [Movie] = []
-    var featuresMovies: [Movie] = []
+    var popularMovies: [MovieResponse] = []
+    var upcomingMovies: [MovieResponse] = []
+    var nowPlayingMovies: [MovieResponse] = []
+    var featuresMovies: [MovieResponse] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,16 +45,17 @@ class HomeVC: UIViewController {
     }
     
     func configureDataSource(){
-        dataSource = UICollectionViewDiffableDataSource<UIHelper.Section,Movie>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> UICollectionViewCell? in
-            
+        dataSource = UICollectionViewDiffableDataSource<UIHelper.Section,MovieResponse>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> UICollectionViewCell? in
+            let persistedMovie = Movie(context: PersistenceManager.shared.viewContext)
+            persistedMovie.setDataFromMovieResponse(movieResponse: movie)
             let section = UIHelper.Section(rawValue: indexPath.section)!
             if section == .feature{
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeatureMovieCell.reuseID, for: indexPath) as! FeatureMovieCell
-                cell.set(movie: movie)
+                cell.set(movie: persistedMovie)
                 return cell
             }else{
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.reuseID, for: indexPath) as! MovieCell
-                cell.set(movie: movie)
+                cell.set(movie: persistedMovie)
                 return cell
             }
             
@@ -81,7 +82,7 @@ class HomeVC: UIViewController {
     }
     
     func updateData(){
-        currentSnapshot = NSDiffableDataSourceSnapshot<UIHelper.Section,Movie>()
+        currentSnapshot = NSDiffableDataSourceSnapshot<UIHelper.Section,MovieResponse>()
         
         UIHelper.Section.allCases.forEach {
             currentSnapshot.appendSections([$0])
@@ -159,9 +160,10 @@ class HomeVC: UIViewController {
 extension HomeVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let movie = dataSource.itemIdentifier(for: indexPath) else {return}
-        
+        let persistedMovie = Movie(context: PersistenceManager.shared.viewContext)
+        persistedMovie.setDataFromMovieResponse(movieResponse: movie)
         let destinationVC = MovieDetailsVC()
-        destinationVC.movie = movie
+        destinationVC.movie = persistedMovie
         navigationController?.pushViewController(destinationVC, animated: true)
         
     }
