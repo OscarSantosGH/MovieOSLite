@@ -38,6 +38,7 @@ class MovieDetailsVC: UIViewController {
         movieInfoView = MOMovieInfoView(withMovie: movie)
         movieCastView = MOMovieCastView(withMovieId: movie.id)
         movieCastView.collectionView.delegate = self
+        movieInfoView.favoriteButton.delegate = self
     }
     
     func configureScrollView(){
@@ -155,5 +156,11 @@ extension MovieDetailsVC: PersonDetailsVCDelegate{
         headerImageView.update(withImageURLPath: movie.backdropPath)
         movieInfoView.update(withMovie: movie)
         movieCastView.update(withMovieId: movie.id)
+    }
+}
+
+extension MovieDetailsVC: MOFavoriteButtonDelegate{
+    func favoriteButtonTapped() {
+        
     }
 }

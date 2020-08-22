@@ -14,6 +14,7 @@ class MOMovieInfoView: UIView {
     let titleLabel = MOTitleLabel(ofSize: 25, textAlignment: .left)
     var ratingLabel = MOHighlightInfoView(frame: .zero)
     var releaseDateLabel = MOHighlightInfoView(frame: .zero)
+    var favoriteButton = MOFavoriteButtonImageView(frame: .zero)
     var genresStackView = MOGenresTagStackView(frame: .zero)
     let storylineLabel = MOTitleLabel(ofSize: 15, textAlignment: .left)
     let storylineBodyLabel = MOBodyLabel(alignment: .left)
@@ -71,6 +72,7 @@ class MOMovieInfoView: UIView {
                     titleLabel,
                     ratingLabel,
                     releaseDateLabel,
+                    favoriteButton,
                     genresStackView,
                     storylineLabel,
                     storylineBodyLabel
@@ -96,13 +98,17 @@ class MOMovieInfoView: UIView {
 
             releaseDateLabel.topAnchor.constraint(equalTo: ratingLabel.topAnchor),
             releaseDateLabel.leadingAnchor.constraint(equalTo: ratingLabel.trailingAnchor, constant: padding),
-            releaseDateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
+            releaseDateLabel.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -padding),
             releaseDateLabel.heightAnchor.constraint(equalTo: ratingLabel.heightAnchor),
+            
+            favoriteButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            favoriteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            favoriteButton.widthAnchor.constraint(equalTo: ratingLabel.heightAnchor),
+            favoriteButton.heightAnchor.constraint(equalTo: ratingLabel.heightAnchor),
 
             genresStackView.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: padding * 2),
             genresStackView.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
             genresStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            //genresStackView.heightAnchor.constraint(equalToConstant: 34),
 
             storylineLabel.topAnchor.constraint(equalTo: genresStackView.bottomAnchor, constant: 35),
             storylineLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
