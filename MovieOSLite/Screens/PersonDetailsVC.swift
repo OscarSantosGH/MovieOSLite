@@ -31,6 +31,7 @@ class PersonDetailsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        personMovieCredits = []
         configureScrollView()
         getMovieCredit()
     }
@@ -38,7 +39,9 @@ class PersonDetailsVC: UIViewController {
     private func getMovieCredit(){
         let fetchRequest:NSFetchRequest<PersonMovieCredit> = PersonMovieCredit.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        let predicate = NSPredicate(format: "person == %@", person)
         fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchRequest.predicate = predicate
         if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
             personMovieCredits = result
             configure()
