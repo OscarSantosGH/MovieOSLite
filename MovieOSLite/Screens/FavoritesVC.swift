@@ -26,6 +26,7 @@ class FavoritesVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         tableView.register(FavoriteMovieCell.self, forCellReuseIdentifier: FavoriteMovieCell.reuseID)
         view.addSubview(tableView)
     }

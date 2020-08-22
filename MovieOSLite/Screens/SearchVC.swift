@@ -19,6 +19,7 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        tabBarController?.delegate = self
         configureSearchController()
         configureCollectionView()
         layoutUI()
@@ -107,5 +108,14 @@ extension SearchVC: UISearchResultsUpdating{
             }
         }
         
+    }
+}
+
+// MARK: - UITabBarControllerDelegate
+extension SearchVC: UITabBarControllerDelegate{
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if tabBarController.tabBar.selectedItem?.tag == 1{
+            searchController.searchBar.becomeFirstResponder()
+        }
     }
 }
