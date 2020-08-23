@@ -1,14 +1,14 @@
 //
-//  MOCastImageView.swift
+//  MOPersonProfileImageView.swift
 //  MovieOSLite
 //
-//  Created by Oscar Santos on 3/22/20.
+//  Created by Oscar Santos on 8/23/20.
 //  Copyright © 2020 Oscar Santos. All rights reserved.
 //
 
 import UIKit
 
-class MOCastImageView: UIImageView {
+class MOPersonProfileImageView: UIImageView {
 
     let imagePlaceHolder = UIImage(named: "placeholderCastImage")
     var imageURLPath: String?
@@ -23,33 +23,33 @@ class MOCastImageView: UIImageView {
     }
     
     private func configure(){
-        layer.cornerRadius = 5
+        layer.cornerRadius = 10
         contentMode = .scaleAspectFill
         clipsToBounds = true
         image = imagePlaceHolder
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func setImage(for actor:Actor) {
+    func setImage(for person:Person) {
         image = imagePlaceHolder
-        imageURLPath = actor.profilePath
-        guard let url = actor.profilePath else {return}
-        NetworkManager.shared.downloadCastImage(from: url) { [weak self] (image) in
+        imageURLPath = person.profilePath
+        guard let url = person.profilePath else {return}
+        NetworkManager.shared.downloadPosterImage(from: url) { [weak self] (image) in
             guard let self = self else {return}
             DispatchQueue.main.async {
-                if self.imageURLPath == actor.profilePath{
+                if self.imageURLPath == person.profilePath{
                     self.image = image
-                    self.saveImage(image: image, of: actor)
+                    self.saveImage(image: image, of: person)
                 }
             }
         }
     }
     
-    private func saveImage(image: UIImage?, of actor:Actor){
+    private func saveImage(image: UIImage?, of person:Person){
         guard let imageToSave = image else {return}
-        actor.profileImage = imageToSave.pngData()
+        person.profileImage = imageToSave.pngData()
         do{
-            try actor.managedObjectContext?.save()
+            try person.managedObjectContext?.save()
         }catch{
             print("save profile image failed")
         }

@@ -15,8 +15,6 @@ class FavoriteMovieCell: UITableViewCell {
     let blurView = UIVisualEffectView()
     let backdropImageView = MOBackdropImageView(withCornerRadius: false)
     var titleLabel = MOTitleLabel(ofSize: 20, textAlignment: .left, textColor: .white)
-    
-    //var movie:Movie!
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -28,8 +26,7 @@ class FavoriteMovieCell: UITableViewCell {
     }
     
     func set(movie:Movie){
-        //self.movie = movie
-        backdropImageView.setImage(from: movie.backdropPath)
+        backdropImageView.setImage(for: movie)
         titleLabel.text = movie.title
     }
     

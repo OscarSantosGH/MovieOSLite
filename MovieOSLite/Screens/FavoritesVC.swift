@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class FavoritesVC: UIViewController {
     
@@ -32,19 +33,12 @@ class FavoritesVC: UIViewController {
     }
     
     private func getMovies(){
-//        NetworkManager.shared.getMovies(from: .popular) { (result) in
-//            switch result{
-//            case .failure(let error):
-//                print(error)
-//                break
-//            case .success(let movies):
-//                self.movies = movies
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-//                break
-//            }
-//        }
+        let fetchRequest:NSFetchRequest<Movie> = Movie.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
+            movies = result
+        }
     }
 
 }

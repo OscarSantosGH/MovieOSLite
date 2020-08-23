@@ -24,8 +24,7 @@ class FeatureMovieCell: UICollectionViewCell {
     
     func set(movie: Movie){
         self.titleLabel.text = movie.title
-        guard let imagePath = movie.backdropPath else {return}
-        backdropImage.setImage(from: imagePath)
+        backdropImage.setImage(for: movie)
     }
     
     private func configure(){

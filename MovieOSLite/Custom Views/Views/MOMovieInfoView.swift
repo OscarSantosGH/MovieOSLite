@@ -38,11 +38,11 @@ class MOMovieInfoView: UIView {
     
     func update(withMovie movie:Movie){
         self.movie = movie
-        posterImageView.setImage(from: movie.posterPath)
+        posterImageView.setImage(for: movie)
         titleLabel.text = movie.title
         ratingLabel.update(info: String(movie.voteAverage))
         releaseDateLabel.update(info: configureReleaseDate(from: movie.releaseDate ?? ""))
-        genresStackView = MOGenresTagStackView(withGenres: movie.genreIds ?? [])
+        genresStackView = MOGenresTagStackView(withGenres: (movie.genres?.compactMap{Int32($0.id)}) as! [Int32])
         storylineBodyLabel.text = movie.overview
     }
     

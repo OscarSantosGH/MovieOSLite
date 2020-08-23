@@ -31,4 +31,12 @@ class PersistenceManager{
         }
     }
     
+    func saveOrRollback(){
+        do{
+            try viewContext.save()
+        }catch{
+            viewContext.rollback()
+        }
+    }
+    
 }

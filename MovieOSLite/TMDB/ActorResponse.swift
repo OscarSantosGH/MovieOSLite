@@ -8,12 +8,13 @@
 
 import Foundation
 
-struct Actor: Codable, Hashable {
+struct ActorResponse: Codable, Hashable {
     let castId: Int
     let character: String
     let creditId: String
     var gender: Int?
     let id: Int
     let name: String
+    let order: Int
     var profilePath: String?
 }

@@ -30,17 +30,28 @@ class MOPosterImageView: UIImageView {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func setImage(from urlString:String?) {
+    func setImage(for movie:Movie) {
         image = imagePlaceHolder
-        imageURLPath = urlString
-        guard let url = urlString else {return}
+        imageURLPath = movie.posterPath
+        guard let url = movie.posterPath else {return}
         NetworkManager.shared.downloadPosterImage(from: url) { [weak self] (image) in
             guard let self = self else {return}
             DispatchQueue.main.async {
-                if self.imageURLPath == urlString{
+                if self.imageURLPath == movie.posterPath{
                     self.image = image
+                    self.saveImage(image: image, of: movie)
                 }
             }
+        }
+    }
+    
+    private func saveImage(image: UIImage?, of movie:Movie){
+        guard let imageToSave = image else {return}
+        movie.posterImage = imageToSave.pngData()
+        do{
+            try movie.managedObjectContext?.save()
+        }catch{
+            print("save poster image failed")
         }
     }
 

@@ -9,6 +9,5 @@
 import Foundation
 
 struct CreditsAPIResponse: Codable {
-    let id: Int
-    let cast: [Actor]
+    let cast: [ActorResponse]
 }

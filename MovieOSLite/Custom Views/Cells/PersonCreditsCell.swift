@@ -10,11 +10,9 @@ import UIKit
 
 class PersonCreditsCell: UICollectionViewCell {
     static let reuseID = "PersonCreditCell"
-    let movieImageView = MOCastImageView(frame: .zero)
+    let movieImageView = MOPersonCreditImageView(frame: .zero)
     let movieName = MOTitleLabel(ofSize: 12, textAlignment: .center)
     let actorCharacter = MOTitleLabel(ofSize: 12, textAlignment: .center, textColor: .systemOrange)
-    
-    //var personMovieCredit:PersonMovieCredit!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,11 +27,10 @@ class PersonCreditsCell: UICollectionViewCell {
     }
     
     func set(personMovieCredit: PersonMovieCredit){
-        //self.personMovieCredit = personMovieCredit
         movieImageView.image = nil
         movieName.text = personMovieCredit.title
         actorCharacter.text = personMovieCredit.character
-        movieImageView.setImage(from: personMovieCredit.posterPath)
+        movieImageView.setImage(for: personMovieCredit)
     }
     
     private func configure(){

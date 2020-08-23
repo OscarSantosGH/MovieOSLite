@@ -34,9 +34,9 @@ class MovieDetailsVC: UIViewController {
     private func configure(){
         view.clipsToBounds = true
         view.backgroundColor = .systemBackground
-        headerImageView = MOHeaderBackdropView(withImageURLPath: movie.backdropPath)
+        headerImageView = MOHeaderBackdropView(withMovie: movie)
         movieInfoView = MOMovieInfoView(withMovie: movie)
-        movieCastView = MOMovieCastView(withMovieId: Int(movie.id))
+        movieCastView = MOMovieCastView(withMovie: movie)
         movieCastView.collectionView.delegate = self
         movieInfoView.favoriteButton.delegate = self
     }
@@ -120,7 +120,7 @@ extension MovieDetailsVC:UIScrollViewDelegate{
 extension MovieDetailsVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let actor = movieCastView.cast[indexPath.row]
-        getPersonInfo(withID: actor.id)
+        getPersonInfo(withID: Int(actor.id))
     }
     
     private func getPersonInfo(withID personID:Int){
@@ -162,14 +162,23 @@ extension MovieDetailsVC: UICollectionViewDelegate{
 extension MovieDetailsVC: PersonDetailsVCDelegate{
     func updateMovieDetailsVC(withMovie movie: Movie) {
         self.movie = movie
-        headerImageView.update(withImageURLPath: movie.backdropPath)
+        headerImageView.update(withMovie: movie)
         movieInfoView.update(withMovie: movie)
-        movieCastView.update(withMovieId: Int(movie.id))
+        movieCastView.update(withMovie: movie)
     }
 }
 
 extension MovieDetailsVC: MOFavoriteButtonDelegate{
-    func favoriteButtonTapped() {
-        
+    func deleteMovieFromFavorite() {
+        PersistenceManager.shared.viewContext.delete(movie)
+        PersistenceManager.shared.saveOrRollback()
+    }
+    
+    func saveMovieToFavorites(){
+        do{
+            try movie.managedObjectContext?.save()
+        }catch{
+            print("Save failed")
+        }
     }
 }

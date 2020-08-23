@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MOMovieCastView: UIView {
 
@@ -14,7 +15,6 @@ class MOMovieCastView: UIView {
     var collectionView: UICollectionView!
     
     var cast:[Actor] = []
-    var movieID: Int!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,18 +27,17 @@ class MOMovieCastView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(withMovieId id:Int) {
+    convenience init(withMovie movie:Movie) {
         self.init(frame: .zero)
-        movieID = id
-        getCast()
+        getCast(ofMovie: movie)
         
         configureCollectionView()
         layoutUI()
     }
     
-    func update(withMovieId id:Int){
-        movieID = id
-        getCast()
+    func update(withMovie movie:Movie){
+        cast = []
+        getCast(ofMovie: movie)
     }
     
     private func layoutUI(){
@@ -69,21 +68,15 @@ class MOMovieCastView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private func getCast(){
-        NetworkManager.shared.getCast(from: movieID) { [weak self] result in
-            guard let self = self else {return}
-            switch result{
-            case .failure(let error):
-                print(error.rawValue)
-                break
-            case .success(let cast):
-                self.cast = cast
-                
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-                break
-            }
+    private func getCast(ofMovie movie:Movie){
+        let fetchRequest:NSFetchRequest<Actor> = Actor.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
+        let predicate = NSPredicate(format: "movie == %@", movie)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchRequest.predicate = predicate
+        
+        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
+            cast = result
         }
     }
 }

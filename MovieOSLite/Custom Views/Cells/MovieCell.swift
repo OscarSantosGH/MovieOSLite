@@ -32,7 +32,7 @@ class MovieCell: UICollectionViewCell {
     func set(movie: Movie){
         titleLabel.text = movie.title
         posterImageView.image = nil
-        posterImageView.setImage(from: movie.posterPath)
+        posterImageView.setImage(for: movie)
         //self.movie = movie
         if movie.voteAverage == 0.0{
             ratingTextLabel.text = "Not rated"

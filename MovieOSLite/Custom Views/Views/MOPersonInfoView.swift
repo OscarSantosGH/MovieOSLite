@@ -9,7 +9,7 @@
 import UIKit
 
 class MOPersonInfoView: UIView {
-    let posterImageView = MOPosterImageView(frame: .zero)
+    let posterImageView = MOPersonProfileImageView(frame: .zero)
     let nameLabel = MOTitleLabel(ofSize: 25, textAlignment: .left)
     var birthdayLabel = MOHighlightInfoView(frame: .zero)
     var placeOfBirthLabel = MOHighlightInfoView(frame: .zero)
@@ -36,7 +36,7 @@ class MOPersonInfoView: UIView {
     private func configure(){
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.systemBackground
-        posterImageView.setImage(from: person.profilePath)
+        posterImageView.setImage(for: person)
         nameLabel.text = person.name
         birthdayLabel = MOHighlightInfoView(info: getAgeFromString(stringDate: person.birthday), desc: "Age")
         placeOfBirthLabel = MOHighlightInfoView(info: person.placeOfBirth ?? "Unknown", desc: "Place Of Birth")

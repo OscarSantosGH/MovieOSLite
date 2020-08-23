@@ -29,8 +29,6 @@ class HomeVC: UIViewController {
         configureDataSource()
     }
     
-    
-    
     func configureCollectionView(){
         
         collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: UIHelper.createHomeLayout())
@@ -160,11 +158,34 @@ class HomeVC: UIViewController {
 extension HomeVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let movie = dataSource.itemIdentifier(for: indexPath) else {return}
-        let persistedMovie = Movie(context: PersistenceManager.shared.viewContext)
-        persistedMovie.setDataFromMovieResponse(movieResponse: movie)
+        getMovieDetail(ofMovie: movie.id)
+    }
+    
+    func getMovieDetail(ofMovie movieId:Int){
+        NetworkManager.shared.getMovie(withID: movieId) { [weak self] (result) in
+            guard let self = self else {return}
+            switch result{
+            case .failure(let error):
+                print("error: \(error.localizedDescription)")
+            case .success(let movieResponse):
+                let persistedMovie = Movie(context: PersistenceManager.shared.viewContext)
+                persistedMovie.setDataFromMovieResponse(movieResponse: movieResponse)
+                
+                for actorResponse in movieResponse.credits.cast{
+                    let actor = Actor(context: PersistenceManager.shared.viewContext)
+                    actor.setDataFromActorResponse(actorResponse: actorResponse)
+                    persistedMovie.addToActors(actor)
+                }
+                DispatchQueue.main.async {
+                    self.presentMovieDetailsVC(withMovie: persistedMovie)
+                }
+            }
+        }
+    }
+    
+    func presentMovieDetailsVC(withMovie movie:Movie){
         let destinationVC = MovieDetailsVC()
-        destinationVC.movie = persistedMovie
+        destinationVC.movie = movie
         navigationController?.pushViewController(destinationVC, animated: true)
-        
     }
 }

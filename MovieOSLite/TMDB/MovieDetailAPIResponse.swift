@@ -17,6 +17,6 @@ struct MovieDetailAPIResponse: Codable {
     let voteAverage: Float
     let overview: String
     let releaseDate: String
-    let genres: [Genre]
-    
+    let genres: [GenreResponse]
+    let credits: CreditsAPIResponse
 }

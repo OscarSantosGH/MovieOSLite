@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Movie" representedClassName="Movie" syncable="YES" codeGenerationType="class">
+    <entity name="Actor" representedClassName="Actor" syncable="YES" codeGenerationType="class">
+        <attribute name="castId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="character" optional="YES" attributeType="String"/>
+        <attribute name="creditId" optional="YES" attributeType="String"/>
+        <attribute name="gender" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="profileImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="profilePath" optional="YES" attributeType="String"/>
+        <relationship name="movie" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Movie" inverseName="actors" inverseEntity="Movie"/>
+    </entity>
+    <entity name="Movie" representedClassName=".Movie" syncable="YES" codeGenerationType="class">
         <attribute name="backdropImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="backdropPath" optional="YES" attributeType="String"/>
-        <attribute name="genreIds" optional="YES" attributeType="Transformable" customClassName="[Int32]"/>
+        <attribute name="genres" optional="YES" attributeType="Transformable" customClassName="[Genre]"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="originalTitle" optional="YES" attributeType="String"/>
         <attribute name="overview" optional="YES" attributeType="String"/>
@@ -12,7 +24,7 @@
         <attribute name="releaseDate" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="voteAverage" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <relationship name="persons" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Person" inverseName="movies" inverseEntity="Person"/>
+        <relationship name="actors" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Actor" inverseName="movie" inverseEntity="Actor"/>
     </entity>
     <entity name="Person" representedClassName="Person" syncable="YES" codeGenerationType="class">
         <attribute name="biography" optional="YES" attributeType="String"/>
@@ -23,7 +35,6 @@
         <attribute name="profileImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="profilePath" optional="YES" attributeType="String"/>
         <relationship name="movieCredits" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PersonMovieCredit" inverseName="person" inverseEntity="PersonMovieCredit"/>
-        <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Movie" inverseName="persons" inverseEntity="Movie"/>
     </entity>
     <entity name="PersonMovieCredit" representedClassName="PersonMovieCredit" syncable="YES" codeGenerationType="class">
         <attribute name="character" optional="YES" attributeType="String"/>
@@ -34,8 +45,9 @@
         <relationship name="person" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Person" inverseName="movieCredits" inverseEntity="Person"/>
     </entity>
     <elements>
-        <element name="Movie" positionX="-381.875" positionY="-5.72265625" width="128" height="223"/>
-        <element name="Person" positionX="-188.02734375" positionY="38.94921875" width="128" height="178"/>
-        <element name="PersonMovieCredit" positionX="6.56640625" positionY="55.0625" width="128" height="133"/>
+        <element name="Movie" positionX="-436.58203125" positionY="-366.0234375" width="128" height="223"/>
+        <element name="Person" positionX="-433.43359375" positionY="-66.2734375" width="128" height="163"/>
+        <element name="PersonMovieCredit" positionX="-200.5859375" positionY="-36.140625" width="128" height="133"/>
+        <element name="Actor" positionX="-201.5859375" positionY="-321.5625" width="128" height="193"/>
     </elements>
 </model>

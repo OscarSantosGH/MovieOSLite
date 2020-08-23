@@ -75,8 +75,8 @@ class NetworkManager{
         task.resume()
     }
     
-    func getMovie(withID id:Int, completed: @escaping (Result<MovieResponse,MOError>)->Void){
-        let endPoint = baseUrl + "movie/" + "\(String(id))?api_key=\(API_KEY)"
+    func getMovie(withID id:Int, completed: @escaping (Result<MovieDetailAPIResponse,MOError>)->Void){
+        let endPoint = baseUrl + "movie/" + "\(String(id))?api_key=\(API_KEY)" + "&append_to_response=credits"
         
         guard let url = URL(string: endPoint) else {
             completed(.failure(.invalidURL))
@@ -103,9 +103,7 @@ class NetworkManager{
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let apiResponse = try decoder.decode(MovieDetailAPIResponse.self, from: data)
-                let genresIds:[Int] = apiResponse.genres.compactMap{$0.id}
-                let movie = MovieResponse(id: apiResponse.id, posterPath: apiResponse.posterPath, backdropPath: apiResponse.backdropPath, title: apiResponse.title, originalTitle: apiResponse.originalTitle, voteAverage: apiResponse.voteAverage, overview: apiResponse.overview, releaseDate: apiResponse.releaseDate, genreIds: genresIds, category: "")
-                completed(.success(movie))
+                completed(.success(apiResponse))
             } catch {
                 completed(.failure(.invalidData))
             }
@@ -158,44 +156,6 @@ class NetworkManager{
         }
         
         searchMoviesDataTask?.resume()
-    }
-    
-    func getCast(from movieId:Int, completed: @escaping (Result<[Actor], MOError>)-> Void){
-        
-        let endPoint = baseUrl + "movie/" + "\(String(movieId))/credits?api_key=\(API_KEY)"
-        
-        guard let url = URL(string: endPoint) else {
-            completed(.failure(.invalidURL))
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            
-            if let _ = error{
-                completed(.failure(.unableToComplete))
-            }
-            
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
-                completed(.failure(.invalidResponse))
-                return
-            }
-            
-            guard let data = data else{
-                completed(.failure(.invalidData))
-                return
-            }
-            
-            do{
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let apiResponse = try decoder.decode(CreditsAPIResponse.self, from: data)
-                completed(.success(apiResponse.cast))
-            } catch {
-                completed(.failure(.invalidData))
-            }
-        }
-        
-        task.resume()
     }
     
     func getPersonInfo(from id:Int, completed: @escaping (Result<PersonResponse, MOError>)->Void){

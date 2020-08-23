@@ -14,8 +14,6 @@ class CastCell: UICollectionViewCell {
     let actorName = MOTitleLabel(ofSize: 12, textAlignment: .center)
     let actorCharacter = MOTitleLabel(ofSize: 12, textAlignment: .center, textColor: .systemOrange)
     
-    //var actor:Actor!
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .secondarySystemBackground
@@ -33,7 +31,7 @@ class CastCell: UICollectionViewCell {
         actorImageView.image = nil
         actorName.text = actor.name
         actorCharacter.text = actor.character
-        actorImageView.setImage(from: actor.profilePath)
+        actorImageView.setImage(for: actor)
     }
     
     private func configure(){

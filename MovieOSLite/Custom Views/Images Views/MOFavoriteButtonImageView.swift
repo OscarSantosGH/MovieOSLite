@@ -9,7 +9,8 @@
 import UIKit
 
 protocol MOFavoriteButtonDelegate: class {
-    func favoriteButtonTapped()
+    func saveMovieToFavorites()
+    func deleteMovieFromFavorite()
 }
 
 class MOFavoriteButtonImageView: UIImageView {
@@ -54,10 +55,12 @@ class MOFavoriteButtonImageView: UIImageView {
                     self.transform = CGAffineTransform.identity
                 }
             }
+            delegate?.saveMovieToFavorites()
         }else{
             image = UIImage(systemName: "heart")
+            delegate?.deleteMovieFromFavorite()
         }
-        delegate?.favoriteButtonTapped()
+        
     }
     
 }
