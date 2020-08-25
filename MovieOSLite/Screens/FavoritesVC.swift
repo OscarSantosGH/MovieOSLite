@@ -18,7 +18,6 @@ class FavoritesVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureTableView()
-        //getMovies()
     }
     
     override func viewDidAppear(_ animated: Bool) {
