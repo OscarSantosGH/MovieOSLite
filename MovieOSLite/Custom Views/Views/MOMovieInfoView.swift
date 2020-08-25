@@ -19,15 +19,17 @@ class MOMovieInfoView: UIView {
     let storylineLabel = MOTitleLabel(ofSize: 15, textAlignment: .left)
     let storylineBodyLabel = MOBodyLabel(alignment: .left)
     
-    var movie:Movie!
+    var movie:MovieDetailAPIResponse!
+    var isFavorite:Bool!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
-    convenience init(withMovie movie:Movie){
+    convenience init(withMovie movie:MovieDetailAPIResponse, isFavorite:Bool){
         self.init(frame: .zero)
         self.movie = movie
+        self.isFavorite = isFavorite
         configure()
         layoutUI()
     }
@@ -36,14 +38,16 @@ class MOMovieInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(withMovie movie:Movie){
+    func update(withMovie movie:MovieDetailAPIResponse, isFavorite:Bool){
         self.movie = movie
-        posterImageView.setImage(for: movie)
+        self.isFavorite = isFavorite
+        posterImageView.setImage(forURL: movie.posterPath)
         titleLabel.text = movie.title
         ratingLabel.update(info: String(movie.voteAverage))
-        releaseDateLabel.update(info: configureReleaseDate(from: movie.releaseDate ?? ""))
-        genresStackView = MOGenresTagStackView(withGenres: (movie.genres?.compactMap{Int32($0.id)}) as! [Int32])
+        releaseDateLabel.update(info: configureReleaseDate(from: movie.releaseDate))
+        genresStackView = MOGenresTagStackView(withGenres: movie.genres.compactMap{Int32($0.id)} )
         storylineBodyLabel.text = movie.overview
+        favoriteButton = MOFavoriteButtonImageView(isFavorite: isFavorite)
     }
     
     private func configure(){
@@ -52,7 +56,7 @@ class MOMovieInfoView: UIView {
         ratingLabel = MOHighlightInfoView(desc: "Ratings")
         releaseDateLabel = MOHighlightInfoView(desc: "Release Date")
         storylineLabel.text = "Overview"
-        update(withMovie: movie)
+        update(withMovie: movie, isFavorite: isFavorite)
     }
     
     private func configureReleaseDate(from stringDate:String) -> String{

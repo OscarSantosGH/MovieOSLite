@@ -16,13 +16,13 @@ class MOPersonInfoView: UIView {
     let biographyLabel = MOTitleLabel(ofSize: 15, textAlignment: .left)
     let biographyBodyLabel = MOBodyLabel(alignment: .left)
     
-    var person:Person!
+    var person:PersonResponse!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
-    convenience init(withPerson person:Person){
+    convenience init(withPerson person:PersonResponse){
         self.init(frame: .zero)
         self.person = person
         configure()
@@ -36,7 +36,7 @@ class MOPersonInfoView: UIView {
     private func configure(){
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.systemBackground
-        posterImageView.setImage(for: person)
+        posterImageView.setImage(forURL: person.profilePath)
         nameLabel.text = person.name
         birthdayLabel = MOHighlightInfoView(info: getAgeFromString(stringDate: person.birthday), desc: "Age")
         placeOfBirthLabel = MOHighlightInfoView(info: person.placeOfBirth ?? "Unknown", desc: "Place Of Birth")

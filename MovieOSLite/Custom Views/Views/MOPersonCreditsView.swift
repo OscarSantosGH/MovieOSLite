@@ -12,7 +12,7 @@ class MOPersonCreditsView: UIView {
     let knownForLabel = MOTitleLabel(ofSize: 15, textAlignment: .left)
     var collectionView: UICollectionView!
     
-    var personMovieCredit:[PersonMovieCredit] = []
+    var personMovieCredit:[PersonMovieCreditResponse] = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,7 +25,7 @@ class MOPersonCreditsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(withCredits movieCredits:[PersonMovieCredit]) {
+    convenience init(withCredits movieCredits:[PersonMovieCreditResponse]) {
         self.init(frame: .zero)
         personMovieCredit = movieCredits
         

@@ -36,28 +36,18 @@ class MOBackdropImageView: UIImageView {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func setImage(for movie:Movie) {
+    func setImage(forURL URLString:String?) {
         image = imagePlaceHolder
-        imageURLPath = movie.backdropPath
-        guard let url = movie.backdropPath else {return}
+        imageURLPath = URLString
+        guard let url = URLString else {return}
         NetworkManager.shared.downloadBackdropImage(from: url) { [weak self] (image) in
             guard let self = self else {return}
             DispatchQueue.main.async {
-                if self.imageURLPath == movie.backdropPath{
+                if self.imageURLPath == URLString{
                     self.image = image
-                    self.saveImage(image: image, of: movie)
+                    //self.saveImage(image: image, of: movie)
                 }
             }
-        }
-    }
-    
-    private func saveImage(image: UIImage?, of movie:Movie){
-        guard let imageToSave = image else {return}
-        movie.backdropImage = imageToSave.pngData()
-        do{
-            try movie.managedObjectContext?.save()
-        }catch{
-            print("save backdrop image failed")
         }
     }
 

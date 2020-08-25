@@ -22,13 +22,13 @@ class MOHeaderBackdropView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(withMovie movie:Movie) {
+    convenience init(withMovie movie:MovieDetailAPIResponse) {
         self.init(frame: .zero)
-        backdropImageView.setImage(for: movie)
+        backdropImageView.setImage(forURL: movie.backdropPath)
     }
     
-    func update(withMovie movie:Movie){
-        backdropImageView.setImage(for: movie)
+    func update(withMovie movie:MovieDetailAPIResponse){
+        backdropImageView.setImage(forURL: movie.backdropPath)
     }
     
     private func configure(){

@@ -15,8 +15,6 @@ class MovieCell: UICollectionViewCell {
     let ratingLabel = MORatingLabel(ofSize: 13)
     let ratingTextLabel = MOTitleLabel(ofSize:15, textAlignment: .left, textColor: .secondaryLabel)
     
-    //var movie:Movie!
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .secondarySystemBackground
@@ -29,11 +27,10 @@ class MovieCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func set(movie: Movie){
+    func set(movie: MovieResponse){
         titleLabel.text = movie.title
         posterImageView.image = nil
-        posterImageView.setImage(for: movie)
-        //self.movie = movie
+        posterImageView.setImage(forURL: movie.posterPath)
         if movie.voteAverage == 0.0{
             ratingTextLabel.text = "Not rated"
             ratingLabel.alpha = 0

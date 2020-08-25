@@ -35,4 +35,21 @@ extension Movie{
         releaseDate = movieResponse.releaseDate
         genres = movieResponse.genres.compactMap{Genre(id: $0.id, name: $0.name)}
     }
+    
+    func getMovieResponse() -> MovieResponse{
+        MovieResponse(id: Int(id), posterPath: posterPath, backdropPath: backdropPath, title: title!, originalTitle: originalTitle!, voteAverage: voteAverage, overview: overview!, releaseDate: releaseDate!, genreIds: (genres?.compactMap{Int($0.id)})!, category: nil)
+    }
+    
+    func getMovieDetailAPIResponse() -> MovieDetailAPIResponse?{
+        var actorsResponse:[ActorResponse] = []
+        guard let unwrappedActors = actors else {return nil}
+        for (_, actorR) in unwrappedActors.enumerated(){
+            guard let actorModel = actorR as? Actor else {return nil}
+            actorsResponse.append(actorModel.getActorResponse())
+        }
+        
+        let creditsResponse = CreditsAPIResponse(cast: actorsResponse)
+        
+       return MovieDetailAPIResponse(id: Int(id), posterPath: posterPath, backdropPath: backdropPath, title: title!, originalTitle: originalTitle!, voteAverage: voteAverage, overview: overview!, releaseDate: releaseDate!, genres: (genres?.compactMap{GenreResponse(id: Int($0.id), name: String($0.name))})!, credits: creditsResponse)
+    }
 }

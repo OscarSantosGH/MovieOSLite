@@ -26,11 +26,11 @@ class PersonCreditsCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func set(personMovieCredit: PersonMovieCredit){
+    func set(personMovieCredit: PersonMovieCreditResponse){
         movieImageView.image = nil
         movieName.text = personMovieCredit.title
         actorCharacter.text = personMovieCredit.character
-        movieImageView.setImage(for: personMovieCredit)
+        movieImageView.setImage(forURL: personMovieCredit.posterPath)
     }
     
     private func configure(){

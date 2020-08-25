@@ -30,28 +30,18 @@ class MOCastImageView: UIImageView {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func setImage(for actor:Actor) {
+    func setImage(forURL URLString:String?) {
         image = imagePlaceHolder
-        imageURLPath = actor.profilePath
-        guard let url = actor.profilePath else {return}
+        imageURLPath = URLString
+        guard let url = URLString else {return}
         NetworkManager.shared.downloadCastImage(from: url) { [weak self] (image) in
             guard let self = self else {return}
             DispatchQueue.main.async {
-                if self.imageURLPath == actor.profilePath{
+                if self.imageURLPath == URLString{
                     self.image = image
-                    self.saveImage(image: image, of: actor)
+                    //self.saveImage(image: image, of: actor)
                 }
             }
-        }
-    }
-    
-    private func saveImage(image: UIImage?, of actor:Actor){
-        guard let imageToSave = image else {return}
-        actor.profileImage = imageToSave.pngData()
-        do{
-            try actor.managedObjectContext?.save()
-        }catch{
-            print("save profile image failed")
         }
     }
 

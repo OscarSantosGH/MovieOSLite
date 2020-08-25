@@ -14,7 +14,7 @@ class MOMovieCastView: UIView {
     let castLabel = MOTitleLabel(ofSize: 15, textAlignment: .left)
     var collectionView: UICollectionView!
     
-    var cast:[Actor] = []
+    var cast:[ActorResponse] = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,7 +27,7 @@ class MOMovieCastView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(withMovie movie:Movie) {
+    convenience init(withMovie movie:MovieDetailAPIResponse) {
         self.init(frame: .zero)
         getCast(ofMovie: movie)
         
@@ -35,7 +35,7 @@ class MOMovieCastView: UIView {
         layoutUI()
     }
     
-    func update(withMovie movie:Movie){
+    func update(withMovie movie:MovieDetailAPIResponse){
         cast = []
         getCast(ofMovie: movie)
     }
@@ -68,16 +68,8 @@ class MOMovieCastView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private func getCast(ofMovie movie:Movie){
-        let fetchRequest:NSFetchRequest<Actor> = Actor.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "order", ascending: true)
-        let predicate = NSPredicate(format: "movie == %@", movie)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        fetchRequest.predicate = predicate
-        
-        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
-            cast = result
-        }
+    private func getCast(ofMovie movie:MovieDetailAPIResponse){
+        cast = movie.credits.cast
     }
 }
 

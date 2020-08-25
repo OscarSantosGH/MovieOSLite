@@ -26,12 +26,11 @@ class CastCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func set(actor: Actor){
-        //self.actor = actor
+    func set(actor: ActorResponse){
         actorImageView.image = nil
         actorName.text = actor.name
         actorCharacter.text = actor.character
-        actorImageView.setImage(for: actor)
+        actorImageView.setImage(forURL: actor.profilePath)
     }
     
     private func configure(){

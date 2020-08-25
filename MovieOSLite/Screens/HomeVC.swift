@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class HomeVC: UIViewController {
     
@@ -44,16 +45,15 @@ class HomeVC: UIViewController {
     
     func configureDataSource(){
         dataSource = UICollectionViewDiffableDataSource<UIHelper.Section,MovieResponse>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> UICollectionViewCell? in
-            let persistedMovie = Movie(context: PersistenceManager.shared.viewContext)
-            persistedMovie.setDataFromMovieResponse(movieResponse: movie)
+            
             let section = UIHelper.Section(rawValue: indexPath.section)!
             if section == .feature{
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeatureMovieCell.reuseID, for: indexPath) as! FeatureMovieCell
-                cell.set(movie: persistedMovie)
+                cell.set(movie: movie)
                 return cell
             }else{
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.reuseID, for: indexPath) as! MovieCell
-                cell.set(movie: persistedMovie)
+                cell.set(movie: movie)
                 return cell
             }
             
@@ -158,7 +158,23 @@ class HomeVC: UIViewController {
 extension HomeVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let movie = dataSource.itemIdentifier(for: indexPath) else {return}
-        getMovieDetail(ofMovie: movie.id)
+        checkIfMovieIsSaved(withMovie: movie.id)
+    }
+    
+    func checkIfMovieIsSaved(withMovie id:Int){
+        let fetchRequest:NSFetchRequest<Movie> = Movie.fetchRequest()
+        let predicate = NSPredicate(format: "id == %d", id)
+        fetchRequest.predicate = predicate
+        
+        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
+            guard let movie = result.first else {
+                getMovieDetail(ofMovie: id)
+                return
+            }
+            presentMovieDetailsVC(withMovie: movie.getMovieDetailAPIResponse()!, isFavorite: true)
+        }else{
+            getMovieDetail(ofMovie: id)
+        }
     }
     
     func getMovieDetail(ofMovie movieId:Int){
@@ -168,24 +184,17 @@ extension HomeVC: UICollectionViewDelegate{
             case .failure(let error):
                 print("error: \(error.localizedDescription)")
             case .success(let movieResponse):
-                let persistedMovie = Movie(context: PersistenceManager.shared.viewContext)
-                persistedMovie.setDataFromMovieResponse(movieResponse: movieResponse)
-                
-                for actorResponse in movieResponse.credits.cast{
-                    let actor = Actor(context: PersistenceManager.shared.viewContext)
-                    actor.setDataFromActorResponse(actorResponse: actorResponse)
-                    persistedMovie.addToActors(actor)
-                }
                 DispatchQueue.main.async {
-                    self.presentMovieDetailsVC(withMovie: persistedMovie)
+                    self.presentMovieDetailsVC(withMovie: movieResponse, isFavorite: false)
                 }
             }
         }
     }
     
-    func presentMovieDetailsVC(withMovie movie:Movie){
+    func presentMovieDetailsVC(withMovie movie:MovieDetailAPIResponse, isFavorite:Bool){
         let destinationVC = MovieDetailsVC()
         destinationVC.movie = movie
+        destinationVC.isFavorite = isFavorite
         navigationController?.pushViewController(destinationVC, animated: true)
     }
 }

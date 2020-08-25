@@ -24,6 +24,16 @@ class MOFavoriteButtonImageView: UIImageView {
         configure()
     }
     
+    convenience init(isFavorite:Bool) {
+        self.init(frame: .zero)
+        self.isFavorite = isFavorite
+        if isFavorite{
+            image = UIImage(systemName: "heart.fill")
+        }else{
+            image = UIImage(systemName: "heart")
+        }
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

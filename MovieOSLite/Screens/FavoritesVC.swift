@@ -12,12 +12,17 @@ import CoreData
 class FavoritesVC: UIViewController {
     
     var tableView = UITableView()
-    var movies:[Movie] = []
+    var movies:[MovieDetailAPIResponse] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureTableView()
+        //getMovies()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         getMovies()
     }
     
@@ -37,7 +42,8 @@ class FavoritesVC: UIViewController {
         let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
-            movies = result
+            movies = result.compactMap{$0.getMovieDetailAPIResponse()}
+            tableView.reloadData()
         }
     }
 
@@ -50,9 +56,9 @@ extension FavoritesVC: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let movie = movies[indexPath.row]
-        
+        let movieResponse = MovieResponse(id: movie.id, posterPath: movie.posterPath, backdropPath: movie.backdropPath, title: movie.title, originalTitle: movie.originalTitle, voteAverage: movie.voteAverage, overview: movie.overview, releaseDate: movie.releaseDate, genreIds: movie.genres.compactMap{$0.id}, category: "")
         let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteMovieCell.reuseID, for: indexPath) as! FavoriteMovieCell
-        cell.set(movie: movie)
+        cell.set(movie: movieResponse)
         return cell
     }
     
@@ -64,6 +70,7 @@ extension FavoritesVC: UITableViewDelegate{
         
         let destinationVC = MovieDetailsVC()
         destinationVC.movie = movie
+        destinationVC.isFavorite = true
         navigationController?.pushViewController(destinationVC, animated: true)
     }
 }

@@ -30,28 +30,18 @@ class MOPersonProfileImageView: UIImageView {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func setImage(for person:Person) {
+    func setImage(forURL URLString:String?) {
         image = imagePlaceHolder
-        imageURLPath = person.profilePath
-        guard let url = person.profilePath else {return}
+        imageURLPath = URLString
+        guard let url = URLString else {return}
         NetworkManager.shared.downloadPosterImage(from: url) { [weak self] (image) in
             guard let self = self else {return}
             DispatchQueue.main.async {
-                if self.imageURLPath == person.profilePath{
+                if self.imageURLPath == URLString{
                     self.image = image
-                    self.saveImage(image: image, of: person)
+                    //self.saveImage(image: image, of: person)
                 }
             }
-        }
-    }
-    
-    private func saveImage(image: UIImage?, of person:Person){
-        guard let imageToSave = image else {return}
-        person.profileImage = imageToSave.pngData()
-        do{
-            try person.managedObjectContext?.save()
-        }catch{
-            print("save profile image failed")
         }
     }
 

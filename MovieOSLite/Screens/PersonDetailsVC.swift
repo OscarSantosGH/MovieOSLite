@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol PersonDetailsVCDelegate: class {
-    func updateMovieDetailsVC(withMovie movie:Movie)
+    func updateMovieDetailsVC(withMovie movie:MovieDetailAPIResponse)
 }
 
 class PersonDetailsVC: UIViewController {
@@ -21,8 +21,7 @@ class PersonDetailsVC: UIViewController {
     var personCreditsView = MOPersonCreditsView(frame: .zero)
     var allViews: [UIView] = []
     
-    var person:Person!
-    var personMovieCredits:[PersonMovieCredit] = []
+    var person:PersonResponse!
     
     var startScrolling = false
     var initialOffset:CGFloat = 0
@@ -31,28 +30,27 @@ class PersonDetailsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        personMovieCredits = []
         configureScrollView()
-        getMovieCredit()
+        configure()
+        layoutUI()
     }
     
-    private func getMovieCredit(){
-        let fetchRequest:NSFetchRequest<PersonMovieCredit> = PersonMovieCredit.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-        let predicate = NSPredicate(format: "person == %@", person)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        fetchRequest.predicate = predicate
-        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
-            personMovieCredits = result
-            configure()
-            layoutUI()
-        }
-    }
+//    private func getMovieCredit(){
+//        let fetchRequest:NSFetchRequest<PersonMovieCredit> = PersonMovieCredit.fetchRequest()
+//        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+//        let predicate = NSPredicate(format: "person == %@", person)
+//        fetchRequest.sortDescriptors = [sortDescriptor]
+//        fetchRequest.predicate = predicate
+//        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
+//            personMovieCredits = result
+//
+//        }
+//    }
     
     private func configure(){
         view.clipsToBounds = false
         personInfoView = MOPersonInfoView(withPerson: person)
-        personCreditsView = MOPersonCreditsView(withCredits: personMovieCredits)
+        personCreditsView = MOPersonCreditsView(withCredits: person.movieCredits.cast)
         personCreditsView.collectionView.delegate = self
     }
     
@@ -108,9 +106,7 @@ extension PersonDetailsVC: UICollectionViewDelegate{
                 break
             case .success(let movie):
                 DispatchQueue.main.async {
-                    let persistedMovie = Movie(context: PersistenceManager.shared.viewContext)
-                    persistedMovie.setDataFromMovieResponse(movieResponse: movie)
-                    self.delegate.updateMovieDetailsVC(withMovie: persistedMovie)
+                    self.delegate.updateMovieDetailsVC(withMovie: movie)
                     self.dismiss(animated: true, completion: nil)
                 }
             }

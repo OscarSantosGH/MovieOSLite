@@ -61,10 +61,8 @@ extension SearchVC: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let movie = movies[indexPath.row]
-        let persistedMovie = Movie(context: PersistenceManager.shared.viewContext)
-        persistedMovie.setDataFromMovieResponse(movieResponse: movie)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.reuseID, for: indexPath) as! MovieCell
-        cell.set(movie: persistedMovie)
+        cell.set(movie: movie)
         return cell
     }
     
@@ -74,12 +72,26 @@ extension SearchVC: UICollectionViewDataSource{
 extension SearchVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movie = movies[indexPath.row]
-        let persistedMovie = Movie(context: PersistenceManager.shared.viewContext)
-        persistedMovie.setDataFromMovieResponse(movieResponse: movie)
+        getMovieDetail(ofMovie: movie.id)
+    }
+    func getMovieDetail(ofMovie movieId:Int){
+        NetworkManager.shared.getMovie(withID: movieId) { [weak self] (result) in
+            guard let self = self else {return}
+            switch result{
+            case .failure(let error):
+                print("error: \(error.localizedDescription)")
+            case .success(let movieResponse):
+                DispatchQueue.main.async {
+                    self.presentMovieDetailsVC(withMovie: movieResponse)
+                }
+            }
+        }
+    }
+    
+    func presentMovieDetailsVC(withMovie movie:MovieDetailAPIResponse){
         let destinationVC = MovieDetailsVC()
-        destinationVC.movie = persistedMovie
+        destinationVC.movie = movie
         navigationController?.pushViewController(destinationVC, animated: true)
-        
     }
 }
 

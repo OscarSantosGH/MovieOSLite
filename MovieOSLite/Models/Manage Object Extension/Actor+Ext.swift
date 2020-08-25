@@ -19,4 +19,8 @@ extension Actor{
         order = Int32(actorResponse.order)
         profilePath = actorResponse.profilePath
     }
+    
+    func getActorResponse() -> ActorResponse{
+        ActorResponse(castId: Int(castId), character: character!, creditId: creditId!, gender: Int(gender), id: Int(id), name: name!, order: Int(order), profilePath: profilePath)
+    }
 }

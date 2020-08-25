@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MovieDetailsVC: UIViewController {
     
@@ -18,10 +19,11 @@ class MovieDetailsVC: UIViewController {
     var movieCastView = MOMovieCastView(frame: .zero)
     var allViews: [UIView] = []
     
-    var movie:Movie!
+    var movie:MovieDetailAPIResponse!
     
     var startScrolling = false
     var initialOffset:CGFloat = 0
+    var isFavorite:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +37,7 @@ class MovieDetailsVC: UIViewController {
         view.clipsToBounds = true
         view.backgroundColor = .systemBackground
         headerImageView = MOHeaderBackdropView(withMovie: movie)
-        movieInfoView = MOMovieInfoView(withMovie: movie)
+        movieInfoView = MOMovieInfoView(withMovie: movie, isFavorite: isFavorite)
         movieCastView = MOMovieCastView(withMovie: movie)
         movieCastView.collectionView.delegate = self
         movieInfoView.favoriteButton.delegate = self
@@ -131,24 +133,15 @@ extension MovieDetailsVC: UICollectionViewDelegate{
                 print(error.rawValue)
                 break
             case .success(let person):
-                let persistedPerson = Person(context: PersistenceManager.shared.viewContext)
-                persistedPerson.setDataFromPersonResponse(personResponse: person)
-                
-                for movieCredit in person.movieCredits.cast{
-                    let persistedMovieCredit = PersonMovieCredit(context: PersistenceManager.shared.viewContext)
-                    persistedMovieCredit.setDataFromPersonMovieCreditResponse(personMovieCreditResponse: movieCredit)
-                    persistedPerson.addToMovieCredits(persistedMovieCredit)
-                }
-                
                 DispatchQueue.main.async {
-                    self.presentPersonInfoVC(withPerson: persistedPerson)
+                    self.presentPersonInfoVC(withPerson: person)
                 }
                 break
             }
         }
     }
     
-    private func presentPersonInfoVC(withPerson person:Person){
+    private func presentPersonInfoVC(withPerson person:PersonResponse){
         let destinationVC = PersonDetailsVC()
         destinationVC.person = person
         destinationVC.delegate = self
@@ -160,23 +153,38 @@ extension MovieDetailsVC: UICollectionViewDelegate{
 }
 
 extension MovieDetailsVC: PersonDetailsVCDelegate{
-    func updateMovieDetailsVC(withMovie movie: Movie) {
+    func updateMovieDetailsVC(withMovie movie: MovieDetailAPIResponse) {
         self.movie = movie
         headerImageView.update(withMovie: movie)
-        movieInfoView.update(withMovie: movie)
+        movieInfoView.update(withMovie: movie, isFavorite: isFavorite)
         movieCastView.update(withMovie: movie)
     }
 }
 
 extension MovieDetailsVC: MOFavoriteButtonDelegate{
     func deleteMovieFromFavorite() {
-        PersistenceManager.shared.viewContext.delete(movie)
-        PersistenceManager.shared.saveOrRollback()
+        let fetchRequest:NSFetchRequest<Movie> = Movie.fetchRequest()
+        let predicate = NSPredicate(format: "id == %d", movie.id)
+        fetchRequest.predicate = predicate
+        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
+            guard let movie = result.first else {return}
+            PersistenceManager.shared.viewContext.delete(movie)
+            PersistenceManager.shared.saveOrRollback()
+        }
     }
     
     func saveMovieToFavorites(){
+        let movieToSave = Movie(context: PersistenceManager.shared.viewContext)
+        movieToSave.setDataFromMovieResponse(movieResponse: movie)
+        
+        for actor in movie.credits.cast{
+            let actorToSave = Actor(context: PersistenceManager.shared.viewContext)
+            actorToSave.setDataFromActorResponse(actorResponse: actor)
+            movieToSave.addToActors(actorToSave)
+        }
+        
         do{
-            try movie.managedObjectContext?.save()
+            try PersistenceManager.shared.viewContext.save()
         }catch{
             print("Save failed")
         }

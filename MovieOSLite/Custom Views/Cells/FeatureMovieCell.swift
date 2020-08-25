@@ -22,9 +22,9 @@ class FeatureMovieCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func set(movie: Movie){
+    func set(movie: MovieResponse){
         self.titleLabel.text = movie.title
-        backdropImage.setImage(for: movie)
+        backdropImage.setImage(forURL: movie.backdropPath)
     }
     
     private func configure(){
