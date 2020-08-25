@@ -115,8 +115,8 @@ class NetworkManager{
     
     
     func searchMovies(withString txt:String, completed: @escaping (Result<[MovieResponse], MOError>)-> Void){
-        
-        let endPoint = baseUrl + "search/movie?api_key=\(API_KEY)&query=\(txt)"
+        let secureTxt = txt.replacingOccurrences(of: " ", with: "%20")
+        let endPoint = baseUrl + "search/movie?api_key=\(API_KEY)&query=\(secureTxt)"
         
         guard let url = URL(string: endPoint) else {
             completed(.failure(.invalidURL))
