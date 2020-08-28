@@ -13,11 +13,16 @@ class FavoritesVC: UIViewController {
     
     var tableView = UITableView()
     var movies:[MovieDetailAPIResponse] = []
+    
+    let emptyScreenView = UIView()
+    let heartImageView = UIImageView()
+    let messageLabelView = MOTitleLabel(ofSize: 20, textAlignment: .center)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureTableView()
+        configureEmptyScreen()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -33,7 +38,15 @@ class FavoritesVC: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         tableView.register(FavoriteMovieCell.self, forCellReuseIdentifier: FavoriteMovieCell.reuseID)
-        view.addSubview(tableView)
+    }
+    
+    func configureEmptyScreen(){
+        emptyScreenView.translatesAutoresizingMaskIntoConstraints = false
+        heartImageView.image = UIImage(systemName: "heart")
+        heartImageView.tintColor = .label
+        heartImageView.contentMode = .scaleAspectFit
+        heartImageView.translatesAutoresizingMaskIntoConstraints = false
+        messageLabelView.text = "You don't have favorite movies yet"
     }
     
     private func getMovies(){
@@ -41,9 +54,40 @@ class FavoritesVC: UIViewController {
         let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
-            movies = result.compactMap{$0.getMovieDetailAPIResponse()}
-            tableView.reloadData()
+            if result.count > 0 {
+                hideEmptyScreen()
+                movies = result.compactMap{$0.getMovieDetailAPIResponse()}
+                tableView.reloadData()
+            }else{
+                showEmptyScreen()
+            }
+        }else{
+            showEmptyScreen()
         }
+    }
+    
+    func showEmptyScreen(){
+        tableView.removeFromSuperview()
+        view.addSubview(emptyScreenView)
+        emptyScreenView.pinToEdges(of: view)
+        emptyScreenView.addSubviews(heartImageView, messageLabelView)
+        
+        NSLayoutConstraint.activate([
+            heartImageView.centerXAnchor.constraint(equalTo: emptyScreenView.centerXAnchor),
+            heartImageView.centerYAnchor.constraint(equalTo: emptyScreenView.centerYAnchor, constant: -15),
+            heartImageView.heightAnchor.constraint(equalToConstant: 50),
+            heartImageView.widthAnchor.constraint(equalTo: heartImageView.heightAnchor),
+            
+            messageLabelView.topAnchor.constraint(equalTo: heartImageView.bottomAnchor, constant: 8),
+            messageLabelView.leadingAnchor.constraint(equalTo: emptyScreenView.leadingAnchor, constant: 8),
+            messageLabelView.trailingAnchor.constraint(equalTo: emptyScreenView.trailingAnchor, constant: -8),
+            messageLabelView.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    func hideEmptyScreen(){
+        view.addSubview(tableView)
+        emptyScreenView.removeFromSuperview()
     }
 
 }
