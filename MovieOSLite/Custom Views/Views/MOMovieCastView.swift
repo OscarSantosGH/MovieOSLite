@@ -36,7 +36,6 @@ class MOMovieCastView: UIView {
     }
     
     func update(withMovie movie:MovieDetailAPIResponse){
-        cast = []
         getCast(ofMovie: movie)
     }
     
@@ -69,6 +68,7 @@ class MOMovieCastView: UIView {
     }
     
     private func getCast(ofMovie movie:MovieDetailAPIResponse){
+        cast = []
         cast = movie.credits.cast
     }
 }

@@ -158,6 +158,7 @@ extension MovieDetailsVC: PersonDetailsVCDelegate{
         headerImageView.update(withMovie: movie)
         movieInfoView.update(withMovie: movie, isFavorite: isFavorite)
         movieCastView.update(withMovie: movie)
+        movieCastView.collectionView.reloadData()
     }
 }
 
