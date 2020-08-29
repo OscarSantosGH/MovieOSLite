@@ -19,12 +19,16 @@ class HomeVC: UIViewController {
     var upcomingMovies: [MovieResponse] = []
     var nowPlayingMovies: [MovieResponse] = []
     var featuresMovies: [MovieResponse] = []
+    
+    var timer = Timer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
         configureDataSource()
         updateData()
+        
+        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(autoScrollFeatureMovies), userInfo: nil, repeats: false)
     }
     
     func configureCollectionView(){
@@ -91,6 +95,10 @@ class HomeVC: UIViewController {
         DispatchQueue.main.async {
             self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
         }
+    }
+    
+    @objc private func autoScrollFeatureMovies(){
+        collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .centeredHorizontally, animated: true)
     }
 
 }

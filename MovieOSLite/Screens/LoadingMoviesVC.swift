@@ -29,6 +29,7 @@ class LoadingMoviesVC: UIViewController {
         backgroundViewImage.translatesAutoresizingMaskIntoConstraints = false
         backgroundViewImage.contentMode = .scaleAspectFill
         activityView.translatesAutoresizingMaskIntoConstraints = false
+        activityView.color = .white
         
         view.addSubviews(backgroundViewImage, activityView, messageLabelView)
         
