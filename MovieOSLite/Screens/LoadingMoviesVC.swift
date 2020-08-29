@@ -12,7 +12,7 @@ class LoadingMoviesVC: UIViewController {
     
     let backgroundViewImage = UIImageView(image: UIImage(named: "launchScreen"))
     let activityView = UIActivityIndicatorView(style: .large)
-    let messageLabelView = MOTitleLabel(ofSize: 20, textAlignment: .center)
+    let messageLabelView = MOTitleLabel(ofSize: 20, textAlignment: .center, textColor: .white)
     
     var popularMovies: [MovieResponse] = []
     var upcomingMovies: [MovieResponse] = []
@@ -38,7 +38,7 @@ class LoadingMoviesVC: UIViewController {
             messageLabelView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             messageLabelView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             messageLabelView.heightAnchor.constraint(equalToConstant: 45),
-            messageLabelView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            messageLabelView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             
             activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityView.heightAnchor.constraint(equalToConstant: 50),
@@ -59,7 +59,7 @@ class LoadingMoviesVC: UIViewController {
             
             switch result{
             case .failure(let error):
-                print(error.rawValue)
+                self.messageLabelView.text = error.rawValue
             case .success(let movies):
                 self.popularMovies = movies
                 self.getUpcomingMovies()
@@ -74,7 +74,7 @@ class LoadingMoviesVC: UIViewController {
             
             switch result{
             case .failure(let error):
-                print(error.rawValue)
+                self.messageLabelView.text = error.rawValue
             case .success(let movies):
                 self.upcomingMovies = movies.shuffled()
                 self.getNowPlayingMovies()
@@ -89,7 +89,7 @@ class LoadingMoviesVC: UIViewController {
             
             switch result{
             case .failure(let error):
-                print(error.rawValue)
+                self.messageLabelView.text = error.rawValue
             case .success(let movies):
                 self.nowPlayingMovies = movies.shuffled()
                 self.getFeaturesMovies()
@@ -104,7 +104,7 @@ class LoadingMoviesVC: UIViewController {
             
             switch result{
             case .failure(let error):
-                print(error.rawValue)
+                self.messageLabelView.text = error.rawValue
             case .success(let movies):
                 self.featuresMovies = movies.shuffled()
                 self.goToHome()

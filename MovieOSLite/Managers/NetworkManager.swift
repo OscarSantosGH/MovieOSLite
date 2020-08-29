@@ -36,23 +36,31 @@ class NetworkManager{
         let endPoint = baseUrl + "movie/" + "\(list.rawValue)?api_key=\(API_KEY)"
         
         guard let url = URL(string: endPoint) else {
-            completed(.failure(.invalidURL))
+            DispatchQueue.main.async {
+                completed(.failure(.invalidURL))
+            }
             return
         }
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if let _ = error{
-                completed(.failure(.unableToComplete))
+                DispatchQueue.main.async {
+                    completed(.failure(.unableToComplete))
+                }
             }
             
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
-                completed(.failure(.invalidResponse))
+                DispatchQueue.main.async {
+                    completed(.failure(.invalidResponse))
+                }
                 return
             }
             
             guard let data = data else{
-                completed(.failure(.invalidData))
+                DispatchQueue.main.async {
+                    completed(.failure(.invalidData))
+                }
                 return
             }
             
@@ -70,7 +78,9 @@ class NetworkManager{
                     completed(.success(moviesWithCategories))
                 }
             } catch {
-                completed(.failure(.invalidData))
+                DispatchQueue.main.async {
+                    completed(.failure(.invalidData))
+                }
             }
         }
         
