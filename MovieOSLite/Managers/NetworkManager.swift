@@ -66,7 +66,9 @@ class NetworkManager{
                     newMovie.category = list.rawValue
                     moviesWithCategories.append(newMovie)
                 }
-                completed(.success(moviesWithCategories))
+                DispatchQueue.main.async {
+                    completed(.success(moviesWithCategories))
+                }
             } catch {
                 completed(.failure(.invalidData))
             }

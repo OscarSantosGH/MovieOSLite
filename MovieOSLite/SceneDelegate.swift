@@ -18,42 +18,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = createTabBar()
+        window?.rootViewController = LoadingMoviesVC()
         window?.makeKeyAndVisible()
         configureNavigationBar()
-        
-    }
-    
-    private func createHomeVC() -> UINavigationController{
-        let homeVC = HomeVC()
-        homeVC.title = "MovieOS"
-        homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "film"), tag: 0)
-        
-        return UINavigationController(rootViewController: homeVC)
-    }
-    
-    private func createSearchVC() -> UINavigationController{
-        let searchVC = SearchVC()
-        searchVC.title = "Search"
-        searchVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 1)
-        
-        return UINavigationController(rootViewController: searchVC)
-    }
-    
-    private func createFavoriteVC() -> UINavigationController{
-        let favoriteVC = FavoritesVC()
-        favoriteVC.title = "Favorites"
-        favoriteVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart"), tag: 2)
-        
-        return UINavigationController(rootViewController: favoriteVC)
-    }
-    
-    private func createTabBar() -> UITabBarController{
-        let tabbar = UITabBarController()
-        tabbar.viewControllers = [createHomeVC(), createSearchVC(), createFavoriteVC()]
-        UITabBar.appearance().tintColor = .systemPurple
-        
-        return tabbar
     }
     
     private func configureNavigationBar(){

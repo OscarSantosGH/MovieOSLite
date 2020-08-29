@@ -22,12 +22,9 @@ class HomeVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .systemTeal
-        
         configureCollectionView()
-        getPopularMovies()
         configureDataSource()
+        updateData()
     }
     
     func configureCollectionView(){
@@ -93,63 +90,6 @@ class HomeVC: UIViewController {
         
         DispatchQueue.main.async {
             self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
-        }
-    }
-    
-    
-    func getPopularMovies() {
-        NetworkManager.shared.getMovies(from: .popular ) { [weak self] (result) in
-            guard let self = self else {return}
-            
-            switch result{
-            case .failure(let error):
-                print(error.rawValue)
-            case .success(let movies):
-                self.popularMovies = movies
-                self.getUpcomingMovies()
-            }
-        }
-    }
-    
-    func getUpcomingMovies() {
-        NetworkManager.shared.getMovies(from: .upcoming ) { [weak self] (result) in
-            guard let self = self else {return}
-            
-            switch result{
-            case .failure(let error):
-                print(error.rawValue)
-            case .success(let movies):
-                self.upcomingMovies = movies.shuffled()
-                self.getNowPlayingMovies()
-            }
-        }
-    }
-    
-    func getNowPlayingMovies() {
-        NetworkManager.shared.getMovies(from: .nowPlaying ) { [weak self] (result) in
-            guard let self = self else {return}
-            
-            switch result{
-            case .failure(let error):
-                print(error.rawValue)
-            case .success(let movies):
-                self.nowPlayingMovies = movies.shuffled()
-                self.getFeaturesMovies()
-            }
-        }
-    }
-    
-    func getFeaturesMovies(){
-        NetworkManager.shared.getMovies(from: .topRated ) { [weak self] (result) in
-            guard let self = self else {return}
-            
-            switch result{
-            case .failure(let error):
-                print(error.rawValue)
-            case .success(let movies):
-                self.featuresMovies = movies
-                self.updateData()
-            }
         }
     }
 
