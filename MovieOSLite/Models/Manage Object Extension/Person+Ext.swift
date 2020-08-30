@@ -17,4 +17,19 @@ extension Person{
         profilePath = personResponse.profilePath
         biography = personResponse.biography
     }
+    
+    func getPersonResponse() -> PersonResponse?{
+        var personMovieCreditResponses:[PersonMovieCreditResponse] = []
+        
+        guard let unwrappedCredit = movieCredits else {return nil}
+        
+        for (_, credit) in unwrappedCredit.enumerated(){
+            guard let creditModel = credit as? PersonMovieCredit else {return nil}
+            personMovieCreditResponses.append(creditModel.getPersonMovieCreditResponse())
+        }
+        
+        let personMovieCredits = PersonMovieCredits(cast: personMovieCreditResponses)
+        
+        return PersonResponse(id: Int(id), name: name!, birthday: birthday!, placeOfBirth: placeOfBirth, profilePath: profilePath, biography: biography!, movieCredits: personMovieCredits)
+    }
 }

@@ -31,6 +31,11 @@ class HomeVC: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(autoScrollFeatureMovies), userInfo: nil, repeats: false)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        timer.invalidate()
+    }
+    
     func configureCollectionView(){
         
         collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: UIHelper.createHomeLayout())
@@ -94,11 +99,12 @@ class HomeVC: UIViewController {
         
         DispatchQueue.main.async {
             self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
+            self.collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .centeredHorizontally, animated: false)
         }
     }
     
     @objc private func autoScrollFeatureMovies(){
-        collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .centeredHorizontally, animated: true)
+        collectionView.scrollToItem(at: IndexPath(row: 2, section: 0), at: .centeredHorizontally, animated: true)
     }
 
 }
@@ -119,7 +125,8 @@ extension HomeVC: UICollectionViewDelegate{
                 getMovieDetail(ofMovie: id)
                 return
             }
-            presentMovieDetailsVC(withMovie: movie.getMovieDetailAPIResponse()!, isFavorite: true)
+            guard let movieDetailAPIResponse = movie.getMovieDetailAPIResponse() else {return}
+            presentMovieDetailsVC(withMovie: movieDetailAPIResponse, isFavorite: true)
         }else{
             getMovieDetail(ofMovie: id)
         }

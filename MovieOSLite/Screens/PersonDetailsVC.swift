@@ -33,19 +33,8 @@ class PersonDetailsVC: UIViewController {
         configureScrollView()
         configure()
         layoutUI()
+        checkIfPersonIsSave()
     }
-    
-//    private func getMovieCredit(){
-//        let fetchRequest:NSFetchRequest<PersonMovieCredit> = PersonMovieCredit.fetchRequest()
-//        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-//        let predicate = NSPredicate(format: "person == %@", person)
-//        fetchRequest.sortDescriptors = [sortDescriptor]
-//        fetchRequest.predicate = predicate
-//        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
-//            personMovieCredits = result
-//
-//        }
-//    }
     
     private func configure(){
         view.clipsToBounds = false
@@ -89,8 +78,40 @@ class PersonDetailsVC: UIViewController {
         ])
         
     }
+    
+    private func checkIfPersonIsSave(){
+        let fetchRequest:NSFetchRequest<Person> = Person.fetchRequest()
+        let predicate = NSPredicate(format: "id == %d", person.id)
+        fetchRequest.predicate = predicate
+        
+        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
+            if result.count == 0{
+                savePerson()
+            }
+        }else{
+            savePerson()
+        }
+    }
+    
+    private func savePerson(){
+        let personToSave = Person(context: PersistenceManager.shared.viewContext)
+        personToSave.setDataFromPersonResponse(personResponse: person)
+        
+        for movieCredit in person.movieCredits.cast{
+            let personMovieCredit = PersonMovieCredit(context: PersistenceManager.shared.viewContext)
+            personMovieCredit.setDataFromPersonMovieCreditResponse(personMovieCreditResponse: movieCredit)
+            personToSave.addToMovieCredits(personMovieCredit)
+        }
+        
+        do{
+            try PersistenceManager.shared.viewContext.save()
+        }catch{
+            print("Save failed")
+        }
+    }
 }
 
+// MARK: - UICollectionViewDelegate
 extension PersonDetailsVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieCredit = personCreditsView.personMovieCredit[indexPath.row]

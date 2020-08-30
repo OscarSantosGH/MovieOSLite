@@ -30,14 +30,14 @@ class MOBackdropImageView: UIImageView {
     }
     
     private func configure(){
+        image = imagePlaceHolder
         contentMode = .scaleAspectFill
         clipsToBounds = true
-        image = imagePlaceHolder
         translatesAutoresizingMaskIntoConstraints = false
     }
     
     func setImage(forURL URLString:String?) {
-        image = imagePlaceHolder
+        //image = imagePlaceHolder
         imageURLPath = URLString
         guard let url = URLString else {return}
         NetworkManager.shared.downloadBackdropImage(from: url) { [weak self] (image) in

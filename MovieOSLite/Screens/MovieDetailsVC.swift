@@ -90,6 +90,7 @@ class MovieDetailsVC: UIViewController {
 
 }
 
+// MARK: - UIScrollViewDelegate
 extension MovieDetailsVC:UIScrollViewDelegate{
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         if !startScrolling{
@@ -119,18 +120,38 @@ extension MovieDetailsVC:UIScrollViewDelegate{
     }
 }
 
+// MARK: - UICollectionViewDelegate
 extension MovieDetailsVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let actor = movieCastView.cast[indexPath.row]
-        getPersonInfo(withID: Int(actor.id))
+        checkIfPersonIsSaved(withPerson: actor.id)
+    }
+    
+    func checkIfPersonIsSaved(withPerson id:Int){
+        let fetchRequest:NSFetchRequest<Person> = Person.fetchRequest()
+        let predicate = NSPredicate(format: "id == %d", id)
+        fetchRequest.predicate = predicate
+        
+        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
+            guard let person = result.first else {
+                getPersonInfo(withID: id)
+                return
+            }
+            guard let personResponse = person.getPersonResponse() else {return}
+            presentPersonInfoVC(withPerson: personResponse)
+        }else{
+            getPersonInfo(withID: id)
+        }
     }
     
     private func getPersonInfo(withID personID:Int){
+        showLoadingState()
         NetworkManager.shared.getPersonInfo(from: personID) { [weak self] result in
             guard let self = self else {return}
+            self.hideLoadingState()
             switch result{
             case .failure(let error):
-                print(error.rawValue)
+                self.presentMOAlert(title: "Error loading the cast member", message: error.localizedDescription)
                 break
             case .success(let person):
                 DispatchQueue.main.async {
@@ -152,6 +173,7 @@ extension MovieDetailsVC: UICollectionViewDelegate{
     
 }
 
+// MARK: - PersonDetailsVCDelegate
 extension MovieDetailsVC: PersonDetailsVCDelegate{
     func updateMovieDetailsVC(withMovie movie: MovieDetailAPIResponse) {
         self.movie = movie
@@ -162,6 +184,7 @@ extension MovieDetailsVC: PersonDetailsVCDelegate{
     }
 }
 
+// MARK: - MOFavoriteButtonDelegate
 extension MovieDetailsVC: MOFavoriteButtonDelegate{
     func deleteMovieFromFavorite() {
         let fetchRequest:NSFetchRequest<Movie> = Movie.fetchRequest()

@@ -15,4 +15,8 @@ extension PersonMovieCredit{
         character = personMovieCreditResponse.character
         posterPath = personMovieCreditResponse.posterPath
     }
+    
+    func getPersonMovieCreditResponse() -> PersonMovieCreditResponse{
+        PersonMovieCreditResponse(id: Int(id), title: title!, character: character!, posterPath: posterPath)
+    }
 }
