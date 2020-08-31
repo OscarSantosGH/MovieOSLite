@@ -30,6 +30,6 @@ extension Person{
         
         let personMovieCredits = PersonMovieCredits(cast: personMovieCreditResponses)
         
-        return PersonResponse(id: Int(id), name: name!, birthday: birthday!, placeOfBirth: placeOfBirth, profilePath: profilePath, biography: biography!, movieCredits: personMovieCredits)
+        return PersonResponse(id: Int(id), name: name!, birthday: birthday, placeOfBirth: placeOfBirth, profilePath: profilePath, biography: biography!, movieCredits: personMovieCredits)
     }
 }
