@@ -26,16 +26,20 @@ class MOFavoriteButtonImageView: UIImageView {
     
     convenience init(isFavorite:Bool) {
         self.init(frame: .zero)
+        update(isFavorite: isFavorite)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func update(isFavorite:Bool) {
         self.isFavorite = isFavorite
         if isFavorite{
             image = UIImage(systemName: "heart.fill")
         }else{
             image = UIImage(systemName: "heart")
         }
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     private func configure(){

@@ -32,6 +32,11 @@ class MovieDetailsVC: UIViewController {
         layoutUI()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        checkIfMovieIsFavorite()
+    }
+    
     
     private func configure(){
         view.clipsToBounds = true
@@ -86,6 +91,20 @@ class MovieDetailsVC: UIViewController {
             
         ])
         
+    }
+    
+    func checkIfMovieIsFavorite() {
+        let fetchRequest:NSFetchRequest<Movie> = Movie.fetchRequest()
+        let predicate = NSPredicate(format: "id == %d", movie.id)
+        fetchRequest.predicate = predicate
+        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
+            if result.count == 0{
+                isFavorite = false
+            }else{
+                isFavorite = true
+            }
+        }
+        movieInfoView.favoriteButton.update(isFavorite: isFavorite)
     }
 
 }

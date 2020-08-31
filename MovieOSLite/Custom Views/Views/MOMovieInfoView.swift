@@ -47,7 +47,7 @@ class MOMovieInfoView: UIView {
         releaseDateLabel.update(info: configureReleaseDate(from: movie.releaseDate))
         genresStackView = MOGenresTagStackView(withGenres: movie.genres.compactMap{Int32($0.id)} )
         storylineBodyLabel.text = movie.overview
-        favoriteButton = MOFavoriteButtonImageView(isFavorite: isFavorite)
+        favoriteButton.update(isFavorite: isFavorite)
     }
     
     private func configure(){
