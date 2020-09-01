@@ -186,7 +186,7 @@ extension MovieDetailsVC: UICollectionViewDelegate{
         destinationVC.person = person
         destinationVC.delegate = self
         let navigationController = UINavigationController(rootViewController: destinationVC)
-        navigationController.navigationBar.isHidden = true
+        navigationController.modalPresentationStyle = .pageSheet
         present(navigationController, animated: true)
     }
     

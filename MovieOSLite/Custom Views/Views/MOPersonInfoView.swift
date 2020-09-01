@@ -82,12 +82,12 @@ class MOPersonInfoView: UIView {
         let padding:CGFloat = 8
         
         NSLayoutConstraint.activate([
-            posterImageView.topAnchor.constraint(equalTo: topAnchor, constant: -50),
+            posterImageView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             posterImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
             posterImageView.widthAnchor.constraint(equalToConstant: 111),
             posterImageView.heightAnchor.constraint(equalToConstant: 152),
             
-            nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 35),
             nameLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
             nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             nameLabel.heightAnchor.constraint(equalToConstant: 45),

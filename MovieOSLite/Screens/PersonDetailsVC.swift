@@ -41,6 +41,9 @@ class PersonDetailsVC: UIViewController {
         personInfoView = MOPersonInfoView(withPerson: person)
         personCreditsView = MOPersonCreditsView(withCredits: person.movieCredits.cast)
         personCreditsView.collectionView.delegate = self
+        
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
+        navigationItem.rightBarButtonItem = doneButton
     }
     
     func configureScrollView(){
@@ -48,6 +51,7 @@ class PersonDetailsVC: UIViewController {
         myScrollView.addSubview(contentView)
         myScrollView.pinToEdges(of: view)
         myScrollView.showsVerticalScrollIndicator = false
+        myScrollView.backgroundColor = .systemBackground
         contentView.pinToEdges(of: myScrollView)
         
         NSLayoutConstraint.activate([
@@ -70,7 +74,7 @@ class PersonDetailsVC: UIViewController {
         }
         
         NSLayoutConstraint.activate([
-            personInfoView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 150),
+            personInfoView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
             
             personCreditsView.topAnchor.constraint(equalTo: personInfoView.bottomAnchor),
             personCreditsView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
@@ -108,6 +112,10 @@ class PersonDetailsVC: UIViewController {
         }catch{
             print("Save failed")
         }
+    }
+    
+    @objc func dismissVC(){
+        dismiss(animated: true)
     }
 }
 
