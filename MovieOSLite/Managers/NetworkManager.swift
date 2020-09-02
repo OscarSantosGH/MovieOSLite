@@ -88,7 +88,7 @@ class NetworkManager{
     }
     
     func getMovie(withID id:Int, completed: @escaping (Result<MovieDetailAPIResponse,MOError>)->Void){
-        let endPoint = baseUrl + "movie/" + "\(String(id))?api_key=\(API_KEY)" + "&append_to_response=credits"
+        let endPoint = baseUrl + "movie/" + "\(String(id))?api_key=\(API_KEY)" + "&append_to_response=credits,videos"
         
         guard let url = URL(string: endPoint) else {
             completed(.failure(.invalidURL))
