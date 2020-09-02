@@ -25,6 +25,7 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="voteAverage" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="actors" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Actor" inverseName="movie" inverseEntity="Actor"/>
+        <relationship name="videos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Video" inverseName="movie" inverseEntity="Video"/>
     </entity>
     <entity name="Person" representedClassName="Person" syncable="YES" codeGenerationType="class">
         <attribute name="biography" optional="YES" attributeType="String"/>
@@ -44,10 +45,20 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="person" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Person" inverseName="movieCredits" inverseEntity="Person"/>
     </entity>
+    <entity name="Video" representedClassName="Video" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="key" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="site" optional="YES" attributeType="String"/>
+        <attribute name="size" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="movie" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Movie" inverseName="videos" inverseEntity="Movie"/>
+    </entity>
     <elements>
-        <element name="Movie" positionX="-436.58203125" positionY="-366.0234375" width="128" height="223"/>
+        <element name="Actor" positionX="-203.25390625" positionY="-464.1484375" width="128" height="193"/>
+        <element name="Movie" positionX="-448.28515625" positionY="-415.92578125" width="128" height="238"/>
         <element name="Person" positionX="-433.43359375" positionY="-66.2734375" width="128" height="163"/>
         <element name="PersonMovieCredit" positionX="-200.5859375" positionY="-36.140625" width="128" height="133"/>
-        <element name="Actor" positionX="-201.5859375" positionY="-321.5625" width="128" height="193"/>
+        <element name="Video" positionX="-204.03515625" positionY="-252.78515625" width="128" height="148"/>
     </elements>
 </model>
