@@ -13,6 +13,7 @@ class MovieDetailsVC: UIViewController {
     
     let myScrollView = UIScrollView()
     let contentView = UIView()
+    @objc var shareBarButton = UIBarButtonItem()
     
     var headerImageView = MOHeaderBackdropView(frame: .zero)
     var movieInfoView = MOMovieInfoView(frame: .zero)
@@ -35,6 +36,7 @@ class MovieDetailsVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkIfMovieIsFavorite()
+        checkIfHaveVideos()
     }
     
     
@@ -46,6 +48,9 @@ class MovieDetailsVC: UIViewController {
         movieCastView = MOMovieCastView(withMovie: movie)
         movieCastView.collectionView.delegate = self
         movieInfoView.favoriteButton.delegate = self
+        
+        shareBarButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareMovieTrailer))
+        navigationItem.rightBarButtonItem = shareBarButton
     }
     
     func configureScrollView(){
@@ -105,6 +110,27 @@ class MovieDetailsVC: UIViewController {
             }
         }
         movieInfoView.favoriteButton.update(isFavorite: isFavorite)
+    }
+    
+    func checkIfHaveVideos(){
+        if movie.videos.results.count > 0 {
+            shareBarButton.isEnabled = true
+        }else{
+            shareBarButton.isEnabled = false
+        }
+    }
+    
+    @objc func shareMovieTrailer(){
+        let youtubeVideos = movie.videos.results.filter{$0.site.contains("YouTube")}
+        print("videos: \(youtubeVideos.count)")
+        let youtubeKeys = youtubeVideos.compactMap{$0.key}
+        print("keys: \(youtubeKeys.count)")
+        guard let trailer = URL(string: "https://youtu.be/\(youtubeKeys.first!)") else {
+            shareBarButton.isEnabled = false
+            return
+        }
+        let activityVC = UIActivityViewController(activityItems: [trailer], applicationActivities: nil)
+        present(activityVC, animated: true, completion: nil)
     }
 
 }
