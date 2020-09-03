@@ -245,6 +245,8 @@ extension MovieDetailsVC: MOFavoriteButtonDelegate{
     func saveMovieToFavorites(){
         let movieToSave = Movie(context: PersistenceManager.shared.viewContext)
         movieToSave.setDataFromMovieResponse(movieResponse: movie)
+        movieToSave.backdropImage = headerImageView.backdropImageView.image?.pngData()
+        movieToSave.posterImage = movieInfoView.posterImageView.image?.pngData()
         
         for actor in movie.credits.cast{
             let actorToSave = Actor(context: PersistenceManager.shared.viewContext)
