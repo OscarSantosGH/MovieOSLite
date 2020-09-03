@@ -58,7 +58,7 @@ class MOMovieCastView: UIView {
     }
     
     private func configureCollectionView(){
-        collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: UIHelper.createOneHorizontalLayout())
+        collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: UIHelper.createOneHorizontalLayout(withHeight: 245))
         collectionView.dataSource = self
         collectionView.backgroundColor = .systemBackground
         collectionView.isScrollEnabled = false

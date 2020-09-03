@@ -1,14 +1,14 @@
 //
-//  MOBackdropImageView.swift
+//  MOTrailerImageView.swift
 //  MovieOSLite
 //
-//  Created by Oscar Santos on 2/15/20.
+//  Created by Oscar Santos on 9/3/20.
 //  Copyright © 2020 Oscar Santos. All rights reserved.
 //
 
 import UIKit
 
-class MOBackdropImageView: UIImageView {
+class MOTrailerImageView: UIImageView {
 
     let imagePlaceHolder = UIImage(named: "posterPlaceholder")
     var imageURLPath: String?
@@ -22,17 +22,11 @@ class MOBackdropImageView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(withCornerRadius withCorner:Bool = true){
-        self.init(frame: .zero)
-        if withCorner{
-            layer.cornerRadius = 5
-        }
-    }
-    
     private func configure(){
-        image = imagePlaceHolder
+        layer.cornerRadius = 5
         contentMode = .scaleAspectFill
         clipsToBounds = true
+        image = imagePlaceHolder
         translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -40,14 +34,14 @@ class MOBackdropImageView: UIImageView {
         image = imagePlaceHolder
         imageURLPath = URLString
         guard let url = URLString else {return}
-        NetworkManager.shared.downloadBackdropImage(from: url) { [weak self] (image) in
+        NetworkManager.shared.downloadTrailerImage(from: url) { [weak self] (image) in
             guard let self = self else {return}
-            DispatchQueue.main.async {
+            //DispatchQueue.main.async {
                 if self.imageURLPath == URLString{
                     self.image = image
                     //self.saveImage(image: image, of: movie)
                 }
-            }
+            //}
         }
     }
 

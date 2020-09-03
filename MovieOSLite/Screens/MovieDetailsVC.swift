@@ -17,6 +17,7 @@ class MovieDetailsVC: UIViewController {
     
     var headerImageView = MOHeaderBackdropView(frame: .zero)
     var movieInfoView = MOMovieInfoView(frame: .zero)
+    var movieTrailersView = MOMovieTrailersView(frame: .zero)
     var movieCastView = MOMovieCastView(frame: .zero)
     var allViews: [UIView] = []
     
@@ -45,8 +46,10 @@ class MovieDetailsVC: UIViewController {
         view.backgroundColor = .systemBackground
         headerImageView = MOHeaderBackdropView(withMovie: movie)
         movieInfoView = MOMovieInfoView(withMovie: movie, isFavorite: isFavorite)
+        movieTrailersView = MOMovieTrailersView(withVideos: movie.videos.results)
         movieCastView = MOMovieCastView(withMovie: movie)
         movieCastView.collectionView.delegate = self
+        movieTrailersView.collectionView.delegate = self
         movieInfoView.favoriteButton.delegate = self
         
         shareBarButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareMovieTrailer))
@@ -67,7 +70,7 @@ class MovieDetailsVC: UIViewController {
     }
     
     private func layoutUI(){
-        allViews = [movieInfoView, movieCastView]
+        allViews = [movieInfoView, movieTrailersView, movieCastView]
         view.addSubview(headerImageView)
         headerImageView.layer.zPosition = 0
         myScrollView.layer.zPosition = 1
@@ -90,7 +93,10 @@ class MovieDetailsVC: UIViewController {
             
             movieInfoView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 200),
             
-            movieCastView.topAnchor.constraint(equalTo: movieInfoView.bottomAnchor),
+            movieTrailersView.topAnchor.constraint(equalTo: movieInfoView.bottomAnchor),
+            movieTrailersView.heightAnchor.constraint(equalToConstant: 190),
+            
+            movieCastView.topAnchor.constraint(equalTo: movieTrailersView.bottomAnchor),
             movieCastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             movieCastView.heightAnchor.constraint(equalToConstant: 290)
             
@@ -168,8 +174,12 @@ extension MovieDetailsVC:UIScrollViewDelegate{
 // MARK: - UICollectionViewDelegate
 extension MovieDetailsVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let actor = movieCastView.cast[indexPath.row]
-        checkIfPersonIsSaved(withPerson: actor.id)
+        if collectionView == movieCastView.collectionView{
+            let actor = movieCastView.cast[indexPath.row]
+            checkIfPersonIsSaved(withPerson: actor.id)
+        }else{
+            showTrailer(withKey: movieTrailersView.videoResponses[indexPath.row].key)
+        }
     }
     
     func checkIfPersonIsSaved(withPerson id:Int){
@@ -216,6 +226,11 @@ extension MovieDetailsVC: UICollectionViewDelegate{
         present(navigationController, animated: true)
     }
     
+    private func showTrailer(withKey key:String){
+        guard let trailerUrl = URL(string: "https://youtu.be/\(key)") else {return}
+        presentSafariVC(with: trailerUrl)
+    }
+    
 }
 
 // MARK: - PersonDetailsVCDelegate
@@ -252,6 +267,12 @@ extension MovieDetailsVC: MOFavoriteButtonDelegate{
             let actorToSave = Actor(context: PersistenceManager.shared.viewContext)
             actorToSave.setDataFromActorResponse(actorResponse: actor)
             movieToSave.addToActors(actorToSave)
+        }
+        
+        for video in movie.videos.results{
+            let videoToSave = Video(context: PersistenceManager.shared.viewContext)
+            videoToSave.setDataFromVideoResponse(videoResponse: video)
+            movieToSave.addToVideos(videoToSave)
         }
         
         do{

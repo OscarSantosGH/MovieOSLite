@@ -100,14 +100,14 @@ enum UIHelper {
             return layout
         }
     
-    static func createOneHorizontalLayout() -> UICollectionViewLayout {
+    static func createOneHorizontalLayout(withHeight height:CGFloat) -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupWidth = NSCollectionLayoutDimension.fractionalWidth(0.30)
         let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth,
-                                              heightDimension: .absolute(245))
+                                              heightDimension: .absolute(height))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
