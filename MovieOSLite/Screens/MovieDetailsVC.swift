@@ -239,8 +239,10 @@ extension MovieDetailsVC: PersonDetailsVCDelegate{
         self.movie = movie
         headerImageView.update(withMovie: movie)
         movieInfoView.update(withMovie: movie, isFavorite: isFavorite)
+        movieTrailersView.update(withVideos: movie.videos.results)
         movieCastView.update(withMovie: movie)
         movieCastView.collectionView.reloadData()
+        movieTrailersView.collectionView.reloadData()
     }
 }
 
