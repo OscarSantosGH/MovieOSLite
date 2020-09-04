@@ -110,16 +110,14 @@ extension SearchVC: UICollectionViewDelegate{
     }
     func getMovieDetail(ofMovie movieId:Int){
         showLoadingState()
-        NetworkManager.shared.getMovie(withID: movieId) { [weak self] (result) in
+        TMDBClient.shared.getMovie(withID: movieId) { [weak self] (result) in
             guard let self = self else {return}
             self.hideLoadingState()
             switch result{
             case .failure(let error):
                 self.presentMOAlert(title: "Error loading the movie", message: error.localizedDescription)
             case .success(let movieResponse):
-                DispatchQueue.main.async {
-                    self.presentMovieDetailsVC(withMovie: movieResponse)
-                }
+                self.presentMovieDetailsVC(withMovie: movieResponse)
             }
         }
     }
@@ -144,7 +142,7 @@ extension SearchVC: UISearchResultsUpdating{
     
     @objc private func searchMovies(withString string:String){
         showLoadingState()
-        NetworkManager.shared.searchMovies(withString: string) { [weak self] (result) in
+        TMDBClient.shared.searchMovies(withString: string) { [weak self] (result) in
             guard let self = self else {return}
             self.hideLoadingState()
             switch result{
@@ -153,10 +151,8 @@ extension SearchVC: UISearchResultsUpdating{
                 break
             case .success(let movies):
                 self.movies = movies
-                DispatchQueue.main.async {
-                    self.hideEmptyScreen()
-                    self.collectionView.reloadData()
-                }
+                self.hideEmptyScreen()
+                self.collectionView.reloadData()
                 break
             }
         }

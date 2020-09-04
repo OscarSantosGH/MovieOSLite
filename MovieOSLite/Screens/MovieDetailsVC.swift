@@ -201,7 +201,7 @@ extension MovieDetailsVC: UICollectionViewDelegate{
     
     private func getPersonInfo(withID personID:Int){
         showLoadingState()
-        NetworkManager.shared.getPersonInfo(from: personID) { [weak self] result in
+        TMDBClient.shared.getPersonInfo(from: personID) { [weak self] result in
             guard let self = self else {return}
             self.hideLoadingState()
             switch result{
@@ -209,9 +209,7 @@ extension MovieDetailsVC: UICollectionViewDelegate{
                 self.presentMOAlert(title: "Error loading the cast member", message: error.localizedDescription)
                 break
             case .success(let person):
-                DispatchQueue.main.async {
-                    self.presentPersonInfoVC(withPerson: person)
-                }
+                self.presentPersonInfoVC(withPerson: person)
                 break
             }
         }

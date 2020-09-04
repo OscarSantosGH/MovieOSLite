@@ -34,14 +34,14 @@ class MOCastImageView: UIImageView {
         image = imagePlaceHolder
         imageURLPath = URLString
         guard let url = URLString else {return}
-        NetworkManager.shared.downloadCastImage(from: url) { [weak self] (image) in
+        TMDBClient.shared.downloadCastImage(from: url) { [weak self] (image) in
             guard let self = self else {return}
-            DispatchQueue.main.async {
-                if self.imageURLPath == URLString{
-                    self.image = image
-                    //self.saveImage(image: image, of: actor)
-                }
+            
+            if self.imageURLPath == URLString{
+                self.image = image
+                //self.saveImage(image: image, of: actor)
             }
+            
         }
     }
 

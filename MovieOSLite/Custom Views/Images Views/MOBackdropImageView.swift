@@ -40,14 +40,14 @@ class MOBackdropImageView: UIImageView {
         image = imagePlaceHolder
         imageURLPath = URLString
         guard let url = URLString else {return}
-        NetworkManager.shared.downloadBackdropImage(from: url) { [weak self] (image) in
+        TMDBClient.shared.downloadBackdropImage(from: url) { [weak self] (image) in
             guard let self = self else {return}
-            DispatchQueue.main.async {
-                if self.imageURLPath == URLString{
-                    self.image = image
-                    //self.saveImage(image: image, of: movie)
-                }
+            
+            if self.imageURLPath == URLString{
+                self.image = image
+                //self.saveImage(image: image, of: movie)
             }
+            
         }
     }
 

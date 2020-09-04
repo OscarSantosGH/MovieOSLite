@@ -55,7 +55,7 @@ class LoadingMoviesVC: UIViewController {
     
     func getPopularMovies() {
         messageLabelView.text = "Loading Popular Movies..."
-        NetworkManager.shared.getMovies(from: .popular ) { [weak self] (result) in
+        TMDBClient.shared.getMovies(from: .popular ) { [weak self] (result) in
             guard let self = self else {return}
             
             switch result{
@@ -70,7 +70,7 @@ class LoadingMoviesVC: UIViewController {
     
     func getUpcomingMovies() {
         messageLabelView.text = "Loading Upcoming Movies..."
-        NetworkManager.shared.getMovies(from: .upcoming ) { [weak self] (result) in
+        TMDBClient.shared.getMovies(from: .upcoming ) { [weak self] (result) in
             guard let self = self else {return}
             
             switch result{
@@ -85,7 +85,7 @@ class LoadingMoviesVC: UIViewController {
     
     func getNowPlayingMovies() {
         messageLabelView.text = "Loading Now Playing Movies..."
-        NetworkManager.shared.getMovies(from: .nowPlaying ) { [weak self] (result) in
+        TMDBClient.shared.getMovies(from: .nowPlaying ) { [weak self] (result) in
             guard let self = self else {return}
             
             switch result{
@@ -100,7 +100,7 @@ class LoadingMoviesVC: UIViewController {
     
     func getFeaturesMovies(){
         messageLabelView.text = "Loading Features Movies..."
-        NetworkManager.shared.getMovies(from: .topRated ) { [weak self] (result) in
+        TMDBClient.shared.getMovies(from: .topRated ) { [weak self] (result) in
             guard let self = self else {return}
             
             switch result{

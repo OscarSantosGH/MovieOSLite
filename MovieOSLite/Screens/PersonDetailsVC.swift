@@ -127,17 +127,15 @@ extension PersonDetailsVC: UICollectionViewDelegate{
     }
     
     private func getMovieWithID(id:Int){
-        NetworkManager.shared.getMovie(withID: id) { [weak self] (result) in
+        TMDBClient.shared.getMovie(withID: id) { [weak self] (result) in
             guard let self = self else {return}
             switch result{
             case .failure(let error):
                 print(error)
                 break
             case .success(let movie):
-                DispatchQueue.main.async {
-                    self.delegate.updateMovieDetailsVC(withMovie: movie)
-                    self.dismiss(animated: true, completion: nil)
-                }
+                self.delegate.updateMovieDetailsVC(withMovie: movie)
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }

@@ -134,16 +134,14 @@ extension HomeVC: UICollectionViewDelegate{
     
     func getMovieDetail(ofMovie movieId:Int){
         showLoadingState()
-        NetworkManager.shared.getMovie(withID: movieId) { [weak self] (result) in
+        TMDBClient.shared.getMovie(withID: movieId) { [weak self] (result) in
             guard let self = self else {return}
             self.hideLoadingState()
             switch result{
             case .failure(let error):
                 self.presentMOAlert(title: "Error loading the movie", message: error.localizedDescription)
             case .success(let movieResponse):
-                DispatchQueue.main.async {
-                    self.presentMovieDetailsVC(withMovie: movieResponse, isFavorite: false)
-                }
+                self.presentMovieDetailsVC(withMovie: movieResponse, isFavorite: false)
             }
         }
     }
