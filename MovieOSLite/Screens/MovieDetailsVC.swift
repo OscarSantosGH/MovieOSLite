@@ -263,18 +263,6 @@ extension MovieDetailsVC: MOFavoriteButtonDelegate{
         movieToSave.backdropImage = headerImageView.backdropImageView.image?.pngData()
         movieToSave.posterImage = movieInfoView.posterImageView.image?.pngData()
         
-        for actor in movie.credits.cast{
-            let actorToSave = Actor(context: PersistenceManager.shared.viewContext)
-            actorToSave.setDataFromActorResponse(actorResponse: actor)
-            movieToSave.addToActors(actorToSave)
-        }
-        
-        for video in movie.videos.results{
-            let videoToSave = Video(context: PersistenceManager.shared.viewContext)
-            videoToSave.setDataFromVideoResponse(videoResponse: video)
-            movieToSave.addToVideos(videoToSave)
-        }
-        
         do{
             try PersistenceManager.shared.viewContext.save()
         }catch{

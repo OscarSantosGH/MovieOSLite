@@ -12,10 +12,14 @@
         <attribute name="profilePath" optional="YES" attributeType="String"/>
         <relationship name="movie" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Movie" inverseName="actors" inverseEntity="Movie"/>
     </entity>
+    <entity name="Genre" representedClassName="Genre" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="movie" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Movie" inverseName="genres" inverseEntity="Movie"/>
+    </entity>
     <entity name="Movie" representedClassName=".Movie" syncable="YES" codeGenerationType="class">
         <attribute name="backdropImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="backdropPath" optional="YES" attributeType="String"/>
-        <attribute name="genres" optional="YES" attributeType="Transformable" customClassName="[Genre]"/>
         <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="originalTitle" optional="YES" attributeType="String"/>
         <attribute name="overview" optional="YES" attributeType="String"/>
@@ -25,6 +29,7 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="voteAverage" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="actors" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Actor" inverseName="movie" inverseEntity="Actor"/>
+        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Genre" inverseName="movie" inverseEntity="Genre"/>
         <relationship name="videos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Video" inverseName="movie" inverseEntity="Video"/>
     </entity>
     <entity name="Person" representedClassName="Person" syncable="YES" codeGenerationType="class">
@@ -55,10 +60,11 @@
         <relationship name="movie" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Movie" inverseName="videos" inverseEntity="Movie"/>
     </entity>
     <elements>
-        <element name="Actor" positionX="-203.25390625" positionY="-464.1484375" width="128" height="193"/>
-        <element name="Movie" positionX="-448.28515625" positionY="-415.92578125" width="128" height="238"/>
+        <element name="Actor" positionX="-206.81640625" positionY="-556.78125" width="128" height="193"/>
+        <element name="Movie" positionX="-463.1875" positionY="-456.53125" width="128" height="238"/>
         <element name="Person" positionX="-433.43359375" positionY="-66.2734375" width="128" height="163"/>
         <element name="PersonMovieCredit" positionX="-200.5859375" positionY="-36.140625" width="128" height="133"/>
-        <element name="Video" positionX="-204.03515625" positionY="-252.78515625" width="128" height="148"/>
+        <element name="Video" positionX="-207.328125" positionY="-348.89453125" width="128" height="148"/>
+        <element name="Genre" positionX="-220.74609375" positionY="-181.21875" width="128" height="88"/>
     </elements>
 </model>

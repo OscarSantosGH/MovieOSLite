@@ -21,7 +21,14 @@ extension Movie{
         voteAverage = movieResponse.voteAverage
         overview = movieResponse.overview
         releaseDate = movieResponse.releaseDate
-        genres = movieResponse.genreIds.compactMap{Genre(id: $0, name: TMDBGenres.genresDic[$0] ?? "unknown")}
+        
+        for genreId in movieResponse.genreIds{
+            let genreResponse = GenreResponse(id: genreId, name: TMDBGenres.genresDic[genreId] ?? "unknown")
+            let genreToSave = Genre(context: PersistenceManager.shared.viewContext)
+            genreToSave.setDataFromGenreResponse(genreResponse: genreResponse)
+            addToGenres(genreToSave)
+        }
+        
     }
     
     func setDataFromMovieResponse(movieResponse:MovieDetailAPIResponse) {
@@ -33,16 +40,42 @@ extension Movie{
         voteAverage = movieResponse.voteAverage
         overview = movieResponse.overview
         releaseDate = movieResponse.releaseDate
-        genres = movieResponse.genres.compactMap{Genre(id: $0.id, name: $0.name)}
+        
+        for genre in movieResponse.genres{
+            let genreToSave = Genre(context: PersistenceManager.shared.viewContext)
+            genreToSave.setDataFromGenreResponse(genreResponse: genre)
+            addToGenres(genreToSave)
+        }
+        
+        for actor in movieResponse.credits.cast{
+            let actorToSave = Actor(context: PersistenceManager.shared.viewContext)
+            actorToSave.setDataFromActorResponse(actorResponse: actor)
+            addToActors(actorToSave)
+        }
+        
+        for video in movieResponse.videos.results{
+            let videoToSave = Video(context: PersistenceManager.shared.viewContext)
+            videoToSave.setDataFromVideoResponse(videoResponse: video)
+            addToVideos(videoToSave)
+        }
+        
     }
     
-    func getMovieResponse() -> MovieResponse{
-        MovieResponse(id: Int(id), posterPath: posterPath, backdropPath: backdropPath, title: title!, originalTitle: originalTitle!, voteAverage: voteAverage, overview: overview!, releaseDate: releaseDate!, genreIds: (genres?.compactMap{Int($0.id)})!, category: nil)
+    func getMovieResponse() -> MovieResponse?{
+        var genresResponse:[GenreResponse] = []
+        guard let unwrappedGenres = genres else {return nil}
+        for (_, genreR) in unwrappedGenres.enumerated(){
+            guard let genreModel = genreR as? Genre else {return nil}
+            genresResponse.append(genreModel.getGenreResponse())
+        }
+        return MovieResponse(id: Int(id), posterPath: posterPath, backdropPath: backdropPath, title: title!, originalTitle: originalTitle!, voteAverage: voteAverage, overview: overview!, releaseDate: releaseDate!, genreIds: genresResponse.compactMap{$0.id}, category: nil)
     }
     
     func getMovieDetailAPIResponse() -> MovieDetailAPIResponse?{
         var actorsResponse:[ActorResponse] = []
         var videosResponse:[VideoResponse] = []
+        var genresResponse:[GenreResponse] = []
+        
         guard let unwrappedActors = actors else {return nil}
         for (_, actorR) in unwrappedActors.enumerated(){
             guard let actorModel = actorR as? Actor else {return nil}
@@ -55,9 +88,15 @@ extension Movie{
             videosResponse.append(videoModel.getVideoResponse())
         }
         
+        guard let unwrappedGenres = genres else {return nil}
+        for (_, genreR) in unwrappedGenres.enumerated(){
+            guard let genreModel = genreR as? Genre else {return nil}
+            genresResponse.append(genreModel.getGenreResponse())
+        }
+        
         let creditsResponse = CreditsAPIResponse(cast: actorsResponse)
         let videosAPIResponse = VideosAPIResponse(results: videosResponse)
         
-        return MovieDetailAPIResponse(id: Int(id), posterPath: posterPath, backdropPath: backdropPath, title: title!, originalTitle: originalTitle!, voteAverage: voteAverage, overview: overview!, releaseDate: releaseDate!, genres: (genres?.compactMap{GenreResponse(id: Int($0.id), name: String($0.name))})!, credits: creditsResponse, videos: videosAPIResponse)
+        return MovieDetailAPIResponse(id: Int(id), posterPath: posterPath, backdropPath: backdropPath, title: title!, originalTitle: originalTitle!, voteAverage: voteAverage, overview: overview!, releaseDate: releaseDate!, genres: genresResponse, credits: creditsResponse, videos: videosAPIResponse)
     }
 }
