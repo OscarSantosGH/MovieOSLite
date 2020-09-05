@@ -16,6 +16,13 @@ extension Person{
         placeOfBirth = personResponse.placeOfBirth
         profilePath = personResponse.profilePath
         biography = personResponse.biography
+        
+        for movieCredit in personResponse.movieCredits.cast{
+            let personMovieCredit = PersonMovieCredit(context: PersistenceManager.shared.viewContext)
+            personMovieCredit.setDataFromPersonMovieCreditResponse(personMovieCreditResponse: movieCredit)
+            addToMovieCredits(personMovieCredit)
+        }
+        
     }
     
     func getPersonResponse() -> PersonResponse?{

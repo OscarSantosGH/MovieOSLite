@@ -100,12 +100,7 @@ class PersonDetailsVC: UIViewController {
     private func savePerson(){
         let personToSave = Person(context: PersistenceManager.shared.viewContext)
         personToSave.setDataFromPersonResponse(personResponse: person)
-        
-        for movieCredit in person.movieCredits.cast{
-            let personMovieCredit = PersonMovieCredit(context: PersistenceManager.shared.viewContext)
-            personMovieCredit.setDataFromPersonMovieCreditResponse(personMovieCreditResponse: movieCredit)
-            personToSave.addToMovieCredits(personMovieCredit)
-        }
+        personToSave.profileImage = personInfoView.posterImageView.image?.pngData()
         
         do{
             try PersistenceManager.shared.viewContext.save()
