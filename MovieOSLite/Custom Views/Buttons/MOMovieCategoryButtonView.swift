@@ -38,6 +38,7 @@ class MOMovieCategoryButtonView: UIView {
         
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         iconImageView.contentMode = .scaleAspectFit
+        iconImageView.tintColor = .white
         
         addSubviews(titleLabel, iconImageView)
         
