@@ -9,7 +9,7 @@
 import UIKit
 
 class MOMovieCategoryButtonView: UIView {
-    let titleLabel = MOTitleLabel(ofSize: 15, textAlignment: .left, textColor: .white)
+    let titleLabel = MOTitleLabel(ofSize: 25, textAlignment: .left, textColor: .white)
     let iconImageView = UIImageView()
     var gradientColor1 = UIColor()
     var gradientColor2 = UIColor()
@@ -45,9 +45,11 @@ class MOMovieCategoryButtonView: UIView {
         let padding:CGFloat = 8
         
         NSLayoutConstraint.activate([
+            heightAnchor.constraint(equalToConstant: 100),
+            
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: padding),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
+            titleLabel.trailingAnchor.constraint(equalTo: iconImageView.leadingAnchor, constant: -padding),
             titleLabel.heightAnchor.constraint(equalToConstant: 20),
             
             iconImageView.heightAnchor.constraint(equalToConstant: 60),
@@ -56,9 +58,12 @@ class MOMovieCategoryButtonView: UIView {
             iconImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding)
         ])
         
-        let gradient = CAGradientLayer.init(frame: frame, colors: [gradientColor1, gradientColor2])
+    }
+    
+    func activateGradient(){
+        let gradient = CAGradientLayer.init(frame: bounds, colors: [gradientColor1, gradientColor2])
+        gradient.zPosition = -1
         layer.addSublayer(gradient)
-        
     }
     
 }

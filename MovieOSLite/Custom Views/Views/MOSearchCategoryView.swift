@@ -29,15 +29,28 @@ class MOSearchCategoryView: UIView {
         backgroundColor = .systemBackground
         
         mainStackView.axis = .vertical
-        mainStackView.distribution = .fillEqually
-        mainStackView.alignment = .center
-        mainStackView.spacing = 5
+        mainStackView.spacing = 10
         
+    }
+    
+    func prepare(){
         addSubview(myScrollView)
         myScrollView.pinToEdges(of: self)
-        myScrollView.addSubview(mainStackView)
-        mainStackView.pinToEdges(of: myScrollView)
+        myScrollView.addSubview(contentView)
+        contentView.pinToEdges(of: myScrollView)
+        contentView.addSubview(mainStackView)
+        //mainStackView.pinToEdges(of: contentView)
+        myScrollView.showsVerticalScrollIndicator = false
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
         
+        NSLayoutConstraint.activate([
+            contentView.widthAnchor.constraint(equalTo: myScrollView.widthAnchor),
+            //contentView.heightAnchor.constraint(equalTo: myScrollView.heightAnchor),
+            
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+        ])
         addCategoryButtons()
         addButtonsToStackView()
     }
@@ -46,27 +59,34 @@ class MOSearchCategoryView: UIView {
         var counter = 0
         let firstRow = getNewRowStackView()
         mainStackView.addArrangedSubview(firstRow)
+        mainStackView.layoutIfNeeded()
         
         for button in categoryButtons{
             if counter == 2{
                 let newRow = getNewRowStackView()
                 newRow.addArrangedSubview(button)
                 mainStackView.addArrangedSubview(newRow)
+                button.layoutIfNeeded()
+                button.activateGradient()
                 counter = 1
             }else{
                 let lastRowStackView = mainStackView.arrangedSubviews.last as! UIStackView
                 lastRowStackView.addArrangedSubview(button)
+                button.layoutIfNeeded()
+                button.activateGradient()
                 counter += 1
             }
         }
+        
+        mainStackView.layoutSubviews()
     }
     
     private func getNewRowStackView() -> UIStackView{
            let rowStackView = UIStackView()
            rowStackView.axis = .horizontal
-           rowStackView.alignment = .center
-           rowStackView.distribution = .equalSpacing
-           rowStackView.spacing = 2
+        rowStackView.alignment = .fill
+            rowStackView.distribution = .fillEqually
+           rowStackView.spacing = 10
            rowStackView.translatesAutoresizingMaskIntoConstraints = false
            return rowStackView
        }
@@ -81,7 +101,7 @@ class MOSearchCategoryView: UIView {
         let romanceButton = MOMovieCategoryButtonView(title: "Romance", color1: .rgb(red: 242, green: 176, blue: 240), color2: .rgb(red: 252, green: 103, blue: 250), image: UIImage(named: "romance")!)
         let scifiButton = MOMovieCategoryButtonView(title: "Sci-Fi", color1: .rgb(red: 17, green: 153, blue: 142), color2: .rgb(red: 56, green: 239, blue: 125), image: UIImage(named: "sci-fi")!)
         let superheroButton = MOMovieCategoryButtonView(title: "Superhero", color1: .rgb(red: 238, green: 9, blue: 121), color2: .rgb(red: 255, green: 106, blue: 0), image: UIImage(named: "superhero")!)
-        let ninetyButton = MOMovieCategoryButtonView(title: "90s", color1: .rgb(red: 62, green: 81, blue: 81), color2: .rgb(red: 222, green: 203, blue: 164), image: UIImage(systemName: "film")!)
+        let ninetyButton = MOMovieCategoryButtonView(title: "1990s", color1: .rgb(red: 62, green: 81, blue: 81), color2: .rgb(red: 222, green: 203, blue: 164), image: UIImage(systemName: "film")!)
         
         categoryButtons.append(actionButton)
         categoryButtons.append(animationButton)

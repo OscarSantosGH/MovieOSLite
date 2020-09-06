@@ -13,9 +13,7 @@ class SearchVC: UIViewController {
     let searchController = UISearchController()
     var collectionView: UICollectionView!
     
-    let emptyScreenView = UIView()
-    let magnifyImageView = UIImageView()
-    let messageLabelView = MOTitleLabel(ofSize: 20, textAlignment: .center)
+    var emptyScreenView = MOSearchCategoryView(frame: .zero)
     
     var movies:[MovieResponse] = []
     var timer = Timer()
@@ -26,7 +24,6 @@ class SearchVC: UIViewController {
         tabBarController?.delegate = self
         configureSearchController()
         configureCollectionView()
-        configureEmptyScreen()
         showEmptyScreen()
     }
     
@@ -50,32 +47,12 @@ class SearchVC: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func configureEmptyScreen(){
-        emptyScreenView.translatesAutoresizingMaskIntoConstraints = false
-        magnifyImageView.image = UIImage(systemName: "magnifyingglass.circle")
-        magnifyImageView.tintColor = .label
-        magnifyImageView.contentMode = .scaleAspectFit
-        magnifyImageView.translatesAutoresizingMaskIntoConstraints = false
-        messageLabelView.text = "Search all the movies you want in the search bar above."
-    }
     
     func showEmptyScreen(){
         collectionView.removeFromSuperview()
         view.addSubview(emptyScreenView)
         emptyScreenView.pinToEdges(of: view)
-        emptyScreenView.addSubviews(magnifyImageView, messageLabelView)
-        
-        NSLayoutConstraint.activate([
-            magnifyImageView.centerXAnchor.constraint(equalTo: emptyScreenView.centerXAnchor),
-            magnifyImageView.centerYAnchor.constraint(equalTo: emptyScreenView.centerYAnchor, constant: -15),
-            magnifyImageView.heightAnchor.constraint(equalToConstant: 50),
-            magnifyImageView.widthAnchor.constraint(equalTo: magnifyImageView.heightAnchor),
-            
-            messageLabelView.topAnchor.constraint(equalTo: magnifyImageView.bottomAnchor, constant: 8),
-            messageLabelView.leadingAnchor.constraint(equalTo: emptyScreenView.leadingAnchor, constant: 8),
-            messageLabelView.trailingAnchor.constraint(equalTo: emptyScreenView.trailingAnchor, constant: -8),
-            messageLabelView.heightAnchor.constraint(equalToConstant: 50)
-        ])
+        emptyScreenView.prepare()
     }
     
     func hideEmptyScreen(){
@@ -139,6 +116,8 @@ extension SearchVC: UISearchResultsUpdating{
             self.searchMovies(withString: text)
         }
     }
+    
+    
     
     @objc private func searchMovies(withString string:String){
         showLoadingState()
