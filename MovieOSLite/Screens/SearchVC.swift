@@ -24,15 +24,13 @@ class SearchVC: UIViewController {
         tabBarController?.delegate = self
         configureSearchController()
         configureCollectionView()
+        configureEmptyScreen()
         showEmptyScreen()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        searchController.searchBar.becomeFirstResponder()
     }
     
     func configureSearchController(){
         searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search for a movie"
         navigationItem.searchController = searchController
     }
@@ -45,22 +43,39 @@ class SearchVC: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseID)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(collectionView)
+        collectionView.pinToEdges(of: view)
     }
     
-    
-    func showEmptyScreen(){
-        collectionView.removeFromSuperview()
+    func configureEmptyScreen(){
         view.addSubview(emptyScreenView)
-        emptyScreenView.pinToEdges(of: view)
+        emptyScreenView.pinToEdgesWithSafeArea(of: view)
         emptyScreenView.prepare()
     }
     
-    func hideEmptyScreen(){
-        view.addSubview(collectionView)
-        collectionView.pinToEdges(of: view)
-        emptyScreenView.removeFromSuperview()
+    func showEmptyScreen(){
+        collectionView.isHidden = true
+        collectionView.isUserInteractionEnabled = false
+        emptyScreenView.isHidden = false
+        emptyScreenView.isUserInteractionEnabled = true
     }
     
+    func hideEmptyScreen(){
+        collectionView.isHidden = false
+        collectionView.isUserInteractionEnabled = true
+        emptyScreenView.isHidden = true
+        emptyScreenView.isUserInteractionEnabled = false
+    }
+    
+    func updateNavTitle(withString txt:String){
+        if txt == ""{
+            navigationItem.title = "Search"
+            showEmptyScreen()
+        }else{
+            navigationItem.title = txt
+            hideEmptyScreen()
+        }
+    }
 
 }
 
@@ -107,7 +122,7 @@ extension SearchVC: UICollectionViewDelegate{
 }
 
 // MARK: - UISearchResultsUpdating
-extension SearchVC: UISearchResultsUpdating{
+extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate{
     func updateSearchResults(for searchController: UISearchController) {
         timer.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] (timer) in
@@ -116,11 +131,18 @@ extension SearchVC: UISearchResultsUpdating{
             self.searchMovies(withString: text)
         }
     }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        updateNavTitle(withString: "")
+    }
     
-    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchController.isActive = false
+    }
     
     @objc private func searchMovies(withString string:String){
         showLoadingState()
+        
         TMDBClient.shared.searchMovies(withString: string) { [weak self] (result) in
             guard let self = self else {return}
             self.hideLoadingState()
@@ -130,7 +152,7 @@ extension SearchVC: UISearchResultsUpdating{
                 break
             case .success(let movies):
                 self.movies = movies
-                self.hideEmptyScreen()
+                self.updateNavTitle(withString: string)
                 self.collectionView.reloadData()
                 break
             }
