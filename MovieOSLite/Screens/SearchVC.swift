@@ -11,11 +11,14 @@ import UIKit
 class SearchVC: UIViewController {
     
     let searchController = UISearchController()
-    var collectionView: UICollectionView!
     
-    var emptyScreenView = MOSearchCategoryView(frame: .zero)
+    var collectionView: UICollectionView!
+    var dataSource: UICollectionViewDiffableDataSource<UIHelper.SearchSections,MovieSearchItem>!
+    var currentSnapshot: NSDiffableDataSourceSnapshot<UIHelper.SearchSections,MovieSearchItem>! = nil
     
     var movies:[MovieResponse] = []
+    var genres:[MovieCategorySearch] = []
+    
     var timer = Timer()
     
     override func viewDidLoad() {
@@ -24,7 +27,7 @@ class SearchVC: UIViewController {
         tabBarController?.delegate = self
         configureSearchController()
         configureCollectionView()
-        configureEmptyScreen()
+        configureDataSource()
         showEmptyScreen()
     }
     
@@ -36,35 +39,26 @@ class SearchVC: UIViewController {
     }
     
     func configureCollectionView(){
-        collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
-        collectionView.dataSource = self
+        collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: UIHelper.createSearchMoviesLayout())
         collectionView.delegate = self
+        collectionView.isScrollEnabled = true
         collectionView.backgroundColor = .systemBackground
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseID)
+        collectionView.register(MovieCategoryCell.self, forCellWithReuseIdentifier: MovieCategoryCell.reuseID)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
-        collectionView.pinToEdges(of: view)
-    }
-    
-    func configureEmptyScreen(){
-        view.addSubview(emptyScreenView)
-        emptyScreenView.pinToEdgesWithSafeArea(of: view)
-        emptyScreenView.prepare()
     }
     
     func showEmptyScreen(){
-        collectionView.isHidden = true
-        collectionView.isUserInteractionEnabled = false
-        emptyScreenView.isHidden = false
-        emptyScreenView.isUserInteractionEnabled = true
+        genres = SearchCategories.allCategories
+        movies = []
+        updateData()
     }
     
     func hideEmptyScreen(){
-        collectionView.isHidden = false
-        collectionView.isUserInteractionEnabled = true
-        emptyScreenView.isHidden = true
-        emptyScreenView.isUserInteractionEnabled = false
+        genres = []
+        updateData()
     }
     
     func updateNavTitle(withString txt:String){
@@ -76,30 +70,91 @@ class SearchVC: UIViewController {
             hideEmptyScreen()
         }
     }
+    
+    func configureDataSource(){
+        
+        dataSource = UICollectionViewDiffableDataSource<UIHelper.SearchSections,MovieSearchItem>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            
+            let section = UIHelper.SearchSections(rawValue: indexPath.section)!
+            if section == .searchedMovies{
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.reuseID, for: indexPath) as! MovieCell
+                guard let movie = item.movie else {return nil}
+                cell.set(movie: movie)
+                return cell
+            }else{
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCategoryCell.reuseID, for: indexPath) as! MovieCategoryCell
+                guard let category = item.category else {return nil}
+                cell.set(movieCategory: category)
+                return cell
+            }
+            
+        })
+    }
+    
+    func updateData(){
+        currentSnapshot = NSDiffableDataSourceSnapshot<UIHelper.SearchSections,MovieSearchItem>()
+        
+        UIHelper.SearchSections.allCases.forEach {
+            currentSnapshot.appendSections([$0])
+        }
+        
+        var searchedMovies:[MovieSearchItem] = []
+        for movie in movies{
+            let movieItem = MovieSearchItem(movie: movie, category: nil)
+            searchedMovies.append(movieItem)
+        }
+        
+        var movieGenres:[MovieSearchItem] = []
+        for genre in genres{
+            let genreItem = MovieSearchItem(movie: nil, category: genre)
+            movieGenres.append(genreItem)
+        }
+        
+        currentSnapshot.appendItems(searchedMovies, toSection: .searchedMovies)
+        currentSnapshot.appendItems(movieGenres, toSection: .genres)
+        
+        DispatchQueue.main.async {
+            self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
+        }
+    }
 
 }
 
 // MARK: - CollectionViewDataSource
-extension SearchVC: UICollectionViewDataSource{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        movies.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let movie = movies[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.reuseID, for: indexPath) as! MovieCell
-        cell.set(movie: movie)
-        return cell
-    }
-    
-}
+//extension SearchVC: UICollectionViewDataSource{
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        if section == 0{
+//            return movies.count
+//        }else{
+//            return genres.count
+//        }
+//    }
+//    
+//    func numberOfSections(in collectionView: UICollectionView) -> Int {
+//        2
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let movie = movies[indexPath.row]
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.reuseID, for: indexPath) as! MovieCell
+//        cell.set(movie: movie)
+//        return cell
+//    }
+//    
+//}
 
 // MARK: - UICollectionViewDelegate
 extension SearchVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movie = movies[indexPath.row]
-        getMovieDetail(ofMovie: movie.id)
+        if indexPath.section == 0{
+            let movie = movies[indexPath.row]
+            getMovieDetail(ofMovie: movie.id)
+        }else{
+            let genre = genres[indexPath.row]
+            print("url: \(genre.url)")
+        }
     }
+    
     func getMovieDetail(ofMovie movieId:Int){
         showLoadingState()
         TMDBClient.shared.getMovie(withID: movieId) { [weak self] (result) in
@@ -153,7 +208,8 @@ extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate{
             case .success(let movies):
                 self.movies = movies
                 self.updateNavTitle(withString: string)
-                self.collectionView.reloadData()
+                //self.collectionView.reloadData()
+                //self.updateData()
                 break
             }
         }
@@ -168,4 +224,9 @@ extension SearchVC: UITabBarControllerDelegate{
             searchController.searchBar.becomeFirstResponder()
         }
     }
+}
+
+struct MovieSearchItem: Hashable {
+    var movie:MovieResponse?
+    var category:MovieCategorySearch?
 }

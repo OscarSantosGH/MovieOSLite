@@ -12,7 +12,7 @@ enum UIHelper {
 
     static let titleElementKind = "title-element-kind"
     
-    enum Section: Int, CaseIterable{
+    enum MainSections: Int, CaseIterable{
         case feature
         case popular
         case nowPlaying
@@ -28,6 +28,20 @@ enum UIHelper {
                 return "Now Playing"
             case .upcoming:
                 return "Upcoming"
+            }
+        }
+    }
+    
+    enum SearchSections: Int, CaseIterable{
+        case searchedMovies
+        case genres
+        
+        var title: String{
+            switch self {
+            case .searchedMovies:
+                return "Movies"
+            case .genres:
+                return "Top Genres"
             }
         }
     }
@@ -65,7 +79,7 @@ enum UIHelper {
                                                      heightDimension: .fractionalHeight(1.0))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
                 
-                guard let sectionKind = Section(rawValue: sectionIndex) else { return nil }
+                guard let sectionKind = MainSections(rawValue: sectionIndex) else { return nil }
                 let groupWidth = sectionKind.rawValue == 0 ? NSCollectionLayoutDimension.fractionalWidth(0.94) : NSCollectionLayoutDimension.fractionalWidth(0.30)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth,
@@ -116,6 +130,40 @@ enum UIHelper {
         section.orthogonalScrollingBehavior = .continuous
         
         let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    
+    static func createSearchMoviesLayout() -> UICollectionViewLayout{
+        let sectionProvider = { (sectionIndex: Int,
+            layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            guard let sectionKind = SearchSections(rawValue: sectionIndex) else { return nil }
+            
+            let itemWidth = sectionKind.title == "Movies" ? NSCollectionLayoutDimension.fractionalWidth(0.32) : NSCollectionLayoutDimension.fractionalWidth(0.49)
+            
+            let itemSize = NSCollectionLayoutSize(widthDimension: itemWidth,
+                                                 heightDimension: .fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupHeight = sectionKind.title == "Movies" ? NSCollectionLayoutDimension.absolute(245) : NSCollectionLayoutDimension.absolute(100)
+            
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: groupHeight)
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            group.interItemSpacing = NSCollectionLayoutSpacing.flexible(5)
+            //let group = NSCollectionLayoutGroup.custom(layoutSize: groupSize, itemProvider: [item])
+
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 8
+            section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 0, trailing: 8)
+            
+            return section
+        }
+        
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 20
+
+        let layout = UICollectionViewCompositionalLayout(
+            sectionProvider: sectionProvider, configuration: config)
         return layout
     }
 

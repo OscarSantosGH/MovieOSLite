@@ -12,8 +12,8 @@ import CoreData
 class HomeVC: UIViewController {
     
     var collectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<UIHelper.Section,MovieResponse>!
-    var currentSnapshot: NSDiffableDataSourceSnapshot<UIHelper.Section,MovieResponse>! = nil
+    var dataSource: UICollectionViewDiffableDataSource<UIHelper.MainSections,MovieResponse>!
+    var currentSnapshot: NSDiffableDataSourceSnapshot<UIHelper.MainSections,MovieResponse>! = nil
     
     var popularMovies: [MovieResponse] = []
     var upcomingMovies: [MovieResponse] = []
@@ -50,9 +50,9 @@ class HomeVC: UIViewController {
     }
     
     func configureDataSource(){
-        dataSource = UICollectionViewDiffableDataSource<UIHelper.Section,MovieResponse>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<UIHelper.MainSections,MovieResponse>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> UICollectionViewCell? in
             
-            let section = UIHelper.Section(rawValue: indexPath.section)!
+            let section = UIHelper.MainSections(rawValue: indexPath.section)!
             if section == .feature{
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeatureMovieCell.reuseID, for: indexPath) as! FeatureMovieCell
                 cell.set(movie: movie)
@@ -86,9 +86,9 @@ class HomeVC: UIViewController {
     }
     
     func updateData(){
-        currentSnapshot = NSDiffableDataSourceSnapshot<UIHelper.Section,MovieResponse>()
+        currentSnapshot = NSDiffableDataSourceSnapshot<UIHelper.MainSections,MovieResponse>()
         
-        UIHelper.Section.allCases.forEach {
+        UIHelper.MainSections.allCases.forEach {
             currentSnapshot.appendSections([$0])
         }
         
