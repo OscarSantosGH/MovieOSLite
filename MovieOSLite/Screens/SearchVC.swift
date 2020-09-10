@@ -71,6 +71,8 @@ class SearchVC: UIViewController {
         }
     }
     
+    // MARK: - CollectionViewDataSource
+    
     func configureDataSource(){
         
         dataSource = UICollectionViewDiffableDataSource<UIHelper.SearchSections,MovieSearchItem>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
@@ -120,28 +122,6 @@ class SearchVC: UIViewController {
 
 }
 
-// MARK: - CollectionViewDataSource
-//extension SearchVC: UICollectionViewDataSource{
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        if section == 0{
-//            return movies.count
-//        }else{
-//            return genres.count
-//        }
-//    }
-//    
-//    func numberOfSections(in collectionView: UICollectionView) -> Int {
-//        2
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let movie = movies[indexPath.row]
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.reuseID, for: indexPath) as! MovieCell
-//        cell.set(movie: movie)
-//        return cell
-//    }
-//    
-//}
 
 // MARK: - UICollectionViewDelegate
 extension SearchVC: UICollectionViewDelegate{
@@ -151,7 +131,7 @@ extension SearchVC: UICollectionViewDelegate{
             getMovieDetail(ofMovie: movie.id)
         }else{
             let genre = genres[indexPath.row]
-            print("url: \(genre.url)")
+            getMoviesByCategory(withCategory: genre)
         }
     }
     
@@ -172,6 +152,28 @@ extension SearchVC: UICollectionViewDelegate{
     func presentMovieDetailsVC(withMovie movie:MovieDetailAPIResponse){
         let destinationVC = MovieDetailsVC()
         destinationVC.movie = movie
+        navigationController?.pushViewController(destinationVC, animated: true)
+    }
+    
+    func getMoviesByCategory(withCategory category:MovieCategorySearch){
+        showLoadingState()
+        TMDBClient.shared.getMoviesBy(txt: category.url) { [weak self] (result) in
+            guard let self = self else {return}
+            self.hideLoadingState()
+            switch result{
+            case .success(let movies):
+                self.presentSearchCategoryDetailsVC(withMovies: movies, category: category)
+            case .failure(let error):
+                self.presentMOAlert(title: "Error loading the movie", message: error.localizedDescription)
+            }
+        }
+    }
+    
+    func presentSearchCategoryDetailsVC(withMovies movies:[MovieResponse], category:MovieCategorySearch){
+        let destinationVC = SearchCategoryDetailsVC()
+        destinationVC.movies = movies
+        destinationVC.category = category
+        destinationVC.title = category.title
         navigationController?.pushViewController(destinationVC, animated: true)
     }
 }
@@ -195,6 +197,10 @@ extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate{
         searchController.isActive = false
     }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        updateNavTitle(withString: searchText)
+    }
+    
     @objc private func searchMovies(withString string:String){
         showLoadingState()
         
@@ -208,8 +214,6 @@ extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate{
             case .success(let movies):
                 self.movies = movies
                 self.updateNavTitle(withString: string)
-                //self.collectionView.reloadData()
-                //self.updateData()
                 break
             }
         }

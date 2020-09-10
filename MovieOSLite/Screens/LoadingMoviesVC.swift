@@ -135,7 +135,9 @@ class LoadingMoviesVC: UIViewController {
         searchVC.title = "Search"
         searchVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 1)
         
-        return UINavigationController(rootViewController: searchVC)
+        let searchNavController = UINavigationController(rootViewController: searchVC)
+        searchNavController.navigationBar.prefersLargeTitles = true
+        return searchNavController
     }
     
     private func createFavoriteVC() -> UINavigationController{

@@ -29,6 +29,7 @@ class MovieDetailsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.largeTitleDisplayMode = .never
         configureScrollView()
         configure()
         layoutUI()
@@ -39,7 +40,6 @@ class MovieDetailsVC: UIViewController {
         checkIfMovieIsFavorite()
         checkIfHaveVideos()
     }
-    
     
     private func configure(){
         view.clipsToBounds = true
@@ -87,6 +87,7 @@ class MovieDetailsVC: UIViewController {
         
         NSLayoutConstraint.activate([
             headerImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -100),
+            //headerImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             headerImageView.heightAnchor.constraint(equalToConstant: 200),
