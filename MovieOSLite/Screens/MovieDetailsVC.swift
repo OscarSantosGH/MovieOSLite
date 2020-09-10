@@ -30,6 +30,7 @@ class MovieDetailsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .never
+        navigationController?.navigationBar.tintColor = .systemPurple
         configureScrollView()
         configure()
         layoutUI()

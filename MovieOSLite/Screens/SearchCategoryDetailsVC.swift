@@ -24,9 +24,13 @@ class SearchCategoryDetailsVC: UIViewController {
         configureCollectionView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.tintColor = .label
+    }
+    
     private func configureNavigationBar(){
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.tintColor = .white
         navigationItem.largeTitleDisplayMode = .always
     }
     
@@ -35,16 +39,16 @@ class SearchCategoryDetailsVC: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.isScrollEnabled = true
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.45)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseID)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
         
-        let gradientHeight:CGFloat = view.bounds.height / 3
+        let gradientHeight:CGFloat = view.bounds.height / 2
         
-        let gradient = CAGradientLayer.init(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: gradientHeight), colors: [category.color1, category.color2, UIColor.clear])
-        gradient.zPosition = -1
+        let gradient = CAGradientLayer.init(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: gradientHeight), colors: [category.color1, category.color2, .clear])
+        gradient.zPosition = -2
         view.layer.addSublayer(gradient)
     }
 

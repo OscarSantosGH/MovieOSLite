@@ -31,6 +31,11 @@ class SearchVC: UIViewController {
         showEmptyScreen()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.tintColor = .systemPurple
+    }
+    
     func configureSearchController(){
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
