@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol PersonDetailsVCDelegate: class {
-    func updateMovieDetailsVC(withMovie movie:MovieDetailAPIResponse)
+    func updateMovieDetailsVC(withMovie movie:MovieDetailAPIResponse, posterImage:UIImage?, backdropImage:UIImage?, isFavorite:Bool)
 }
 
 class PersonDetailsVC: UIViewController {
@@ -118,18 +118,41 @@ class PersonDetailsVC: UIViewController {
 extension PersonDetailsVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movieCredit = personCreditsView.personMovieCredit[indexPath.row]
-        getMovieWithID(id: Int(movieCredit.id))
+        checkIfMovieIsSaved(withMovie: Int(movieCredit.id))
+    }
+    
+    func checkIfMovieIsSaved(withMovie id:Int){
+        let fetchRequest:NSFetchRequest<Movie> = Movie.fetchRequest()
+        let predicate = NSPredicate(format: "id == %d", id)
+        fetchRequest.predicate = predicate
+        
+        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
+            guard let movie = result.first else {
+                getMovieWithID(id: id)
+                return
+            }
+            guard let movieDetailAPIResponse = movie.getMovieDetailAPIResponse(),
+                  let posterData = movie.posterImage, let posterImage = UIImage(data: posterData),
+                  let backdropData = movie.backdropImage, let backdropImage = UIImage(data: backdropData) else {return}
+            
+            delegate.updateMovieDetailsVC(withMovie: movieDetailAPIResponse, posterImage: posterImage, backdropImage: backdropImage, isFavorite: true)
+            dismiss(animated: true, completion: nil)
+        }else{
+            getMovieWithID(id: id)
+        }
     }
     
     private func getMovieWithID(id:Int){
+        showLoadingState()
         TMDBClient.shared.getMovie(withID: id) { [weak self] (result) in
             guard let self = self else {return}
+            self.hideLoadingState()
             switch result{
             case .failure(let error):
                 print(error)
                 break
             case .success(let movie):
-                self.delegate.updateMovieDetailsVC(withMovie: movie)
+                self.delegate.updateMovieDetailsVC(withMovie: movie, posterImage: nil, backdropImage: nil, isFavorite: false)
                 self.dismiss(animated: true, completion: nil)
             }
         }

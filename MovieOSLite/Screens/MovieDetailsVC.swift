@@ -49,10 +49,13 @@ class MovieDetailsVC: UIViewController {
         view.backgroundColor = .systemBackground
         if isFavorite{
             headerImageView = MOHeaderBackdropView(withImage: backdropImage!)
+            movieInfoView = MOMovieInfoView(withMovie: movie, posterImage: posterImage, isFavorite: isFavorite)
+
         }else{
             headerImageView = MOHeaderBackdropView(withMovie: movie)
+            movieInfoView = MOMovieInfoView(withMovie: movie, isFavorite: isFavorite)
         }
-        movieInfoView = MOMovieInfoView(withMovie: movie, isFavorite: isFavorite)
+        
         movieTrailersView = MOMovieTrailersView(withVideos: movie.videos.results)
         movieCastView = MOMovieCastView(withMovie: movie)
         movieCastView.collectionView.delegate = self
@@ -241,10 +244,14 @@ extension MovieDetailsVC: UICollectionViewDelegate{
 
 // MARK: - PersonDetailsVCDelegate
 extension MovieDetailsVC: PersonDetailsVCDelegate{
-    func updateMovieDetailsVC(withMovie movie: MovieDetailAPIResponse) {
+    func updateMovieDetailsVC(withMovie movie: MovieDetailAPIResponse, posterImage: UIImage?, backdropImage: UIImage?, isFavorite: Bool) {
         self.movie = movie
-        headerImageView.update(withMovie: movie)
-        movieInfoView.update(withMovie: movie, isFavorite: isFavorite)
+        if isFavorite{
+            headerImageView.update(withImage: backdropImage!)
+        }else{
+            headerImageView.update(withMovie: movie)
+        }
+        movieInfoView.update(withMovie: movie, posterImage: posterImage, isFavorite: isFavorite)
         movieTrailersView.update(withVideos: movie.videos.results)
         movieCastView.update(withMovie: movie)
         movieCastView.collectionView.reloadData()

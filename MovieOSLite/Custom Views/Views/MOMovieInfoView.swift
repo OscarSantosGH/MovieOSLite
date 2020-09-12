@@ -21,6 +21,7 @@ class MOMovieInfoView: UIView {
     
     var movie:MovieDetailAPIResponse!
     var isFavorite:Bool!
+    var posterImage:UIImage?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,14 +35,28 @@ class MOMovieInfoView: UIView {
         layoutUI()
     }
     
+    convenience init(withMovie movie:MovieDetailAPIResponse, posterImage:UIImage?, isFavorite:Bool){
+        self.init(frame: .zero)
+        self.movie = movie
+        self.isFavorite = isFavorite
+        self.posterImage = posterImage
+        configure()
+        layoutUI()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(withMovie movie:MovieDetailAPIResponse, isFavorite:Bool){
+    func update(withMovie movie:MovieDetailAPIResponse, posterImage:UIImage?, isFavorite:Bool){
         self.movie = movie
         self.isFavorite = isFavorite
-        posterImageView.setImage(forURL: movie.posterPath)
+        if isFavorite{
+            self.posterImage = posterImage
+            posterImageView.image = posterImage
+        }else{
+            posterImageView.setImage(forURL: movie.posterPath)
+        }
         titleLabel.text = movie.title
         ratingLabel.update(info: String(movie.voteAverage))
         releaseDateLabel.update(info: configureReleaseDate(from: movie.releaseDate))
@@ -56,7 +71,7 @@ class MOMovieInfoView: UIView {
         ratingLabel = MOHighlightInfoView(desc: "Ratings")
         releaseDateLabel = MOHighlightInfoView(desc: "Release Date")
         storylineLabel.text = "Overview"
-        update(withMovie: movie, isFavorite: isFavorite)
+        update(withMovie: movie, posterImage: posterImage, isFavorite: isFavorite)
     }
     
     private func configureReleaseDate(from stringDate:String) -> String{
