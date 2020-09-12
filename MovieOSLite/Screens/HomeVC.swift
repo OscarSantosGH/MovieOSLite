@@ -125,8 +125,11 @@ extension HomeVC: UICollectionViewDelegate{
                 getMovieDetail(ofMovie: id)
                 return
             }
-            guard let movieDetailAPIResponse = movie.getMovieDetailAPIResponse() else {return}
-            presentMovieDetailsVC(withMovie: movieDetailAPIResponse, isFavorite: true)
+            guard let movieDetailAPIResponse = movie.getMovieDetailAPIResponse(),
+                  let posterData = movie.posterImage, let posterImage = UIImage(data: posterData),
+                  let backdropData = movie.backdropImage, let backdropImage = UIImage(data: backdropData) else {return}
+            
+            presentMovieDetailsVC(withMovie: movieDetailAPIResponse, posterImage: posterImage, backdropImage: backdropImage, isFavorite: true)
         }else{
             getMovieDetail(ofMovie: id)
         }
@@ -141,15 +144,19 @@ extension HomeVC: UICollectionViewDelegate{
             case .failure(let error):
                 self.presentMOAlert(title: "Error loading the movie", message: error.localizedDescription)
             case .success(let movieResponse):
-                self.presentMovieDetailsVC(withMovie: movieResponse, isFavorite: false)
+                self.presentMovieDetailsVC(withMovie: movieResponse, posterImage: nil, backdropImage: nil, isFavorite: false)
             }
         }
     }
     
-    func presentMovieDetailsVC(withMovie movie:MovieDetailAPIResponse, isFavorite:Bool){
+    func presentMovieDetailsVC(withMovie movie:MovieDetailAPIResponse, posterImage:UIImage?, backdropImage:UIImage?, isFavorite:Bool){
         let destinationVC = MovieDetailsVC()
         destinationVC.movie = movie
         destinationVC.isFavorite = isFavorite
+        if isFavorite{
+            destinationVC.posterImage = posterImage
+            destinationVC.backdropImage = backdropImage
+        }
         navigationController?.pushViewController(destinationVC, animated: true)
     }
 }

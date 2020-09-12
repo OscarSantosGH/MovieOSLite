@@ -22,6 +22,8 @@ class MovieDetailsVC: UIViewController {
     var allViews: [UIView] = []
     
     var movie:MovieDetailAPIResponse!
+    var posterImage:UIImage?
+    var backdropImage:UIImage?
     
     var startScrolling = false
     var initialOffset:CGFloat = 0
@@ -45,7 +47,11 @@ class MovieDetailsVC: UIViewController {
     private func configure(){
         view.clipsToBounds = true
         view.backgroundColor = .systemBackground
-        headerImageView = MOHeaderBackdropView(withMovie: movie)
+        if isFavorite{
+            headerImageView = MOHeaderBackdropView(withImage: backdropImage!)
+        }else{
+            headerImageView = MOHeaderBackdropView(withMovie: movie)
+        }
         movieInfoView = MOMovieInfoView(withMovie: movie, isFavorite: isFavorite)
         movieTrailersView = MOMovieTrailersView(withVideos: movie.videos.results)
         movieCastView = MOMovieCastView(withMovie: movie)

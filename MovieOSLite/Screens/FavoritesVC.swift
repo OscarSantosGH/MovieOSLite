@@ -115,7 +115,12 @@ extension FavoritesVC: UITableViewDelegate{
         let movie = movies[indexPath.row]
         
         let destinationVC = MovieDetailsVC()
+        guard let posterData = movie.posterImage, let posterImage = UIImage(data: posterData),
+        let backdropData = movie.backdropImage, let backdropImage = UIImage(data: backdropData) else {return}
+        
         destinationVC.movie = movie.getMovieDetailAPIResponse()
+        destinationVC.posterImage = posterImage
+        destinationVC.backdropImage = backdropImage
         destinationVC.isFavorite = true
         navigationController?.pushViewController(destinationVC, animated: true)
     }

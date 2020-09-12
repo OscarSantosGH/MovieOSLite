@@ -27,8 +27,17 @@ class MOHeaderBackdropView: UIView {
         backdropImageView.setImage(forURL: movie.backdropPath)
     }
     
+    convenience init(withImage image:UIImage){
+        self.init(frame: .zero)
+        backdropImageView.image = image
+    }
+    
     func update(withMovie movie:MovieDetailAPIResponse){
         backdropImageView.setImage(forURL: movie.backdropPath)
+    }
+    
+    func update(withImage image:UIImage){
+        backdropImageView.image = image
     }
     
     private func configure(){
