@@ -25,9 +25,9 @@ class FavoriteMovieCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func set(movie:MovieResponse){
-        backdropImageView.setImage(forURL: movie.backdropPath)
-        titleLabel.text = movie.title
+    func set(withTitle title:String, andImage image:UIImage?){
+        backdropImageView.image = image
+        titleLabel.text = title
     }
     
     private func configure(){

@@ -12,7 +12,7 @@ import CoreData
 class FavoritesVC: UIViewController {
     
     var tableView = UITableView()
-    var movies:[MovieDetailAPIResponse] = []
+    var movies:[Movie] = []
     
     let emptyScreenView = UIView()
     let heartImageView = UIImageView()
@@ -56,7 +56,7 @@ class FavoritesVC: UIViewController {
         if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
             if result.count > 0 {
                 hideEmptyScreen()
-                movies = result.compactMap{$0.getMovieDetailAPIResponse()}
+                movies = result
                 tableView.reloadData()
             }else{
                 showEmptyScreen()
@@ -99,9 +99,12 @@ extension FavoritesVC: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let movie = movies[indexPath.row]
-        let movieResponse = MovieResponse(id: movie.id, posterPath: movie.posterPath, backdropPath: movie.backdropPath, title: movie.title, originalTitle: movie.originalTitle, voteAverage: movie.voteAverage, overview: movie.overview, releaseDate: movie.releaseDate, genreIds: movie.genres.compactMap{$0.id}, category: "")
         let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteMovieCell.reuseID, for: indexPath) as! FavoriteMovieCell
-        cell.set(movie: movieResponse)
+        if let imageData = movie.backdropImage{
+            cell.set(withTitle: movie.title!, andImage: UIImage(data: imageData))
+        }else{
+            cell.set(withTitle: movie.title!, andImage: UIImage(named: "posterPlaceholder"))
+        }
         return cell
     }
     
@@ -112,7 +115,7 @@ extension FavoritesVC: UITableViewDelegate{
         let movie = movies[indexPath.row]
         
         let destinationVC = MovieDetailsVC()
-        destinationVC.movie = movie
+        destinationVC.movie = movie.getMovieDetailAPIResponse()
         destinationVC.isFavorite = true
         navigationController?.pushViewController(destinationVC, animated: true)
     }
