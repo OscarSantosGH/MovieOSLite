@@ -203,8 +203,10 @@ extension MovieDetailsVC: UICollectionViewDelegate{
                 getPersonInfo(withID: id)
                 return
             }
-            guard let personResponse = person.getPersonResponse() else {return}
-            presentPersonInfoVC(withPerson: personResponse)
+            guard let personResponse = person.getPersonResponse(),
+                let profileImageData = person.profileImage,
+                let profileImage = UIImage(data: profileImageData) else {return}
+            presentPersonInfoVC(withPerson: personResponse, profileImage: profileImage, isSaved: true)
         }else{
             getPersonInfo(withID: id)
         }
@@ -220,16 +222,20 @@ extension MovieDetailsVC: UICollectionViewDelegate{
                 self.presentMOAlert(title: "Error loading the cast member", message: error.localizedDescription)
                 break
             case .success(let person):
-                self.presentPersonInfoVC(withPerson: person)
+                self.presentPersonInfoVC(withPerson: person, profileImage: nil, isSaved: false)
                 break
             }
         }
     }
     
-    private func presentPersonInfoVC(withPerson person:PersonResponse){
+    private func presentPersonInfoVC(withPerson person:PersonResponse, profileImage:UIImage?, isSaved:Bool){
         let destinationVC = PersonDetailsVC()
         destinationVC.person = person
         destinationVC.delegate = self
+        if isSaved{
+            destinationVC.isSaved = true
+            destinationVC.profileImage = profileImage
+        }
         let navigationController = UINavigationController(rootViewController: destinationVC)
         navigationController.modalPresentationStyle = .pageSheet
         present(navigationController, animated: true)

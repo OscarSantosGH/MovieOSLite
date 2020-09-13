@@ -8,10 +8,16 @@
 
 import UIKit
 
+protocol PersonProfileImageDelegate: class {
+    func updateProfileImage(profileImage:UIImage)
+}
+
 class MOPersonProfileImageView: UIImageView {
 
     let imagePlaceHolder = UIImage(named: "placeholderCastImage")
     var imageURLPath: String?
+    
+    weak var delegate:PersonProfileImageDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,8 +44,9 @@ class MOPersonProfileImageView: UIImageView {
             guard let self = self else {return}
             
             if self.imageURLPath == URLString{
-                self.image = image
-                //self.saveImage(image: image, of: person)
+                guard let unwrappedImage = image else {return}
+                self.image = unwrappedImage
+                self.delegate?.updateProfileImage(profileImage: unwrappedImage)
             }
             
         }

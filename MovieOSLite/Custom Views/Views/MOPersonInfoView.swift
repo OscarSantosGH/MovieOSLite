@@ -17,14 +17,19 @@ class MOPersonInfoView: UIView {
     let biographyBodyLabel = MOBodyLabel(alignment: .left)
     
     var person:PersonResponse!
+    var isSaved = false
+    var profileImage:UIImage?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
-    convenience init(withPerson person:PersonResponse){
+    convenience init(withPerson person:PersonResponse, profileImage:UIImage?, isSaved:Bool, profileImageDelegate:PersonDetailsVC){
         self.init(frame: .zero)
         self.person = person
+        self.isSaved = isSaved
+        self.profileImage = profileImage
+        posterImageView.delegate = profileImageDelegate
         configure()
         layoutUI()
     }
@@ -36,7 +41,11 @@ class MOPersonInfoView: UIView {
     private func configure(){
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.systemBackground
-        posterImageView.setImage(forURL: person.profilePath)
+        if isSaved{
+            posterImageView.image = profileImage
+        }else{
+            posterImageView.setImage(forURL: person.profilePath)
+        }
         nameLabel.text = person.name
         birthdayLabel = MOHighlightInfoView(info: getAgeFromString(stringDate: person.birthday), desc: "Age")
         placeOfBirthLabel = MOHighlightInfoView(info: person.placeOfBirth ?? "Unknown", desc: "Place Of Birth")

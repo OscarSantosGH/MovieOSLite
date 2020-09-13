@@ -22,6 +22,8 @@ class PersonDetailsVC: UIViewController {
     var allViews: [UIView] = []
     
     var person:PersonResponse!
+    var profileImage:UIImage?
+    var isSaved = false
     
     var startScrolling = false
     var initialOffset:CGFloat = 0
@@ -33,12 +35,17 @@ class PersonDetailsVC: UIViewController {
         configureScrollView()
         configure()
         layoutUI()
-        checkIfPersonIsSave()
     }
     
     private func configure(){
         view.clipsToBounds = false
-        personInfoView = MOPersonInfoView(withPerson: person)
+        
+        if isSaved{
+            personInfoView = MOPersonInfoView(withPerson: person, profileImage: profileImage, isSaved: isSaved, profileImageDelegate: self)
+        }else{
+            personInfoView = MOPersonInfoView(withPerson: person, profileImage: nil, isSaved: isSaved, profileImageDelegate: self)
+        }
+        
         personCreditsView = MOPersonCreditsView(withCredits: person.movieCredits.cast)
         personCreditsView.collectionView.delegate = self
         
@@ -83,24 +90,10 @@ class PersonDetailsVC: UIViewController {
         
     }
     
-    private func checkIfPersonIsSave(){
-        let fetchRequest:NSFetchRequest<Person> = Person.fetchRequest()
-        let predicate = NSPredicate(format: "id == %d", person.id)
-        fetchRequest.predicate = predicate
-        
-        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
-            if result.count == 0{
-                savePerson()
-            }
-        }else{
-            savePerson()
-        }
-    }
-    
     private func savePerson(){
         let personToSave = Person(context: PersistenceManager.shared.viewContext)
         personToSave.setDataFromPersonResponse(personResponse: person)
-        personToSave.profileImage = personInfoView.posterImageView.image?.pngData()
+        personToSave.profileImage = profileImage?.pngData()
         
         do{
             try PersistenceManager.shared.viewContext.save()
@@ -111,6 +104,14 @@ class PersonDetailsVC: UIViewController {
     
     @objc func dismissVC(){
         dismiss(animated: true)
+    }
+}
+
+// MARK: - PersonProfileImageDelegate
+extension PersonDetailsVC: PersonProfileImageDelegate{
+    func updateProfileImage(profileImage: UIImage) {
+        self.profileImage = profileImage
+        savePerson()
     }
 }
 
