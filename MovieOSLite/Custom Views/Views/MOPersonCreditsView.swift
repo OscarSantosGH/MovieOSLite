@@ -18,7 +18,6 @@ class MOPersonCreditsView: UIView {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.systemBackground
-        knownForLabel.text = "Known For"
     }
     
     required init?(coder: NSCoder) {
@@ -28,6 +27,12 @@ class MOPersonCreditsView: UIView {
     convenience init(withCredits movieCredits:[PersonMovieCreditResponse]) {
         self.init(frame: .zero)
         personMovieCredit = movieCredits
+        
+        if movieCredits.count == 0{
+            knownForLabel.text = "No Movie Credit Found"
+        }else{
+            knownForLabel.text = "Known For"
+        }
         
         configureCollectionView()
         layoutUI()

@@ -49,7 +49,12 @@ class MOPersonInfoView: UIView {
         nameLabel.text = person.name
         birthdayLabel = MOHighlightInfoView(info: getAgeFromString(stringDate: person.birthday), desc: "Age")
         placeOfBirthLabel = MOHighlightInfoView(info: person.placeOfBirth ?? "Unknown", desc: "Place Of Birth")
-        biographyLabel.text = "Biography"
+        if person.biography == ""{
+            biographyLabel.text = "No Biography Found"
+        }else{
+            biographyLabel.text = "Biography"
+        }
+        
         biographyBodyLabel.text = person.biography
     }
     

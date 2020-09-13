@@ -74,8 +74,6 @@ class MovieDetailsVC: UIViewController {
         myScrollView.showsVerticalScrollIndicator = false
         contentView.pinToEdges(of: myScrollView)
         
-        //let contentViewHeight:NSLayoutConstraint = NSLayoutConstraint(
-        
         NSLayoutConstraint.activate([
             contentView.widthAnchor.constraint(equalTo: myScrollView.widthAnchor)
         ])
