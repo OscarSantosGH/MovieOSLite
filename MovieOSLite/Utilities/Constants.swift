@@ -58,3 +58,8 @@ enum SearchCategories{
         MovieCategorySearch(title: "1990s", color1: .rgb(red: 62, green: 81, blue: 81), color2: .rgb(red: 222, green: 203, blue: 164), image: UIImage(systemName: "film")!, url: "&release_date.gte=1990-01-01&release_date.lte=1999-12-31")
     ]
 }
+
+enum NotificationNames{
+    static let internetAvailable = Notification.Name(rawValue: "com.oscarsantos.internetAvailable")
+    static let internetNotAvailable = Notification.Name(rawValue: "com.oscarsantos.internetNotAvailable")
+}

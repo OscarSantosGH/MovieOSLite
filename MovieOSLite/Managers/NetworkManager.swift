@@ -7,15 +7,35 @@
 //
 
 import UIKit
+import Network
 
 class NetworkManager{
     static let shared = NetworkManager()
-    
     let cache = NSCache<NSString, UIImage>()
-    
+    private let monitor = NWPathMonitor()
     private var searchMoviesDataTask: URLSessionDataTask?
+    var isInternetAvailable = false
     
     private init(){}
+    
+    func checkForInternetConnection(){
+        monitor.pathUpdateHandler = { [weak self] path in
+            guard let self = self else {return}
+            if path.status == .satisfied {
+                self.isInternetAvailable = true
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: NotificationNames.internetAvailable, object: nil)
+                }
+            } else {
+                self.isInternetAvailable = false
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: NotificationNames.internetNotAvailable, object: nil)
+                }
+            }
+        }
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
+    }
     
     func getMovies(withURL url:URL, movieCategory category:String, completed: @escaping (Result<[MovieResponse], MOError>)-> Void){
         

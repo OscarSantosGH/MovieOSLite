@@ -22,7 +22,13 @@ class LoadingMoviesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        getPopularMovies()
+        NetworkManager.shared.checkForInternetConnection()
+        NotificationCenter.default.addObserver(self, selector: #selector(checkForInternetConnection(notification:)), name: NotificationNames.internetAvailable, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(checkForInternetConnection(notification:)), name: NotificationNames.internetNotAvailable, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func configure(){
@@ -50,6 +56,16 @@ class LoadingMoviesVC: UIViewController {
         
         activityView.startAnimating()
         messageLabelView.text = "Loading Movies..."
+    }
+    
+    @objc func checkForInternetConnection(notification:NSNotification){
+        let isConnected = notification.name == NotificationNames.internetAvailable
+        
+        if isConnected{
+            self.getPopularMovies()
+        }else{
+            self.messageLabelView.text = "Check Your Internet Connection and Try Again."
+        }
     }
     
     
