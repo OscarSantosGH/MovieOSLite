@@ -124,8 +124,7 @@ class MOPersonInfoView: UIView {
             biographyBodyLabel.topAnchor.constraint(equalTo: biographyLabel.bottomAnchor, constant: padding),
             biographyBodyLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
             biographyBodyLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            biographyBodyLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding),
-            //biographyBodyLabel.heightAnchor.constraint(lessThanOrEqualToConstant: 150)
+            biographyBodyLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding)
         ])
     }
 }

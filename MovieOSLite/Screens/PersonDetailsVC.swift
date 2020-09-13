@@ -61,9 +61,12 @@ class PersonDetailsVC: UIViewController {
         myScrollView.backgroundColor = .systemBackground
         contentView.pinToEdges(of: myScrollView)
         
+        let contentHeightConstraint = NSLayoutConstraint(item: contentView, attribute: .height, relatedBy: .equal, toItem: view, attribute: .height, multiplier: 1, constant: 0)
+        contentHeightConstraint.priority = UILayoutPriority(rawValue: 25)
+        
         NSLayoutConstraint.activate([
             contentView.widthAnchor.constraint(equalTo: myScrollView.widthAnchor),
-            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: view.frame.height)
+            contentHeightConstraint
         ])
     }
     
