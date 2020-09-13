@@ -52,7 +52,8 @@ class MOMovieCastView: UIView {
             collectionView.topAnchor.constraint(equalTo: castLabel.bottomAnchor, constant: padding),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding),
+            collectionView.heightAnchor.constraint(equalToConstant: 260)
         ])
     }
     

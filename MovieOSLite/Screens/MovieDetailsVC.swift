@@ -61,7 +61,6 @@ class MovieDetailsVC: UIViewController {
         movieCastView.collectionView.delegate = self
         movieTrailersView.collectionView.delegate = self
         movieInfoView.favoriteButton.delegate = self
-        
         shareBarButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareMovieTrailer))
         navigationItem.rightBarButtonItem = shareBarButton
     }
@@ -75,7 +74,8 @@ class MovieDetailsVC: UIViewController {
         contentView.pinToEdges(of: myScrollView)
         
         NSLayoutConstraint.activate([
-            contentView.widthAnchor.constraint(equalTo: myScrollView.widthAnchor)
+            contentView.widthAnchor.constraint(equalTo: myScrollView.widthAnchor),
+            contentView.heightAnchor.constraint(greaterThanOrEqualTo: view.heightAnchor)
         ])
     }
     
@@ -104,14 +104,10 @@ class MovieDetailsVC: UIViewController {
             movieInfoView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 200),
             
             movieTrailersView.topAnchor.constraint(equalTo: movieInfoView.bottomAnchor),
-            movieTrailersView.heightAnchor.constraint(equalToConstant: 190),
             
             movieCastView.topAnchor.constraint(equalTo: movieTrailersView.bottomAnchor),
             movieCastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            movieCastView.heightAnchor.constraint(equalToConstant: 290)
-            
         ])
-        
     }
     
     func checkIfMovieIsFavorite() {

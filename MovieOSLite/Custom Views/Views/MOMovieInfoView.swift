@@ -141,8 +141,10 @@ class MOMovieInfoView: UIView {
             storylineBodyLabel.topAnchor.constraint(equalTo: storylineLabel.bottomAnchor, constant: padding),
             storylineBodyLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
             storylineBodyLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            storylineBodyLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding),
-            storylineBodyLabel.heightAnchor.constraint(lessThanOrEqualToConstant: 150)
+            storylineBodyLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding)
         ])
+        if movie.genres.count == 0{
+            genresStackView.heightAnchor.constraint(equalToConstant: 14.5).isActive = true
+        }
     }
 }

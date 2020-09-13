@@ -70,7 +70,8 @@ class MOMovieTrailersView: UIView{
             collectionView.topAnchor.constraint(equalTo: trailersLabel.bottomAnchor, constant: padding),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: 140)
         ])
     }
     
