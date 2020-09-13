@@ -61,6 +61,11 @@ class MOMovieInfoView: UIView {
         ratingLabel.update(info: String(movie.voteAverage))
         releaseDateLabel.update(info: configureReleaseDate(from: movie.releaseDate))
         genresStackView = MOGenresTagStackView(withGenres: movie.genres.compactMap{Int32($0.id)} )
+        if movie.overview == ""{
+            storylineLabel.text = "No Overview Found"
+        }else{
+            storylineLabel.text = "Overview"
+        }
         storylineBodyLabel.text = movie.overview
         favoriteButton.update(isFavorite: isFavorite)
     }
@@ -70,7 +75,6 @@ class MOMovieInfoView: UIView {
         backgroundColor = UIColor.systemBackground
         ratingLabel = MOHighlightInfoView(desc: "Ratings")
         releaseDateLabel = MOHighlightInfoView(desc: "Release Date")
-        storylineLabel.text = "Overview"
         update(withMovie: movie, posterImage: posterImage, isFavorite: isFavorite)
     }
     

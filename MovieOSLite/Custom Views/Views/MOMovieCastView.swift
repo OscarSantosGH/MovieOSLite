@@ -20,7 +20,6 @@ class MOMovieCastView: UIView {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.systemBackground
-        castLabel.text = "The Cast"
     }
     
     required init?(coder: NSCoder) {
@@ -70,6 +69,11 @@ class MOMovieCastView: UIView {
     private func getCast(ofMovie movie:MovieDetailAPIResponse){
         cast = []
         cast = movie.credits.cast
+        if movie.credits.cast.count == 0{
+            castLabel.text = "No Cast Found"
+        }else{
+            castLabel.text = "The Cast"
+        }
     }
 }
 

@@ -18,7 +18,6 @@ class MOMovieTrailersView: UIView{
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.systemBackground
-        trailersLabel.text = "Trailers"
     }
     
     required init?(coder: NSCoder) {
@@ -28,7 +27,11 @@ class MOMovieTrailersView: UIView{
     convenience init(withVideos videoResponses:[VideoResponse]) {
         self.init(frame: .zero)
         self.videoResponses = videoResponses
-        
+        if videoResponses.count == 0{
+            trailersLabel.text = "No Trailers Found"
+        }else{
+            trailersLabel.text = "Trailers"
+        }
         configureCollectionView()
         layoutUI()
     }
@@ -36,6 +39,11 @@ class MOMovieTrailersView: UIView{
     func update(withVideos videoResponses:[VideoResponse]){
         self.videoResponses = []
         self.videoResponses = videoResponses
+        if videoResponses.count == 0{
+            trailersLabel.text = "No Trailers Found"
+        }else{
+            trailersLabel.text = "Trailers"
+        }
     }
     
     private func configureCollectionView(){

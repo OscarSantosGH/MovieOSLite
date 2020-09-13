@@ -74,6 +74,8 @@ class MovieDetailsVC: UIViewController {
         myScrollView.showsVerticalScrollIndicator = false
         contentView.pinToEdges(of: myScrollView)
         
+        //let contentViewHeight:NSLayoutConstraint = NSLayoutConstraint(
+        
         NSLayoutConstraint.activate([
             contentView.widthAnchor.constraint(equalTo: myScrollView.widthAnchor)
         ])
@@ -97,7 +99,6 @@ class MovieDetailsVC: UIViewController {
         
         NSLayoutConstraint.activate([
             headerImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -100),
-            //headerImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
             headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             headerImageView.heightAnchor.constraint(equalToConstant: 200),
