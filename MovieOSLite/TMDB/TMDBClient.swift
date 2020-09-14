@@ -69,21 +69,21 @@ class TMDBClient{
     }
     
     
-    func searchMovies(withString txt:String, completed: @escaping (Result<[MovieResponse], MOError>)-> Void){
+    func searchMovies(withString txt:String, page:Int = 1, completed: @escaping (Result<[MovieResponse], MOError>, _ totalPages:Int)-> Void){
         let secureTxt = txt.replacingOccurrences(of: " ", with: "%20")
-        let endPoint = baseUrl + "search/movie?api_key=\(API_KEY)&query=\(secureTxt)"
+        let endPoint = baseUrl + "search/movie?api_key=\(API_KEY)&query=\(secureTxt)&page=" + String(page)
         
         guard let url = URL(string: endPoint) else {
-            completed(.failure(.invalidURL))
+            completed(.failure(.invalidURL), 0)
             return
         }
         
-        NetworkManager.shared.searchMovies(withURL: url) { (result) in
+        NetworkManager.shared.searchMovies(withURL: url) { result ,totalPages  in
             switch result{
             case .success(let movie):
-                completed(.success(movie))
+                completed(.success(movie), totalPages)
             case .failure(let error):
-                completed(.failure(error))
+                completed(.failure(error), 0)
             }
         }
     }

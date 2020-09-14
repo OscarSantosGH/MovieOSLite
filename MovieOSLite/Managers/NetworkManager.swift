@@ -127,27 +127,27 @@ class NetworkManager{
     }
     
     
-    func searchMovies(withURL url:URL, completed: @escaping (Result<[MovieResponse], MOError>)-> Void){
+    func searchMovies(withURL url:URL, completed: @escaping (Result<[MovieResponse], MOError>, _ totalPages:Int)-> Void){
         
         searchMoviesDataTask?.cancel()
         searchMoviesDataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if let _ = error{
                 DispatchQueue.main.async {
-                    completed(.failure(.unableToComplete))
+                    completed(.failure(.unableToComplete), 0)
                 }
             }
             
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
                 DispatchQueue.main.async {
-                    completed(.failure(.invalidResponse))
+                    completed(.failure(.invalidResponse), 0)
                 }
                 return
             }
             
             guard let data = data else{
                 DispatchQueue.main.async {
-                    completed(.failure(.invalidData))
+                    completed(.failure(.invalidData), 0)
                 }
                 return
             }
@@ -163,11 +163,11 @@ class NetworkManager{
                     moviesWithCategories.append(newMovie)
                 }
                 DispatchQueue.main.async {
-                    completed(.success(moviesWithCategories))
+                    completed(.success(moviesWithCategories), apiResponse.totalPages)
                 }
             } catch {
                 DispatchQueue.main.async {
-                    completed(.failure(.invalidData))
+                    completed(.failure(.invalidData), 0)
                 }
             }
         }

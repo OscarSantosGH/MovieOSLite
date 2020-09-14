@@ -19,6 +19,10 @@ class SearchVC: UIViewController {
     var movies:[MovieResponse] = []
     var genres:[MovieCategorySearch] = []
     
+    var currentPage:Int = 1
+    var totalPages:Int = 1
+    var isLoading = false
+    
     var timer = Timer()
     
     override func viewDidLoad() {
@@ -40,6 +44,7 @@ class SearchVC: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search for a movie"
+        navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
     }
     
@@ -69,9 +74,11 @@ class SearchVC: UIViewController {
     func updateNavTitle(withString txt:String){
         if txt == ""{
             navigationItem.title = "Search"
+            currentPage = 1
             showEmptyScreen()
         }else{
             navigationItem.title = txt
+            currentPage = 1
             hideEmptyScreen()
         }
     }
@@ -181,6 +188,20 @@ extension SearchVC: UICollectionViewDelegate{
         destinationVC.title = category.title
         navigationController?.pushViewController(destinationVC, animated: true)
     }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if movies.count != 0{
+            let offsetY = scrollView.contentOffset.y
+            let contentHeight = scrollView.contentSize.height
+            let screenHeight = scrollView.frame.size.height
+            
+            if offsetY > contentHeight - screenHeight{
+                guard currentPage < totalPages, !isLoading else { return }
+                currentPage += 1
+                searchMovies(withString: navigationItem.title!, newData: false)
+            }
+        }
+    }
 }
 
 // MARK: - UISearchResultsUpdating
@@ -206,19 +227,26 @@ extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate{
         updateNavTitle(withString: searchText)
     }
     
-    @objc private func searchMovies(withString string:String){
+    @objc private func searchMovies(withString string:String, newData:Bool = true){
         showLoadingState()
-        
-        TMDBClient.shared.searchMovies(withString: string) { [weak self] (result) in
+        isLoading = true
+        TMDBClient.shared.searchMovies(withString: string, page: currentPage) { [weak self] result, totalPages  in
             guard let self = self else {return}
             self.hideLoadingState()
+            self.isLoading = false
             switch result{
             case .failure(let error):
                 print("error: \(error.localizedDescription)")
                 break
             case .success(let movies):
-                self.movies = movies
-                self.updateNavTitle(withString: string)
+                if newData{
+                    self.movies = movies
+                    self.totalPages = totalPages
+                    self.updateNavTitle(withString: string)
+                }else{
+                    self.movies.append(contentsOf: movies)
+                    self.updateData()
+                }
                 break
             }
         }
