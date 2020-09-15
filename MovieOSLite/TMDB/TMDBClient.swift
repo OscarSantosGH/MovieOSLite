@@ -39,7 +39,7 @@ class TMDBClient{
             return
         }
         
-        NetworkManager.shared.getMovies(withURL: url, movieCategory: list.rawValue) { (result) in
+        NetworkManager.shared.getMovies(withURL: url, movieCategory: list.rawValue) { result, totalPages in
             switch result{
             case .success(let movies):
                 completed(.success(movies))
@@ -88,20 +88,20 @@ class TMDBClient{
         }
     }
     
-    func getMoviesBy(txt:String, completed: @escaping (Result<[MovieResponse], MOError>)->Void){
-        let endPoint = baseUrl + "discover/movie?api_key=\(API_KEY)&page=1\(txt)"
+    func getMoviesBy(txt:String, page:Int = 1, completed: @escaping (Result<[MovieResponse], MOError>, _ totalPages:Int)->Void){
+        let endPoint = baseUrl + "discover/movie?api_key=\(API_KEY)&page=" + String(page) + txt
         
         guard let url = URL(string: endPoint) else {
-            completed(.failure(.invalidURL))
+            completed(.failure(.invalidURL), 0)
             return
         }
         
-        NetworkManager.shared.getMovies(withURL: url, movieCategory: txt) { (result) in
+        NetworkManager.shared.getMovies(withURL: url, movieCategory: txt) { result, totalPages in
             switch result{
             case .success(let movies):
-                completed(.success(movies))
+                completed(.success(movies), totalPages)
             case .failure(let error):
-                completed(.failure(error))
+                completed(.failure(error), 0)
             }
         }
     }

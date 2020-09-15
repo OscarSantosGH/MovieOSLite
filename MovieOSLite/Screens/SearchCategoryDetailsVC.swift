@@ -15,6 +15,10 @@ class SearchCategoryDetailsVC: UIViewController {
     
     var movies:[MovieResponse] = []
     
+    var currentPage:Int = 1
+    var totalPages:Int = 1
+    var isLoading = false
+    
     var category:MovieCategorySearch!
 
     override func viewDidLoad() {
@@ -50,6 +54,26 @@ class SearchCategoryDetailsVC: UIViewController {
         let gradient = CAGradientLayer.init(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: gradientHeight), colors: [category.color1, category.color2, .clear])
         gradient.zPosition = -2
         view.layer.addSublayer(gradient)
+    }
+    
+    
+    private func searchMovies(){
+        showLoadingState()
+        isLoading = true
+        TMDBClient.shared.getMoviesBy(txt: category.url, page: currentPage) { [weak self] result, totalPages  in
+            guard let self = self else {return}
+            self.hideLoadingState()
+            self.isLoading = false
+            switch result{
+            case .failure(let error):
+                print("error: \(error.localizedDescription)")
+                break
+            case .success(let movies):
+                self.movies.append(contentsOf: movies)
+                self.collectionView.reloadData()
+                break
+            }
+        }
     }
 
 }
@@ -112,5 +136,17 @@ extension SearchCategoryDetailsVC: UICollectionViewDelegate{
         destinationVC.movie = movie
         destinationVC.isFavorite = isFavorite
         navigationController?.pushViewController(destinationVC, animated: true)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let screenHeight = scrollView.frame.size.height
+        
+        if offsetY > contentHeight - screenHeight{
+            guard currentPage < totalPages, !isLoading else { return }
+            currentPage += 1
+            searchMovies()
+        }
     }
 }

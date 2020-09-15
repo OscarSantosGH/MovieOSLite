@@ -169,21 +169,22 @@ extension SearchVC: UICollectionViewDelegate{
     
     func getMoviesByCategory(withCategory category:MovieCategorySearch){
         showLoadingState()
-        TMDBClient.shared.getMoviesBy(txt: category.url) { [weak self] (result) in
+        TMDBClient.shared.getMoviesBy(txt: category.url) { [weak self] result, categoryTotalPages in
             guard let self = self else {return}
             self.hideLoadingState()
             switch result{
             case .success(let movies):
-                self.presentSearchCategoryDetailsVC(withMovies: movies, category: category)
+                self.presentSearchCategoryDetailsVC(withMovies: movies, category: category, categoryTotalPages: categoryTotalPages)
             case .failure(let error):
                 self.presentMOAlert(title: "Error loading the movie", message: error.localizedDescription)
             }
         }
     }
     
-    func presentSearchCategoryDetailsVC(withMovies movies:[MovieResponse], category:MovieCategorySearch){
+    func presentSearchCategoryDetailsVC(withMovies movies:[MovieResponse], category:MovieCategorySearch, categoryTotalPages:Int){
         let destinationVC = SearchCategoryDetailsVC()
         destinationVC.movies = movies
+        destinationVC.totalPages = categoryTotalPages
         destinationVC.category = category
         destinationVC.title = category.title
         navigationController?.pushViewController(destinationVC, animated: true)
@@ -250,7 +251,6 @@ extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate{
                 break
             }
         }
-        
     }
 }
 
