@@ -12,7 +12,8 @@ class TMDBClient{
     static let shared = TMDBClient()
     
     private let baseUrl = "https://api.themoviedb.org/3/"
-    private let API_KEY = ""
+    //INSERT YOU OWN API KEY HERE
+    private let API_KEY = "{INSERT YOU OWN API KEY HERE}"
     
     private let basePosterImgUrl = "https://image.tmdb.org/t/p/w154"
     private let baseBackdropImgUrl = "https://image.tmdb.org/t/p/w500"

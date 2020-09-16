@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class SearchVC: UIViewController {
     
@@ -152,10 +153,30 @@ extension SearchVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0{
             let movie = movies[indexPath.row]
-            getMovieDetail(ofMovie: movie.id)
+            checkIfMovieIsSaved(withMovie: movie.id)
         }else{
             let genre = genres[indexPath.row]
             getMoviesByCategory(withCategory: genre)
+        }
+    }
+    
+    func checkIfMovieIsSaved(withMovie id:Int){
+        let fetchRequest:NSFetchRequest<Movie> = Movie.fetchRequest()
+        let predicate = NSPredicate(format: "id == %d", id)
+        fetchRequest.predicate = predicate
+        
+        if let result = try? PersistenceManager.shared.viewContext.fetch(fetchRequest){
+            guard let movie = result.first else {
+                getMovieDetail(ofMovie: id)
+                return
+            }
+            guard let movieDetailAPIResponse = movie.getMovieDetailAPIResponse(),
+                  let posterData = movie.posterImage, let posterImage = UIImage(data: posterData),
+                  let backdropData = movie.backdropImage, let backdropImage = UIImage(data: backdropData) else {return}
+            
+            presentMovieDetailsVC(withMovie: movieDetailAPIResponse, posterImage: posterImage, backdropImage: backdropImage, isFavorite: true)
+        }else{
+            getMovieDetail(ofMovie: id)
         }
     }
     
@@ -168,14 +189,19 @@ extension SearchVC: UICollectionViewDelegate{
             case .failure(let error):
                 self.presentMOAlert(title: "Error loading the movie", message: error.localizedDescription)
             case .success(let movieResponse):
-                self.presentMovieDetailsVC(withMovie: movieResponse)
+                self.presentMovieDetailsVC(withMovie: movieResponse , posterImage: nil, backdropImage: nil, isFavorite: false)
             }
         }
     }
     
-    func presentMovieDetailsVC(withMovie movie:MovieDetailAPIResponse){
+    func presentMovieDetailsVC(withMovie movie:MovieDetailAPIResponse, posterImage:UIImage?, backdropImage:UIImage?, isFavorite:Bool){
         let destinationVC = MovieDetailsVC()
         destinationVC.movie = movie
+        destinationVC.isFavorite = isFavorite
+        if isFavorite{
+            destinationVC.posterImage = posterImage
+            destinationVC.backdropImage = backdropImage
+        }
         navigationController?.pushViewController(destinationVC, animated: true)
     }
     
