@@ -11,6 +11,7 @@ import UIKit
 class SearchVC: UIViewController {
     
     let searchController = UISearchController()
+    var emptyResultsView = MOEmptySearchView(frame: .zero)
     
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<UIHelper.SearchSections,MovieSearchItem>!
@@ -32,7 +33,7 @@ class SearchVC: UIViewController {
         configureSearchController()
         configureCollectionView()
         configureDataSource()
-        showEmptyScreen()
+        showCategoryScreen()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,13 +61,13 @@ class SearchVC: UIViewController {
         view.addSubview(collectionView)
     }
     
-    func showEmptyScreen(){
+    func showCategoryScreen(){
         genres = SearchCategories.allCategories
         movies = []
         updateData()
     }
     
-    func hideEmptyScreen(){
+    func hideCategoryScreen(){
         genres = []
         updateData()
     }
@@ -75,11 +76,22 @@ class SearchVC: UIViewController {
         if txt == ""{
             navigationItem.title = "Search"
             currentPage = 1
-            showEmptyScreen()
+            showCategoryScreen()
         }else{
             navigationItem.title = txt
             currentPage = 1
-            hideEmptyScreen()
+            hideCategoryScreen()
+        }
+    }
+    
+    func toggleEmptyScreen(hideView:Bool){
+        if hideView{
+            if emptyResultsView.isDescendant(of: view){
+                emptyResultsView.removeFromSuperview()
+            }
+        }else{
+            view.addSubview(emptyResultsView)
+            emptyResultsView.pinToEdges(of: view)
         }
     }
     
@@ -209,7 +221,7 @@ extension SearchVC: UICollectionViewDelegate{
 extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate{
     func updateSearchResults(for searchController: UISearchController) {
         timer.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] (timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] (timer) in
             guard let self = self else {return}
             guard let text = searchController.searchBar.text, !text.isEmpty else {return}
             self.searchMovies(withString: text)
@@ -218,14 +230,11 @@ extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate{
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         updateNavTitle(withString: "")
+        toggleEmptyScreen(hideView: true)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchController.isActive = false
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        updateNavTitle(withString: searchText)
     }
     
     @objc private func searchMovies(withString string:String, newData:Bool = true){
@@ -241,6 +250,7 @@ extension SearchVC: UISearchResultsUpdating, UISearchBarDelegate{
                 break
             case .success(let movies):
                 if newData{
+                    self.toggleEmptyScreen(hideView: !movies.isEmpty)
                     self.movies = movies
                     self.totalPages = totalPages
                     self.updateNavTitle(withString: string)

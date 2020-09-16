@@ -25,6 +25,7 @@ class MOEmptySearchView: UIView {
     
     private func configure(){
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        iconImageView.tintColor = .label
         iconImageView.contentMode = .scaleAspectFit
         titleLabel.text = "No movies found"
         subTitleLabel.text = "Try searching again using a different spelling or keyword."
@@ -32,20 +33,20 @@ class MOEmptySearchView: UIView {
         addSubviews(iconImageView, titleLabel, subTitleLabel)
         
         NSLayoutConstraint.activate([
-            iconImageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -20),
+            iconImageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -60),
             iconImageView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0),
             iconImageView.heightAnchor.constraint(equalToConstant: 50),
             iconImageView.widthAnchor.constraint(equalToConstant: 50),
             
             titleLabel.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40),
             titleLabel.heightAnchor.constraint(equalToConstant: 30),
             
             subTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            subTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            subTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            subTitleLabel.heightAnchor.constraint(equalToConstant: 20)
+            subTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            subTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            subTitleLabel.heightAnchor.constraint(equalToConstant: 40)
             
         ])
     }
