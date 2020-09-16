@@ -49,7 +49,7 @@ class MovieCategoryCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: padding),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            titleLabel.trailingAnchor.constraint(equalTo: iconImageView.leadingAnchor, constant: -padding),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             titleLabel.heightAnchor.constraint(equalToConstant: 20),
             
             iconImageView.heightAnchor.constraint(equalToConstant: 60),
