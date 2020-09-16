@@ -38,8 +38,8 @@ class MOPersonCreditImageView: UIImageView {
             guard let self = self else {return}
             
             if self.imageURLPath == URLString{
-                self.image = image
-                //self.saveImage(image: image, of: personMovieCredit)
+                guard let unwrappedImage = image else {return}
+                self.image = unwrappedImage
             }
             
         }

@@ -10,8 +10,6 @@ import CoreData
 
 extension Movie{
     
-    //@NSManaged public var genres: [Genre]
-    
     func setDataFromMovieResponse(movieResponse:MovieResponse) {
         id = Int32(movieResponse.id)
         posterPath = movieResponse.posterPath

@@ -150,7 +150,6 @@ enum UIHelper {
                                                   heightDimension: groupHeight)
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             group.interItemSpacing = NSCollectionLayoutSpacing.flexible(5)
-            //let group = NSCollectionLayoutGroup.custom(layoutSize: groupSize, itemProvider: [item])
 
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = 8
