@@ -60,6 +60,7 @@ class SearchVC: UIViewController {
         collectionView.register(MovieCategoryCell.self, forCellWithReuseIdentifier: MovieCategoryCell.reuseID)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
+        collectionView.pinToEdges(of: view)
     }
     
     func showCategoryScreen(){
