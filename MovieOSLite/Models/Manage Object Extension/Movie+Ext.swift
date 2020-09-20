@@ -91,7 +91,9 @@ extension Movie{
             guard let genreModel = genreR as? Genre else {return nil}
             genresResponse.append(genreModel.getGenreResponse())
         }
-        
+        actorsResponse.sort { (current, next) -> Bool in
+            current.order < next.order ? true : false
+        }
         let creditsResponse = CreditsAPIResponse(cast: actorsResponse)
         let videosAPIResponse = VideosAPIResponse(results: videosResponse)
         
