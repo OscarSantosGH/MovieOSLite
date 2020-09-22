@@ -131,46 +131,10 @@ class LoadingMoviesVC: UIViewController {
     
     private func goToHome(){
         messageLabelView.text = "Welcome to MovieOS"
-        show(createTabBar(), sender: self)
+        let tabBar = MOTabBarController(popularMovies: popularMovies, upcomingMovies: upcomingMovies, nowPlayingMovies: nowPlayingMovies, featuresMovies: featuresMovies)
+        show(tabBar, sender: self)
     }
     
-    private func createHomeVC() -> UINavigationController{
-        let homeVC = HomeVC()
-        homeVC.popularMovies = popularMovies
-        homeVC.upcomingMovies = upcomingMovies
-        homeVC.nowPlayingMovies = nowPlayingMovies
-        homeVC.featuresMovies = featuresMovies
-        homeVC.title = "MovieOS"
-        homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "film"), tag: 0)
-        
-        return UINavigationController(rootViewController: homeVC)
-    }
     
-    private func createSearchVC() -> UINavigationController{
-        let searchVC = SearchVC()
-        searchVC.title = "Search"
-        searchVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 1)
-        
-        let searchNavController = UINavigationController(rootViewController: searchVC)
-        searchNavController.navigationBar.prefersLargeTitles = true
-        return searchNavController
-    }
-    
-    private func createFavoriteVC() -> UINavigationController{
-        let favoriteVC = FavoritesVC()
-        favoriteVC.title = "Favorites"
-        favoriteVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart"), tag: 2)
-        
-        return UINavigationController(rootViewController: favoriteVC)
-    }
-    
-    private func createTabBar() -> UITabBarController{
-        let tabbar = UITabBarController()
-        tabbar.viewControllers = [createHomeVC(), createSearchVC(), createFavoriteVC()]
-        tabbar.modalPresentationStyle = .fullScreen
-        UITabBar.appearance().tintColor = .systemPurple
-        
-        return tabbar
-    }
 
 }
