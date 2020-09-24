@@ -9,32 +9,27 @@
 import UIKit
 import WebKit
 
-class VideoPlayerVC: UIViewController {
+class VideoPlayerVC: UIViewController, WKUIDelegate{
     
     var webView = WKWebView(frame: .zero)
-    var trailerLink:String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configure()
     }
     
     private func configure(){
         webView.translatesAutoresizingMaskIntoConstraints = false
-        let urlString = "https://www.youtube-nocookie.com/embed/" + trailerLink
+        view.addSubview(webView)
+        webView.pinToEdges(of: view)
+        webView.uiDelegate = self
+    }
+    
+    func showTrailerWithKey(key: String){
+        let urlString = "https://www.youtube-nocookie.com/embed/" + key
         let myURL = URL(string: urlString)
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
     }
 
-}
-
-extension VideoPlayerVC: WKUIDelegate{
-    override func loadView() {
-            let webConfiguration = WKWebViewConfiguration()
-            webView = WKWebView(frame: .zero, configuration: webConfiguration)
-            webView.uiDelegate = self
-            view = webView
-        }
 }

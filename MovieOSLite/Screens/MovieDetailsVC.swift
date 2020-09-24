@@ -237,12 +237,7 @@ extension MovieDetailsVC: UICollectionViewDelegate{
     }
     
     private func showTrailer(withKey key:String){
-        //guard let trailerUrl = URL(string: "https://youtu.be/\(key)") else {return}
-        //presentSafariVC(with: trailerUrl)
-        let destinationVC = VideoPlayerVC()
-        destinationVC.trailerLink = key
-        
-        navigationController?.pushViewController(destinationVC, animated: true)
+        presentVideoPlayer(withTrailerKey: key)
     }
     
 }
