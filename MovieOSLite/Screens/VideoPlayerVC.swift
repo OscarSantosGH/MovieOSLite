@@ -7,11 +7,11 @@
 //
 
 import UIKit
-import WebKit
+import YoutubeDirectLinkExtractor
+import AVKit
 
-class VideoPlayerVC: UIViewController, WKUIDelegate{
+class VideoPlayerVC: UIViewController{
     
-    var webView = WKWebView(frame: .zero)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,17 +19,11 @@ class VideoPlayerVC: UIViewController, WKUIDelegate{
     }
     
     private func configure(){
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(webView)
-        webView.pinToEdges(of: view)
-        webView.uiDelegate = self
+        
     }
     
     func showTrailerWithKey(key: String){
-        let urlString = "https://www.youtube-nocookie.com/embed/" + key
-        let myURL = URL(string: urlString)
-        let myRequest = URLRequest(url: myURL!)
-        webView.load(myRequest)
+        
     }
 
 }

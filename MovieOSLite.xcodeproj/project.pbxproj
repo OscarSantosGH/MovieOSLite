@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -42,6 +42,7 @@
 		832B58842443D20100327E06 /* MOHeaderBackdropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B58832443D20100327E06 /* MOHeaderBackdropView.swift */; };
 		832B58862443EC5600327E06 /* CAGradientLayer+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B58852443EC5600327E06 /* CAGradientLayer+Ext.swift */; };
 		832B58882443F2D400327E06 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B58872443F2D400327E06 /* UIViewController+Ext.swift */; };
+		83565FE42522B1C00009C582 /* YoutubeDirectLinkExtractor in Frameworks */ = {isa = PBXBuildFile; productRef = 83565FE32522B1C00009C582 /* YoutubeDirectLinkExtractor */; };
 		8364F8AD2518B744008A9B7F /* VideoPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8364F8AC2518B744008A9B7F /* VideoPlayerVC.swift */; };
 		8364F8B6251A09C8008A9B7F /* MOTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8364F8B5251A09C8008A9B7F /* MOTabBarController.swift */; };
 		8374628E23F8E2D6003AD63E /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8374628D23F8E2D6003AD63E /* UIView+Ext.swift */; };
@@ -165,6 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83565FE42522B1C00009C582 /* YoutubeDirectLinkExtractor in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +389,9 @@
 			dependencies = (
 			);
 			name = MovieOSLite;
+			packageProductDependencies = (
+				83565FE32522B1C00009C582 /* YoutubeDirectLinkExtractor */,
+			);
 			productName = MovieOSLite;
 			productReference = 838F7C0D23D27D9A005CF45B /* MovieOSLite.app */;
 			productType = "com.apple.product-type.application";
@@ -416,6 +421,9 @@
 				"es-419",
 			);
 			mainGroup = 838F7C0423D27D9A005CF45B;
+			packageReferences = (
+				83565FE22522B1C00009C582 /* XCRemoteSwiftPackageReference "YoutubeDirectLinkExtractor" */,
+			);
 			productRefGroup = 838F7C0E23D27D9A005CF45B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -715,6 +723,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		83565FE22522B1C00009C582 /* XCRemoteSwiftPackageReference "YoutubeDirectLinkExtractor" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devandsev/YoutubeDirectLinkExtractor.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		83565FE32522B1C00009C582 /* YoutubeDirectLinkExtractor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 83565FE22522B1C00009C582 /* XCRemoteSwiftPackageReference "YoutubeDirectLinkExtractor" */;
+			productName = YoutubeDirectLinkExtractor;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		831CA65524F166D900DB6BF3 /* MovieOS.xcdatamodeld */ = {
