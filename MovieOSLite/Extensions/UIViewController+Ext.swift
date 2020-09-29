@@ -66,35 +66,4 @@ extension UIViewController {
         present(safariVC, animated: true)
     }
     
-    
-    func presentVideoPlayer(withTrailerKey key:String){
-        guard let scene = UIApplication.shared.connectedScenes.first,
-        let windowSceneDelegate = scene.delegate as? UIWindowSceneDelegate,
-        let window = windowSceneDelegate.window,
-        let mainWindow = window,
-        let tabVC = tabBarController else {return}
-        
-        let videoPlayerView = UIView()
-        videoPlayerView.translatesAutoresizingMaskIntoConstraints = false
-        videoPlayerView.backgroundColor = .systemPurple
-        
-        let videoPlayerVC = VideoPlayerVC()
-        
-        tabVC.addChild(videoPlayerVC)
-        videoPlayerView.addSubview(videoPlayerVC.view)
-        videoPlayerVC.view.frame = videoPlayerView.bounds
-        videoPlayerVC.didMove(toParent: self)
-        
-        mainWindow.addSubview(videoPlayerView)
-        
-        NSLayoutConstraint.activate([
-            videoPlayerView.leadingAnchor.constraint(equalTo: mainWindow.leadingAnchor),
-            videoPlayerView.trailingAnchor.constraint(equalTo: mainWindow.trailingAnchor),
-            videoPlayerView.bottomAnchor.constraint(equalTo: tabVC.tabBar.safeAreaLayoutGuide.topAnchor),
-            videoPlayerView.heightAnchor.constraint(equalToConstant: 215)
-        ])
-        
-        videoPlayerVC.showTrailerWithKey(key: key)
-    }
-    
 }

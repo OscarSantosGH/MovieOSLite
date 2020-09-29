@@ -10,8 +10,9 @@ import UIKit
 import YoutubeDirectLinkExtractor
 import AVKit
 
-class VideoPlayerVC: UIViewController{
+class VideoPlayerVC: AVPlayerViewController{
     
+    var ytPlayer = AVPlayer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,11 +20,33 @@ class VideoPlayerVC: UIViewController{
     }
     
     private func configure(){
-        
+        allowsPictureInPicturePlayback = true
+        ytPlayer.allowsExternalPlayback = true
+        ytPlayer.isMuted = false
+        ytPlayer.automaticallyWaitsToMinimizeStalling = false
+        do{
+            try AVAudioSession.sharedInstance().setCategory(.playback)
+        }catch{
+            print(error.localizedDescription)
+        }
     }
     
-    func showTrailerWithKey(key: String){
-        
+    func playVideoWithKey(key: String){
+        showLoadingState()
+        let y = YoutubeDirectLinkExtractor()
+        y.extractInfo(for: .id(key), success: { [weak self] info in
+            guard let self = self else {return}
+            self.hideLoadingState()
+            DispatchQueue.main.async {
+                guard let link = info.highestQualityPlayableLink,
+                      let url = URL(string: link) else {return}
+                self.ytPlayer = AVPlayer(url: url)
+                self.player = self.ytPlayer
+                self.player?.play()
+            }
+        }) { error in
+            print(error)
+        }
     }
 
 }

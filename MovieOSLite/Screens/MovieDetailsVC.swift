@@ -237,7 +237,11 @@ extension MovieDetailsVC: UICollectionViewDelegate{
     }
     
     private func showTrailer(withKey key:String){
-        presentVideoPlayer(withTrailerKey: key)
+        //presentVideoPlayer(withTrailerKey: key)
+        let videoPlayerVC = VideoPlayerVC()
+        present(videoPlayerVC, animated: true) {
+            videoPlayerVC.playVideoWithKey(key: key)
+        }
     }
     
 }
