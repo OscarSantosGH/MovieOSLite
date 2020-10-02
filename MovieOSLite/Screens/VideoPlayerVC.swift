@@ -24,11 +24,6 @@ class VideoPlayerVC: AVPlayerViewController{
         ytPlayer.allowsExternalPlayback = true
         ytPlayer.isMuted = false
         ytPlayer.automaticallyWaitsToMinimizeStalling = false
-        do{
-            try AVAudioSession.sharedInstance().setCategory(.playback)
-        }catch{
-            print(error.localizedDescription)
-        }
     }
     
     func playVideoWithKey(key: String){

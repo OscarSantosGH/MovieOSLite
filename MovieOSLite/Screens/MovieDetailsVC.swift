@@ -237,9 +237,13 @@ extension MovieDetailsVC: UICollectionViewDelegate{
     }
     
     private func showTrailer(withKey key:String){
-        //presentVideoPlayer(withTrailerKey: key)
+        guard let rootVC = tabBarController?.viewControllers?.first,
+        let navVC = rootVC as? UINavigationController,
+        let homeVC = navVC.viewControllers.first as? HomeVC else {return}
+        
         let videoPlayerVC = VideoPlayerVC()
-        present(videoPlayerVC, animated: true) {
+        videoPlayerVC.delegate = homeVC
+        rootVC.present(videoPlayerVC, animated: true) {
             videoPlayerVC.playVideoWithKey(key: key)
         }
     }

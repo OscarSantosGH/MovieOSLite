@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import AVKit
 
 class HomeVC: UIViewController {
     
@@ -159,4 +160,19 @@ extension HomeVC: UICollectionViewDelegate{
         }
         navigationController?.pushViewController(destinationVC, animated: true)
     }
+}
+
+extension HomeVC: AVPlayerViewControllerDelegate{
+    
+    func playerViewController(_ playerViewController: AVPlayerViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
+            
+            let currentviewController = navigationController?.visibleViewController
+            
+            if currentviewController != playerViewController{
+                
+                currentviewController?.present(playerViewController, animated: true, completion: nil)
+                
+            }
+            
+        }
 }
