@@ -237,15 +237,17 @@ extension MovieDetailsVC: UICollectionViewDelegate{
     }
     
     private func showTrailer(withKey key:String){
-        guard let rootVC = tabBarController?.viewControllers?.first,
-        let navVC = rootVC as? UINavigationController,
-        let homeVC = navVC.viewControllers.first as? HomeVC else {return}
-        
-        let videoPlayerVC = VideoPlayerVC()
-        videoPlayerVC.delegate = homeVC
-        rootVC.present(videoPlayerVC, animated: true) {
-            videoPlayerVC.playVideoWithKey(key: key)
+        // TODO: Check if is playing
+        if MOPlayerViewController.shared.isPlaying{
+            print("playing")
+        }else{
+            print("no playing")
+            MOPlayerViewController.shared.playVideoWithKey(key: key) {
+                self.present(MOPlayerViewController.shared.playerVC, animated: true)
+                MOPlayerViewController.shared.isPlaying = true
+            }
         }
+        
     }
     
 }

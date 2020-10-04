@@ -43,7 +43,7 @@
 		832B58862443EC5600327E06 /* CAGradientLayer+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B58852443EC5600327E06 /* CAGradientLayer+Ext.swift */; };
 		832B58882443F2D400327E06 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B58872443F2D400327E06 /* UIViewController+Ext.swift */; };
 		83565FE42522B1C00009C582 /* YoutubeDirectLinkExtractor in Frameworks */ = {isa = PBXBuildFile; productRef = 83565FE32522B1C00009C582 /* YoutubeDirectLinkExtractor */; };
-		8364F8AD2518B744008A9B7F /* VideoPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8364F8AC2518B744008A9B7F /* VideoPlayerVC.swift */; };
+		835A2B5D25293370007EB53E /* MOPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835A2B5C25293370007EB53E /* MOPlayerViewController.swift */; };
 		8364F8B6251A09C8008A9B7F /* MOTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8364F8B5251A09C8008A9B7F /* MOTabBarController.swift */; };
 		8374628E23F8E2D6003AD63E /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8374628D23F8E2D6003AD63E /* UIView+Ext.swift */; };
 		838F7C1123D27D9A005CF45B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838F7C1023D27D9A005CF45B /* AppDelegate.swift */; };
@@ -118,7 +118,7 @@
 		832B58832443D20100327E06 /* MOHeaderBackdropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOHeaderBackdropView.swift; sourceTree = "<group>"; };
 		832B58852443EC5600327E06 /* CAGradientLayer+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Ext.swift"; sourceTree = "<group>"; };
 		832B58872443F2D400327E06 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
-		8364F8AC2518B744008A9B7F /* VideoPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerVC.swift; sourceTree = "<group>"; };
+		835A2B5C25293370007EB53E /* MOPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPlayerViewController.swift; sourceTree = "<group>"; };
 		8364F8B5251A09C8008A9B7F /* MOTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOTabBarController.swift; sourceTree = "<group>"; };
 		8374628D23F8E2D6003AD63E /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		838F7C0D23D27D9A005CF45B /* MovieOSLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieOSLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -249,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				8364F8B5251A09C8008A9B7F /* MOTabBarController.swift */,
+				835A2B5C25293370007EB53E /* MOPlayerViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -311,7 +312,6 @@
 				831CA64D24EC90B600DB6BF3 /* SearchVC.swift */,
 				831CA66A24FAA4AF00DB6BF3 /* LoadingMoviesVC.swift */,
 				83262F4F25085CA70090999D /* SearchCategoryDetailsVC.swift */,
-				8364F8AC2518B744008A9B7F /* VideoPlayerVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -475,7 +475,6 @@
 				838F7C3823D2C4CA005CF45B /* MoviesAPIResponse.swift in Sources */,
 				831CA66B24FAA4AF00DB6BF3 /* LoadingMoviesVC.swift in Sources */,
 				838F7C3C23D3B22A005CF45B /* MovieCell.swift in Sources */,
-				8364F8AD2518B744008A9B7F /* VideoPlayerVC.swift in Sources */,
 				838F7C2823D2814D005CF45B /* FavoritesVC.swift in Sources */,
 				838F7C3023D2A619005CF45B /* NetworkManager.swift in Sources */,
 				831CA64424E9A7D100DB6BF3 /* MOPersonCreditsView.swift in Sources */,
@@ -494,6 +493,7 @@
 				838F7C4023D4E77D005CF45B /* MORatingLabel.swift in Sources */,
 				83262F41250101490090999D /* MOMovieTrailersView.swift in Sources */,
 				83C7618F2511829800787CB3 /* MOEmptySearchView.swift in Sources */,
+				835A2B5D25293370007EB53E /* MOPlayerViewController.swift in Sources */,
 				83262F5025085CA70090999D /* SearchCategoryDetailsVC.swift in Sources */,
 				8364F8B6251A09C8008A9B7F /* MOTabBarController.swift in Sources */,
 				83D619D32400AA3000E21320 /* MovieDetailsVC.swift in Sources */,

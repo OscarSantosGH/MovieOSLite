@@ -30,6 +30,8 @@ class HomeVC: UIViewController {
         updateData()
         
         timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(autoScrollFeatureMovies), userInfo: nil, repeats: false)
+        
+        MOPlayerViewController.shared.playerVC.delegate = self
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -162,6 +164,7 @@ extension HomeVC: UICollectionViewDelegate{
     }
 }
 
+//MARK: - AVPlayerViewControllerDelegate
 extension HomeVC: AVPlayerViewControllerDelegate{
     
     func playerViewController(_ playerViewController: AVPlayerViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
@@ -169,10 +172,10 @@ extension HomeVC: AVPlayerViewControllerDelegate{
             let currentviewController = navigationController?.visibleViewController
             
             if currentviewController != playerViewController{
-                
                 currentviewController?.present(playerViewController, animated: true, completion: nil)
-                
             }
-            
-        }
+            completionHandler(true)
+        
+    }
+    
 }
