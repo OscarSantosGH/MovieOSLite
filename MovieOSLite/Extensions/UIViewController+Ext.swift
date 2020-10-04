@@ -37,6 +37,7 @@ extension UIViewController {
         blurView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(containerView)
+        view.bringSubviewToFront(containerView)
         containerView.addSubviews(blurView, activityView)
         
         containerView.pinToEdges(of: view)

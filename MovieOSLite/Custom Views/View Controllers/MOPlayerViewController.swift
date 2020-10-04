@@ -46,5 +46,26 @@ class MOPlayerViewController {
             print(error)
         }
     }
+    
+    func playVideoWithKey(key: String, completion: @escaping ()->Void){
+        playerVC.contentOverlayView?.addSubview(activityView)
+        activityView.center = playerVC.contentOverlayView?.center ?? CGPoint(x: 0.5, y: 0.5)
+        activityView.startAnimating()
+        let y = YoutubeDirectLinkExtractor()
+        y.extractInfo(for: .id(key), success: { [weak self] info in
+            guard let self = self else {return}
+            DispatchQueue.main.async {
+                self.activityView.removeFromSuperview()
+                guard let link = info.highestQualityPlayableLink,
+                      let url = URL(string: link) else {return}
+                self.ytPlayer.replaceCurrentItem(with: AVPlayerItem(url: url))
+                self.playerVC.player = self.ytPlayer
+                self.playerVC.player?.play()
+                completion()
+            }
+        }) { error in
+            print(error)
+        }
+    }
 
 }

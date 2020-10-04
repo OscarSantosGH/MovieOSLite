@@ -169,10 +169,10 @@ extension HomeVC: AVPlayerViewControllerDelegate{
     
     func playerViewController(_ playerViewController: AVPlayerViewController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
             
-            let currentviewController = navigationController?.visibleViewController
+            let currentViewController = navigationController?.visibleViewController
             
-            if currentviewController != playerViewController{
-                currentviewController?.present(playerViewController, animated: true, completion: nil)
+            if currentViewController != playerViewController{
+                currentViewController?.present(playerViewController, animated: true, completion: nil)
             }
             completionHandler(true)
         
