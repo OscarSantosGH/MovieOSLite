@@ -237,17 +237,14 @@ extension MovieDetailsVC: UICollectionViewDelegate{
     }
     
     private func showTrailer(withKey key:String){
-        // TODO: Check if is playing
-        if MOPlayerViewController.shared.isPlaying{
-            print("playing")
+        if MOPlayerViewController.shared.isOnPictureInPictureMode{
+            MOPlayerViewController.shared.playVideoWithKey(key: key)
         }else{
-            print("no playing")
-            MOPlayerViewController.shared.playVideoWithKey(key: key) {
-                self.present(MOPlayerViewController.shared.playerVC, animated: true)
-                MOPlayerViewController.shared.isPlaying = true
+            MOPlayerViewController.shared.playerVC.player = nil
+            present(MOPlayerViewController.shared.playerVC, animated: true) {
+                MOPlayerViewController.shared.playVideoWithKey(key: key)
             }
         }
-        
     }
     
 }

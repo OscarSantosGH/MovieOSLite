@@ -178,4 +178,12 @@ extension HomeVC: AVPlayerViewControllerDelegate{
         
     }
     
+    func playerViewControllerDidStopPictureInPicture(_ playerViewController: AVPlayerViewController) {
+        MOPlayerViewController.shared.isOnPictureInPictureMode = false
+    }
+    
+    func playerViewControllerDidStartPictureInPicture(_ playerViewController: AVPlayerViewController) {
+        MOPlayerViewController.shared.isOnPictureInPictureMode = true
+    }
+    
 }
