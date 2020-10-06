@@ -44,6 +44,8 @@
 "Getting Popular movies..." = "Descargando películas Populares...";
 "Getting Upcomming movies..." = "Descargando próximos estrenos...";
 "Getting playing now movies..." = "Descargando películas en cartelera...";
+"Getting Featured Movies..." = "Descargando películas destacadas...";
+"Welcome to MovieOS" = "Bienvenido a MovieOS";
 
 /* Cast placeholders */
 "cName" = "Nombre";

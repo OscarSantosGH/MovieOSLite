@@ -44,6 +44,8 @@
 "Getting Popular movies..." = "Getting Popular movies...";
 "Getting Upcomming movies..." = "Getting Upcomming movies...";
 "Getting playing now movies..." = "Getting playing now movies...";
+"Getting Featured Movies..." = "Getting Features Movies...";
+"Welcome to MovieOS" = "Welcome to MovieOS";
 
 /* Cast placeholders */
 "cName" = "Name";
