@@ -62,9 +62,9 @@ class MOMovieInfoView: UIView {
         releaseDateLabel.update(info: configureReleaseDate(from: movie.releaseDate))
         genresStackView = MOGenresTagStackView(withGenres: movie.genres.compactMap{Int32($0.id)} )
         if movie.overview == ""{
-            storylineLabel.text = "No Overview Found"
+            storylineLabel.text = NSLocalizedString("No Overview Found", comment: "No Overview Found")
         }else{
-            storylineLabel.text = "Overview"
+            storylineLabel.text = NSLocalizedString("Overview", comment: "Overview")
         }
         storylineBodyLabel.text = movie.overview
         favoriteButton.update(isFavorite: isFavorite)
@@ -73,8 +73,8 @@ class MOMovieInfoView: UIView {
     private func configure(){
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.systemBackground
-        ratingLabel = MOHighlightInfoView(desc: "Ratings")
-        releaseDateLabel = MOHighlightInfoView(desc: "Release Date")
+        ratingLabel = MOHighlightInfoView(desc: NSLocalizedString("Ratings", comment: "Ratings"))
+        releaseDateLabel = MOHighlightInfoView(desc: NSLocalizedString("Release Date", comment: "Release Date"))
         update(withMovie: movie, posterImage: posterImage, isFavorite: isFavorite)
     }
     
@@ -82,7 +82,7 @@ class MOMovieInfoView: UIView {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        guard let date = dateFormatter.date(from:stringDate) else {return "Unknown"}
+        guard let date = dateFormatter.date(from:stringDate) else {return NSLocalizedString("Unknown", comment: "Unknown")}
         
         let newFormatter = DateFormatter()
         newFormatter.dateFormat = "MMM d, yyyy"

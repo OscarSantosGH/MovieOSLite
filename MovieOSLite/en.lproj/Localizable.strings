@@ -31,7 +31,7 @@
 "lsWestern" = "Western";
 
 /* Favorite View - Empty table description */
-"touchTheHeart" = "Touch the heart icon to save a movie";
+"noFavMovie" = "You don't have favorite movies yet";
 
 /* Internet status info */
 "Internet connection lost" = "Internet connection lost";
@@ -53,10 +53,16 @@
 
 "Not Rated" = "Not Rated";
 "Release date unknown" = "Release date unknown";
-"No Story found" = "No Story found";
+"No Overview Found" = "No Overview Found";
 "Title not found" = "Title not found";
-"No Cast found" = "No Cast found";
+"No Cast Found" = "No Cast Found";
 "The Cast" = "The Cast";
+
+"Overview" = "Overview";
+
+"Ratings" = "Ratings";
+"Release Date" = "Release Date";
+"Unknown" = "Unknown";
 
 "Search your movies" = "Search your movies";
 "Upcoming" = "Upcoming";

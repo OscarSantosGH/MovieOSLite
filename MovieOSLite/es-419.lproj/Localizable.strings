@@ -31,7 +31,7 @@
 "lsWestern" = "Vaqueros";
 
 /* Favorite View - Empty table description */
-"touchTheHeart" = "Toca el icono de corazón para guardar la película";
+"noFavMovie" = "No tienes peliculas favoritas todavia";
 
 /* Internet status info */
 "Internet connection lost" = "Conexión a internet perdida";
@@ -53,10 +53,16 @@
 
 "Not Rated" = "Sin calificación";
 "Release date unknown" = "Fecha de lanzamiento desconocida";
-"No Story found" = "No se encontró resumen";
+"No Overview Found" = "No se encontró resumen";
 "Title not found" = "Título no encontrado";
-"No Cast found" = "No se encontraron los actores";
+"No Cast Found" = "No se encontraron los actores";
 "The Cast" = "Actores Principales";
+
+"Overview" = "Resumen";
+
+"Ratings" = "Calificación";
+"Release Date" = "Fecha de Lanzamiento";
+"Unknown" = "Desconocido";
 
 "Search your movies" = "¿ Cual película quieres ver ?";
 "Upcoming" = "Próximamente";
