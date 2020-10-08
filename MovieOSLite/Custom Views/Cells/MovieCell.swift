@@ -32,7 +32,7 @@ class MovieCell: UICollectionViewCell {
         posterImageView.image = nil
         posterImageView.setImage(forURL: movie.posterPath)
         if movie.voteAverage == 0.0{
-            ratingTextLabel.text = "Not rated"
+            ratingTextLabel.text = NSLocalizedString("Not Rated", comment: "When the movie isn't rated")
             ratingLabel.alpha = 0
         }else{
             ratingTextLabel.text = "Rating: "
