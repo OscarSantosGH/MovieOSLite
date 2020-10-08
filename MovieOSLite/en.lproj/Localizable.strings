@@ -64,6 +64,14 @@
 "Release Date" = "Release Date";
 "Unknown" = "Unknown";
 
+/* Person Details */
+"Age" = "Age";
+"Place Of Birth" = "Place Of Birth";
+"Biography" = "Biography";
+"No Biography Found" = "No Biography Found";
+"Known For" = "Known For";
+"No Movie Credit Found" = "No Movie Credit Found";
+
 "Search your movies" = "Search your movies";
 "Upcoming" = "Upcoming";
 "Now Playing" = "Now Playing";

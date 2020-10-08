@@ -64,6 +64,14 @@
 "Release Date" = "Fecha de Lanzamiento";
 "Unknown" = "Desconocido";
 
+/* Person Details */
+"Age" = "Edad";
+"Place Of Birth" = "Lugar de nacimiento";
+"Biography" = "Biografía";
+"No Biography Found" = "No se ha encontrado la biografía";
+"Known For" = "Conocido por";
+"No Movie Credit Found" = "No se encontró crédito de película";
+
 "Search your movies" = "¿ Cual película quieres ver ?";
 "Upcoming" = "Próximamente";
 "Now Playing" = "En Cartelera";
