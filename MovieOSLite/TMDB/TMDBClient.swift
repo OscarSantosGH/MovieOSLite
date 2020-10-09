@@ -19,6 +19,7 @@ class TMDBClient{
     private let baseBackdropImgUrl = "https://image.tmdb.org/t/p/w500"
     private let baseCastImgUrl = "https://image.tmdb.org/t/p/w92"
     private let baseYoutubeThumbUrl = "https://img.youtube.com/vi/"
+    private let lang = "&language=" + NSLocalizedString("lang", comment: "language of the info request to the database")
     
     private init(){}
     
@@ -31,7 +32,7 @@ class TMDBClient{
     
     func getMovies(from list:MoviesList, completed: @escaping (Result<[MovieResponse], MOError>)-> Void){
         
-        let endPoint = baseUrl + "movie/" + "\(list.rawValue)?api_key=\(API_KEY)"
+        let endPoint = baseUrl + "movie/" + "\(list.rawValue)?api_key=\(API_KEY)" + lang
         
         guard let url = URL(string: endPoint) else {
             DispatchQueue.main.async {
@@ -51,17 +52,37 @@ class TMDBClient{
     }
     
     func getMovie(withID id:Int, completed: @escaping (Result<MovieDetailAPIResponse,MOError>)->Void){
-        let endPoint = baseUrl + "movie/" + "\(String(id))?api_key=\(API_KEY)" + "&append_to_response=credits,videos"
+        let endPoint = baseUrl + "movie/" + "\(String(id))?api_key=\(API_KEY)" + "&append_to_response=credits,videos" + lang
         
         guard let url = URL(string: endPoint) else {
             completed(.failure(.invalidURL))
             return
         }
         
-        NetworkManager.shared.getMovie(withURL: url) { (result) in
+        NetworkManager.shared.getMovie(withURL: url) { [self] (result) in
             switch result{
             case .success(let movie):
-                completed(.success(movie))
+                if self.lang != "&language=en-US"{
+                    let endPoint2 = baseUrl + "movie/" + "\(String(id))/videos?api_key=\(API_KEY)"
+                    
+                    guard let url2 = URL(string: endPoint2) else {
+                        completed(.success(movie))
+                        return
+                    }
+                    NetworkManager.shared.getTrailers(withURL: url2) { (result2) in
+                        switch result2{
+                        case .success(let originalTrailers):
+                            var newMovie = movie
+                            let allTrailers = movie.videos.results + originalTrailers.results
+                            newMovie.videos.results = allTrailers
+                            completed(.success(newMovie))
+                        case .failure(_):
+                            completed(.success(movie))
+                        }
+                    }
+                }else{
+                    completed(.success(movie))
+                }
             case .failure(let error):
                 completed(.failure(error))
             }
@@ -72,7 +93,7 @@ class TMDBClient{
     
     func searchMovies(withString txt:String, page:Int = 1, completed: @escaping (Result<[MovieResponse], MOError>, _ totalPages:Int)-> Void){
         let secureTxt = txt.replacingOccurrences(of: " ", with: "%20")
-        let endPoint = baseUrl + "search/movie?api_key=\(API_KEY)&query=\(secureTxt)&page=" + String(page)
+        let endPoint = baseUrl + "search/movie?api_key=\(API_KEY)&query=\(secureTxt)&page=" + String(page) + lang
         
         guard let url = URL(string: endPoint) else {
             completed(.failure(.invalidURL), 0)
@@ -90,7 +111,7 @@ class TMDBClient{
     }
     
     func getMoviesBy(txt:String, page:Int = 1, completed: @escaping (Result<[MovieResponse], MOError>, _ totalPages:Int)->Void){
-        let endPoint = baseUrl + "discover/movie?api_key=\(API_KEY)&page=" + String(page) + txt
+        let endPoint = baseUrl + "discover/movie?api_key=\(API_KEY)&page=" + String(page) + txt + lang
         
         guard let url = URL(string: endPoint) else {
             completed(.failure(.invalidURL), 0)
@@ -108,7 +129,7 @@ class TMDBClient{
     }
     
     func getPersonInfo(from id:Int, completed: @escaping (Result<PersonResponse, MOError>)->Void){
-        let endPoint = baseUrl + "person/" + String(id) + "?api_key=\(API_KEY)" + "&append_to_response=movie_credits"
+        let endPoint = baseUrl + "person/" + String(id) + "?api_key=\(API_KEY)" + "&append_to_response=movie_credits" + lang
         
         guard let url = URL(string: endPoint) else {
             completed(.failure(.invalidURL))
