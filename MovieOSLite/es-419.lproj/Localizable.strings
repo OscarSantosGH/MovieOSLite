@@ -60,6 +60,7 @@
 
 "Overview" = "Resumen";
 
+"Rating: " = "Calificación: ";
 "Ratings" = "Calificación";
 "Release Date" = "Fecha de Lanzamiento";
 "Unknown" = "Desconocido";
@@ -72,10 +73,16 @@
 "Known For" = "Conocido por";
 "No Movie Credit Found" = "No se encontró crédito de película";
 
-"Search your movies" = "¿ Cual película quieres ver ?";
+"Search for a movie" = "¿ Cual película quieres ver ?";
+"Home" = "Inicio";
+"Search" = "Buscar";
+"Favorites" = "Favoritas";
 "Upcoming" = "Próximamente";
 "Now Playing" = "En Cartelera";
 "Popular" = "Popular";
 
 "Trailers" = "Trailers";
 "No Trailers Found" = "No se encontraron trailers";
+
+"No movies found" = "No se encontraron películas";
+"Try searching again" = "Intente buscar de nuevo con una oración o una palabra clave diferente";

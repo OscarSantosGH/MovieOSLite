@@ -61,6 +61,7 @@
 "Overview" = "Overview";
 
 "Ratings" = "Ratings";
+"Rating: " = "Rating: ";
 "Release Date" = "Release Date";
 "Unknown" = "Unknown";
 
@@ -72,10 +73,16 @@
 "Known For" = "Known For";
 "No Movie Credit Found" = "No Movie Credit Found";
 
-"Search your movies" = "Search your movies";
+"Search for a movie" = "Search for a movie";
+"Home" = "Home";
+"Search" = "Search";
+"Favorites" = "Favorites";
 "Upcoming" = "Upcoming";
 "Now Playing" = "Now Playing";
 "Popular" = "Popular";
 
 "Trailers" = "Trailers";
 "No Trailers Found" = "No Trailers Found";
+
+"No movies found" = "No movies found";
+"Try searching again" = "Try searching again using a different spelling or keyword.";

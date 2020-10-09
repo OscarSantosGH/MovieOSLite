@@ -35,7 +35,7 @@ class MovieCell: UICollectionViewCell {
             ratingTextLabel.text = NSLocalizedString("Not Rated", comment: "When the movie isn't rated")
             ratingLabel.alpha = 0
         }else{
-            ratingTextLabel.text = "Rating: "
+            ratingTextLabel.text = NSLocalizedString("Rating: ", comment: "Rating: ")
             ratingLabel.alpha = 1
         }
         ratingLabel.text = String(movie.voteAverage)

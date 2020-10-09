@@ -45,7 +45,7 @@ class SearchVC: UIViewController {
     func configureSearchController(){
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
-        searchController.searchBar.placeholder = "Search for a movie"
+        searchController.searchBar.placeholder = NSLocalizedString("Search for a movie", comment: "Search for a movie")
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
     }
@@ -76,7 +76,7 @@ class SearchVC: UIViewController {
     
     func updateNavTitle(withString txt:String){
         if txt == ""{
-            navigationItem.title = "Search"
+            navigationItem.title = NSLocalizedString("Search", comment: "Search")
             currentPage = 1
             showCategoryScreen()
         }else{
