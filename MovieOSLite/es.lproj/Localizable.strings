@@ -1,0 +1,88 @@
+/* 
+  Localizable.strings
+  MovieOSLite
+
+  Created by Oscar Santos on 2/21/20.
+  Copyright © 2020 Oscar Santos. All rights reserved.
+*/
+
+/* App language */
+"lang" = "es";
+
+/* Movie genders */
+"lsAction" = "Acción";
+"lsAdventure" = "Aventura";
+"lsAnimation" = "Animación";
+"lsComedy" = "Comedia";
+"lsCrime" = "Crimen";
+"lsDocumentary" = "Documental";
+"lsDrama" = "Drama";
+"lsFamily" = "Familia";
+"lsFantasy" = "Fantasía";
+"lsHistory" = "Historia";
+"lsHorror" = "Terror";
+"lsMusic" = "Música";
+"lsMystery" = "Misterio";
+"lsRomance" = "Romance";
+"lsScience Fiction" = "Ciencia ficción";
+"lsTV Movie" = "Película de TV";
+"lsThriller" = "Suspenso";
+"lsWar" = "Bélica";
+"lsWestern" = "Vaqueros";
+
+/* Favorite View - Empty table description */
+"noFavMovie" = "No tienes peliculas favoritas todavia";
+
+/* Internet status info */
+"Internet connection lost" = "Conexión a internet perdida";
+"Back Online" = "De nuevo en línea";
+
+/* Loading view status info */
+"Getting movies..." = "Descargando películas...";
+"Proceeding without internet" = "Continuando sin internet";
+"Please connect to the internet to proceed" = "Revise su conexión a internet y vuelva a intentarlo";
+"Getting Popular movies..." = "Descargando películas Populares...";
+"Getting Upcomming movies..." = "Descargando próximos estrenos...";
+"Getting playing now movies..." = "Descargando películas en cartelera...";
+"Getting Featured Movies..." = "Descargando películas destacadas...";
+"Welcome to MovieOS" = "Bienvenido a MovieOS";
+
+/* Cast placeholders */
+"cName" = "Nombre";
+"cCharacter" = "Personaje";
+
+"Not Rated" = "Sin calificación";
+"Release date unknown" = "Fecha de lanzamiento desconocida";
+"No Overview Found" = "No se encontró resumen";
+"Title not found" = "Título no encontrado";
+"No Cast Found" = "No se encontraron los actores";
+"The Cast" = "Actores Principales";
+
+"Overview" = "Resumen";
+
+"Rating: " = "Calificación: ";
+"Ratings" = "Calificación";
+"Release Date" = "Fecha de Lanzamiento";
+"Unknown" = "Desconocido";
+
+/* Person Details */
+"Age" = "Edad";
+"Place Of Birth" = "Lugar de nacimiento";
+"Biography" = "Biografía";
+"No Biography Found" = "No se ha encontrado la biografía";
+"Known For" = "Conocido por";
+"No Movie Credit Found" = "No se encontró crédito de película";
+
+"Search for a movie" = "¿ Cual película quieres ver ?";
+"Home" = "Inicio";
+"Search" = "Buscar";
+"Favorites" = "Favoritas";
+"Upcoming" = "Próximamente";
+"Now Playing" = "En Cartelera";
+"Popular" = "Popular";
+
+"Trailers" = "Trailers";
+"No Trailers Found" = "No se encontraron trailers";
+
+"No movies found" = "No se encontraron películas";
+"Try searching again" = "Intente buscar de nuevo con una oración o una palabra clave diferente";

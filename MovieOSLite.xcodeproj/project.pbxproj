@@ -118,6 +118,7 @@
 		832B58832443D20100327E06 /* MOHeaderBackdropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOHeaderBackdropView.swift; sourceTree = "<group>"; };
 		832B58852443EC5600327E06 /* CAGradientLayer+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Ext.swift"; sourceTree = "<group>"; };
 		832B58872443F2D400327E06 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		834BCB1125307AEE00DF2E33 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		835A2B5C25293370007EB53E /* MOPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPlayerViewController.swift; sourceTree = "<group>"; };
 		8364F8B5251A09C8008A9B7F /* MOTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOTabBarController.swift; sourceTree = "<group>"; };
 		8374628D23F8E2D6003AD63E /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
@@ -155,7 +156,6 @@
 		83C761902511A27A00787CB3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		83D619D22400AA3000E21320 /* MovieDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsVC.swift; sourceTree = "<group>"; };
 		83D619D42400B3F800E21320 /* MOGenresLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOGenresLabel.swift; sourceTree = "<group>"; };
-		83D619D62400BC9D00E21320 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		83D619DA2400BD5D00E21320 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83D619DC2400BD6300E21320 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		83D619DE241347B500E21320 /* MOHighlightInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOHighlightInfoView.swift; sourceTree = "<group>"; };
@@ -419,6 +419,7 @@
 				en,
 				Base,
 				"es-419",
+				es,
 			);
 			mainGroup = 838F7C0423D27D9A005CF45B;
 			packageReferences = (
@@ -530,7 +531,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				838F7C1C23D27D9B005CF45B /* Base */,
-				83D619D62400BC9D00E21320 /* es-419 */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -540,6 +540,7 @@
 			children = (
 				83D619DA2400BD5D00E21320 /* en */,
 				83D619DC2400BD6300E21320 /* es-419 */,
+				834BCB1125307AEE00DF2E33 /* es */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
