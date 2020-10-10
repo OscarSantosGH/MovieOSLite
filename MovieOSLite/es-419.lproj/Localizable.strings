@@ -60,8 +60,8 @@
 
 "Overview" = "Resumen";
 
-"Rating: " = "Calificación: ";
-"Ratings" = "Calificación";
+"Rating: " = "Puntuación: ";
+"Ratings" = "Puntuación";
 "Release Date" = "Fecha de Lanzamiento";
 "Unknown" = "Desconocido";
 
@@ -86,3 +86,5 @@
 
 "No movies found" = "No se encontraron películas";
 "Try searching again" = "Intente buscar de nuevo con una oración o una palabra clave diferente";
+
+"Powered by" = "Respaldado por";
