@@ -31,7 +31,7 @@ class MOTabBarController: UITabBarController {
         self.upcomingMovies = upcomingMovies
         self.nowPlayingMovies = nowPlayingMovies
         self.featuresMovies = featuresMovies
-        viewControllers = [createHomeVC(), createSearchVC(), createFavoriteVC()]
+        viewControllers = [createHomeVC(), createSearchVC(), createFavoriteVC(), createSettingsVC()]
     }
     
     required init?(coder: NSCoder) {
@@ -66,6 +66,14 @@ class MOTabBarController: UITabBarController {
         favoriteVC.tabBarItem = UITabBarItem(title: NSLocalizedString("Favorites", comment: "Favorites"), image: UIImage(systemName: "heart"), tag: 2)
         
         return UINavigationController(rootViewController: favoriteVC)
+    }
+    
+    private func createSettingsVC() -> UINavigationController{
+        let settingsVC = SettingsVC()
+        settingsVC.title = "Settings"
+        settingsVC.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "globe"), tag: 3)
+        
+        return UINavigationController(rootViewController: settingsVC)
     }
 
 }
