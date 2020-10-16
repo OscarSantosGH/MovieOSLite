@@ -70,8 +70,8 @@ class MOTabBarController: UITabBarController {
     
     private func createSettingsVC() -> UINavigationController{
         let settingsVC = SettingsVC()
-        settingsVC.title = "Settings"
-        settingsVC.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "globe"), tag: 3)
+        settingsVC.title = NSLocalizedString("Settings", comment: "Settings")
+        settingsVC.tabBarItem = UITabBarItem(title: NSLocalizedString("Settings", comment: "Settings"), image: UIImage(systemName: "gear"), tag: 3)
         
         return UINavigationController(rootViewController: settingsVC)
     }

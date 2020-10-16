@@ -21,6 +21,20 @@ enum MOElementsSize{
     static let GenresStackiewWidth = ScreenSize.width * 0.673
 }
 
+enum MOLanguage{
+    
+    static func getCurrent() -> String{
+        switch NSLocalizedString("lang", comment: "language of the info request to the database") {
+        case "es":
+            return "Español"
+        case "es-MX":
+            return "Español (Latinoamérica)"
+        default:
+            return "English"
+        }
+    }
+}
+
 enum TMDBGenres{
     static let genresDic:Dictionary<Int,String> = [
     28:NSLocalizedString("lsAction", comment: "the gender of the movie is: Action"),
