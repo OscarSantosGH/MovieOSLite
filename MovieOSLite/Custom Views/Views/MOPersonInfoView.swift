@@ -108,7 +108,7 @@ class MOPersonInfoView: UIView {
 
             birthdayLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: padding),
             birthdayLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
-            birthdayLabel.widthAnchor.constraint(equalToConstant: 35),
+            birthdayLabel.widthAnchor.constraint(equalToConstant: 55),
             birthdayLabel.heightAnchor.constraint(equalToConstant: 60),
 
             placeOfBirthLabel.topAnchor.constraint(equalTo: birthdayLabel.topAnchor),

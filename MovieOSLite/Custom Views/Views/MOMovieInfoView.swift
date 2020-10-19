@@ -116,7 +116,7 @@ class MOMovieInfoView: UIView {
 
             ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             ratingLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
-            ratingLabel.widthAnchor.constraint(equalToConstant: 60),
+            ratingLabel.widthAnchor.constraint(equalToConstant: 75),
             ratingLabel.heightAnchor.constraint(equalToConstant: 44),
 
             releaseDateLabel.topAnchor.constraint(equalTo: ratingLabel.topAnchor),
@@ -125,7 +125,7 @@ class MOMovieInfoView: UIView {
             releaseDateLabel.heightAnchor.constraint(equalTo: ratingLabel.heightAnchor),
             
             favoriteButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            favoriteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            favoriteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             favoriteButton.widthAnchor.constraint(equalTo: ratingLabel.heightAnchor),
             favoriteButton.heightAnchor.constraint(equalTo: ratingLabel.heightAnchor),
 
