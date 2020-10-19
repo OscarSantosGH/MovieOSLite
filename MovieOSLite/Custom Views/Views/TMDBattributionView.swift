@@ -31,7 +31,7 @@ class TMDBattributionView: UIView {
         addSubviews(titleLabel, logoImageView)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: 15),
@@ -39,7 +39,8 @@ class TMDBattributionView: UIView {
             logoImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
             logoImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 100),
             logoImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -100),
-            logoImageView.heightAnchor.constraint(equalToConstant: 30)
+            logoImageView.heightAnchor.constraint(equalToConstant: 30),
+            logoImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 10)
         ])
     }
     

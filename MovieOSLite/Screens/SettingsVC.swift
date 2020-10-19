@@ -19,13 +19,11 @@ class SettingsVC: UIViewController {
     
     private func configure(){
         tableView = UITableView(frame: view.frame, style: .insetGrouped)
+        tableView.showsVerticalScrollIndicator = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.tableHeaderView = TMDBattributionView(frame: CGRect(x: tableView.frame.origin.x, y: tableView.frame.origin.y, width: tableView.frame.width, height: 55))
         
         view.addSubview(tableView)
-        
-        
         
     }
 
@@ -56,6 +54,26 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        //Get content height & calculate new footer height.
+        let cells = self.tableView.visibleCells
+        var height: CGFloat = 0
+        for i in 0..<cells.count {
+             height += cells[i].frame.height
+        }
+        
+        guard let tabbarHeight = tabBarController?.tabBar.frame.height else {return}
+        guard let navbarHeight = navigationController?.navigationBar.frame.height else {return}
+        height = self.tableView.bounds.height - ceil(height) - (tabbarHeight*2) - (navbarHeight*2) - 20
+
+        //If the footer's new height is negative, we make it 0, since we don't need footer anymore.
+        height = height > 0 ? height : 0
+
+        //Create the footer
+        let footerView = TMDBattributionView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
+        self.tableView.tableFooterView = footerView
     }
     
 }
