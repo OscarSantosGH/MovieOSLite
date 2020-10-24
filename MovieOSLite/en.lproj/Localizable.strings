@@ -91,3 +91,11 @@
 "Powered by" = "Powered by";
 "Language" = "Language";
 "Preferred Language" = "Preferred Language";
+"Appearance" = "Appearance";
+
+"Automatic" = "Automatic";
+"Match the appearance of the system" = "Match the appearance of the system";
+"Light Mode" = "Light Mode";
+"Stays in light mode" = "Stays in light mode";
+"Dark Mode" = "Dark Mode";
+"Stays in dark mode" = "Stays in dark mode";

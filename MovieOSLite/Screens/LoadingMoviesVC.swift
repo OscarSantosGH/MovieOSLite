@@ -21,6 +21,7 @@ class LoadingMoviesVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setAppearance()
         configure()
         NetworkManager.shared.checkForInternetConnection()
         NotificationCenter.default.addObserver(self, selector: #selector(checkForInternetConnection(notification:)), name: NotificationNames.internetAvailable, object: nil)
@@ -56,6 +57,22 @@ class LoadingMoviesVC: UIViewController {
         
         activityView.startAnimating()
         messageLabelView.text = NSLocalizedString("Getting movies...", comment: "MovieOS is downloading the movies")
+    }
+    
+    private func setAppearance(){
+        let value = UserDefaults.standard.integer(forKey: "appearance")
+        guard let scene = UIApplication.shared.connectedScenes.first,
+            let windowSceneDelegate = scene.delegate as? UIWindowSceneDelegate,
+            let window = windowSceneDelegate.window else {return}
+        
+        switch value {
+        case 1:
+            window?.overrideUserInterfaceStyle = .light
+        case 2:
+            window?.overrideUserInterfaceStyle = .dark
+        default:
+            window?.overrideUserInterfaceStyle = .unspecified
+        }
     }
     
     @objc func checkForInternetConnection(notification:NSNotification){

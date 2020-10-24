@@ -91,3 +91,11 @@
 "Powered by" = "Respaldado por";
 "Language" = "Idioma";
 "Preferred Language" = "Idioma preferido";
+"Appearance" = "Apariencia";
+
+"Automatic" = "Automático";
+"Match the appearance of the system" = "Coincide con la apariencia del sistema";
+"Light Mode" = "Modo Claro";
+"Stays in light mode" = "Permanece en modo claro";
+"Dark Mode" = "Modo Oscuro";
+"Stays in dark mode" = "Permanece en modo oscuro";

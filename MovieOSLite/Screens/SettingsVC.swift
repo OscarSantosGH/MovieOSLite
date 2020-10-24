@@ -11,20 +11,59 @@ import UIKit
 class SettingsVC: UIViewController {
     
     var tableView:UITableView!
+    var sections = [Int:[UITableViewCell]]()
+    let userDefaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureTableViewData()
         configure()
     }
     
     private func configure(){
         tableView = UITableView(frame: view.frame, style: .insetGrouped)
         tableView.showsVerticalScrollIndicator = false
+        tableView.tableFooterView = TMDBattributionView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 55))
         tableView.delegate = self
         tableView.dataSource = self
         
         view.addSubview(tableView)
         
+    }
+    
+    private func configureTableViewData(){
+        // language Cell
+        let langCell = UITableViewCell.init(style: .value1, reuseIdentifier: "LangSetting")
+        let globeImg = UIImage(systemName: "globe")
+        langCell.imageView?.image = globeImg
+        langCell.imageView?.tintColor = .systemBlue
+        langCell.accessoryType = .disclosureIndicator
+        langCell.textLabel?.text = NSLocalizedString("Language", comment: "The language")
+        langCell.detailTextLabel?.text = MOLanguage.getCurrent()
+        sections[1] = [langCell]
+        
+        // Appearance Cells
+        let selectedApperance = userDefaults.integer(forKey: "appearance")
+        
+        let autoModeCell = UITableViewCell.init(style: .subtitle, reuseIdentifier: "AutoAppearanceSetting")
+        autoModeCell.textLabel?.text = NSLocalizedString("Automatic", comment: "Automatic mode")
+        autoModeCell.detailTextLabel?.text = NSLocalizedString("Match the appearance of the system", comment: "Match the appearance of the system")
+        autoModeCell.detailTextLabel?.textColor = .secondaryLabel
+        autoModeCell.accessoryType = selectedApperance != 0 ? .none : .checkmark
+        
+        let lightModeCell = UITableViewCell.init(style: .subtitle, reuseIdentifier: "LightAppearanceSetting")
+        lightModeCell.textLabel?.text = NSLocalizedString("Light Mode", comment: "Light Mode")
+        lightModeCell.detailTextLabel?.text = NSLocalizedString("Stays in light mode", comment: "Stays in light mode")
+        lightModeCell.detailTextLabel?.textColor = .secondaryLabel
+        lightModeCell.accessoryType = selectedApperance == 1 ? .checkmark : .none
+        
+        let darkModeCell = UITableViewCell.init(style: .subtitle, reuseIdentifier: "DarkAppearanceSetting")
+        darkModeCell.textLabel?.text = NSLocalizedString("Dark Mode", comment: "Dark Mode")
+        darkModeCell.detailTextLabel?.text = NSLocalizedString("Stays in dark mode", comment: "Stays in dark mode")
+        darkModeCell.detailTextLabel?.textColor = .secondaryLabel
+        darkModeCell.accessoryType = selectedApperance == 2 ? .checkmark : .none
+        
+        sections[2] = [autoModeCell, lightModeCell, darkModeCell]
     }
 
 }
@@ -32,48 +71,68 @@ class SettingsVC: UIViewController {
 extension SettingsVC: UITableViewDelegate, UITableViewDataSource{
     //MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        if section == 0{
+            return 1
+        }else{
+            return 3
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        sections.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell.init(style: .value1, reuseIdentifier: "Setting")
-        let globeImg = UIImage(systemName: "globe")
-        cell.imageView?.image = globeImg
-        cell.imageView?.tintColor = .systemBlue
-        cell.accessoryType = .disclosureIndicator
-        cell.textLabel?.text = NSLocalizedString("Language", comment: "The language")
-        cell.detailTextLabel?.text = MOLanguage.getCurrent()
-        return cell
+        if indexPath.section == 0{
+            return sections[1]!.first!
+        }else{
+            return sections[2]![indexPath.row]
+        }
     }
     
     
     //MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        NSLocalizedString("Preferred Language", comment: "The Preferred Language")
+        if section == 0{
+            return NSLocalizedString("Preferred Language", comment: "The Preferred Language")
+        }else{
+            return NSLocalizedString("Appearance", comment: "The Appearance")
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        //Get content height & calculate new footer height.
-        let cells = self.tableView.visibleCells
-        var height: CGFloat = 0
-        for i in 0..<cells.count {
-             height += cells[i].frame.height
+        if indexPath.section == 0{
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+        }else{
+            changeAppearance(selected: indexPath.row)
         }
         
-        guard let tabbarHeight = tabBarController?.tabBar.frame.height else {return}
-        guard let navbarHeight = navigationController?.navigationBar.frame.height else {return}
-        height = self.tableView.bounds.height - ceil(height) - (tabbarHeight*2) - (navbarHeight*2) - 20
-
-        //If the footer's new height is negative, we make it 0, since we don't need footer anymore.
-        height = height > 0 ? height : 0
-
-        //Create the footer
-        let footerView = TMDBattributionView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
-        self.tableView.tableFooterView = footerView
     }
+    
+    private func changeAppearance(selected:Int){
+        for cell in sections[2]!{
+            cell.accessoryType = .none
+            cell.setSelected(false, animated: true)
+        }
+        guard let scene = UIApplication.shared.connectedScenes.first,
+            let windowSceneDelegate = scene.delegate as? UIWindowSceneDelegate,
+            let window = windowSceneDelegate.window else {return}
+        
+        sections[2]![selected].accessoryType = .checkmark
+        switch selected {
+        case 1:
+            window?.overrideUserInterfaceStyle = .light
+            userDefaults.set(1, forKey: "appearance")
+        case 2:
+            window?.overrideUserInterfaceStyle = .dark
+            userDefaults.set(2, forKey: "appearance")
+        default:
+            window?.overrideUserInterfaceStyle = .unspecified
+            userDefaults.set(0, forKey: "appearance")
+        }
+        
+    }
+
     
 }
