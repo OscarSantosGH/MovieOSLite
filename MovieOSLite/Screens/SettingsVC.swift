@@ -23,7 +23,6 @@ class SettingsVC: UIViewController {
     private func configure(){
         tableView = UITableView(frame: view.frame, style: .insetGrouped)
         tableView.showsVerticalScrollIndicator = false
-        tableView.tableFooterView = TMDBattributionView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 55))
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -132,6 +131,21 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource{
             userDefaults.set(0, forKey: "appearance")
         }
         
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == sections.count - 1 {
+            return TMDBattributionView()
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == sections.count - 1 {
+            return 70
+        }else{
+            return tableView.sectionFooterHeight
+        }
     }
 
     
