@@ -31,7 +31,7 @@ class MOTabBarController: UITabBarController {
         self.upcomingMovies = upcomingMovies
         self.nowPlayingMovies = nowPlayingMovies
         self.featuresMovies = featuresMovies
-        viewControllers = [createHomeVC(), createSearchVC(), createFavoriteVC()]
+        viewControllers = [createHomeVC(), createSearchVC(), createFavoriteVC(), createSettingsVC()]
     }
     
     required init?(coder: NSCoder) {
@@ -45,15 +45,15 @@ class MOTabBarController: UITabBarController {
         homeVC.nowPlayingMovies = nowPlayingMovies
         homeVC.featuresMovies = featuresMovies
         homeVC.title = "MovieOS"
-        homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "film"), tag: 0)
+        homeVC.tabBarItem = UITabBarItem(title: NSLocalizedString("Home", comment: "Home"), image: UIImage(systemName: "film"), tag: 0)
         
         return UINavigationController(rootViewController: homeVC)
     }
     
     private func createSearchVC() -> UINavigationController{
         let searchVC = SearchVC()
-        searchVC.title = "Search"
-        searchVC.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 1)
+        searchVC.title = NSLocalizedString("Search", comment: "Search")
+        searchVC.tabBarItem = UITabBarItem(title: NSLocalizedString("Search", comment: "Search"), image: UIImage(systemName: "magnifyingglass"), tag: 1)
         
         let searchNavController = UINavigationController(rootViewController: searchVC)
         searchNavController.navigationBar.prefersLargeTitles = true
@@ -62,10 +62,18 @@ class MOTabBarController: UITabBarController {
     
     private func createFavoriteVC() -> UINavigationController{
         let favoriteVC = FavoritesVC()
-        favoriteVC.title = "Favorites"
-        favoriteVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart"), tag: 2)
+        favoriteVC.title = NSLocalizedString("Favorites", comment: "Favorites")
+        favoriteVC.tabBarItem = UITabBarItem(title: NSLocalizedString("Favorites", comment: "Favorites"), image: UIImage(systemName: "heart"), tag: 2)
         
         return UINavigationController(rootViewController: favoriteVC)
+    }
+    
+    private func createSettingsVC() -> UINavigationController{
+        let settingsVC = SettingsVC()
+        settingsVC.title = NSLocalizedString("Settings", comment: "Settings")
+        settingsVC.tabBarItem = UITabBarItem(title: NSLocalizedString("Settings", comment: "Settings"), image: UIImage(systemName: "gear"), tag: 3)
+        
+        return UINavigationController(rootViewController: settingsVC)
     }
 
 }

@@ -28,9 +28,9 @@ class MOMovieTrailersView: UIView{
         self.init(frame: .zero)
         self.videoResponses = videoResponses
         if videoResponses.count == 0{
-            trailersLabel.text = "No Trailers Found"
+            trailersLabel.text = NSLocalizedString("No Trailers Found", comment: "No Trailers Found")
         }else{
-            trailersLabel.text = "Trailers"
+            trailersLabel.text = NSLocalizedString("Trailers", comment: "Trailers")
         }
         configureCollectionView()
         layoutUI()
@@ -40,9 +40,9 @@ class MOMovieTrailersView: UIView{
         self.videoResponses = []
         self.videoResponses = videoResponses
         if videoResponses.count == 0{
-            trailersLabel.text = "No Trailers Found"
+            trailersLabel.text = NSLocalizedString("No Trailers Found", comment: "No Trailers Found")
         }else{
-            trailersLabel.text = "Trailers"
+            trailersLabel.text = NSLocalizedString("Trailers", comment: "Trailers")
         }
     }
     

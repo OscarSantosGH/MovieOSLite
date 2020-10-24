@@ -46,7 +46,7 @@ class FavoritesVC: UIViewController {
         heartImageView.tintColor = .label
         heartImageView.contentMode = .scaleAspectFit
         heartImageView.translatesAutoresizingMaskIntoConstraints = false
-        messageLabelView.text = "You don't have favorite movies yet"
+        messageLabelView.text = NSLocalizedString("noFavMovie", comment: "no favorite movie yet")
     }
     
     private func getMovies(){

@@ -62,9 +62,9 @@ class MOMovieInfoView: UIView {
         releaseDateLabel.update(info: configureReleaseDate(from: movie.releaseDate))
         genresStackView = MOGenresTagStackView(withGenres: movie.genres.compactMap{Int32($0.id)} )
         if movie.overview == ""{
-            storylineLabel.text = "No Overview Found"
+            storylineLabel.text = NSLocalizedString("No Overview Found", comment: "No Overview Found")
         }else{
-            storylineLabel.text = "Overview"
+            storylineLabel.text = NSLocalizedString("Overview", comment: "Overview")
         }
         storylineBodyLabel.text = movie.overview
         favoriteButton.update(isFavorite: isFavorite)
@@ -73,8 +73,8 @@ class MOMovieInfoView: UIView {
     private func configure(){
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.systemBackground
-        ratingLabel = MOHighlightInfoView(desc: "Ratings")
-        releaseDateLabel = MOHighlightInfoView(desc: "Release Date")
+        ratingLabel = MOHighlightInfoView(desc: NSLocalizedString("Ratings", comment: "Ratings"))
+        releaseDateLabel = MOHighlightInfoView(desc: NSLocalizedString("Release Date", comment: "Release Date"))
         update(withMovie: movie, posterImage: posterImage, isFavorite: isFavorite)
     }
     
@@ -82,7 +82,7 @@ class MOMovieInfoView: UIView {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        guard let date = dateFormatter.date(from:stringDate) else {return "Unknown"}
+        guard let date = dateFormatter.date(from:stringDate) else {return NSLocalizedString("Unknown", comment: "Unknown")}
         
         let newFormatter = DateFormatter()
         newFormatter.dateFormat = "MMM d, yyyy"
@@ -116,7 +116,7 @@ class MOMovieInfoView: UIView {
 
             ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             ratingLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
-            ratingLabel.widthAnchor.constraint(equalToConstant: 60),
+            ratingLabel.widthAnchor.constraint(equalToConstant: 75),
             ratingLabel.heightAnchor.constraint(equalToConstant: 44),
 
             releaseDateLabel.topAnchor.constraint(equalTo: ratingLabel.topAnchor),
@@ -125,7 +125,7 @@ class MOMovieInfoView: UIView {
             releaseDateLabel.heightAnchor.constraint(equalTo: ratingLabel.heightAnchor),
             
             favoriteButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            favoriteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            favoriteButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             favoriteButton.widthAnchor.constraint(equalTo: ratingLabel.heightAnchor),
             favoriteButton.heightAnchor.constraint(equalTo: ratingLabel.heightAnchor),
 

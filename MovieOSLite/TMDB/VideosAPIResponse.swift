@@ -9,5 +9,5 @@
 import Foundation
 
 struct VideosAPIResponse: Codable {
-    let results:[VideoResponse]
+    var results:[VideoResponse]
 }

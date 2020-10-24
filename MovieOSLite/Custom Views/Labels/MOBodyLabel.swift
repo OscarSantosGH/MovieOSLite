@@ -30,7 +30,7 @@ class MOBodyLabel: UILabel {
         numberOfLines = 0
         adjustsFontSizeToFitWidth = true
         adjustsFontForContentSizeCategory = true
-        minimumScaleFactor = 0.75
+        minimumScaleFactor = 0.70
         lineBreakMode = .byTruncatingTail
         translatesAutoresizingMaskIntoConstraints = false
     }

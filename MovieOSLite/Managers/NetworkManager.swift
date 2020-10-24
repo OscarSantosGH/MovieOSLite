@@ -126,6 +126,48 @@ class NetworkManager{
         
     }
     
+    func getTrailers(withURL url:URL, completed: @escaping (Result<VideosAPIResponse,MOError>)->Void){
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            if let _ = error{
+                DispatchQueue.main.async {
+                    completed(.failure(.unableToComplete))
+                }
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
+                DispatchQueue.main.async {
+                    completed(.failure(.invalidResponse))
+                }
+                return
+            }
+            
+            guard let data = data else{
+                DispatchQueue.main.async {
+                    completed(.failure(.invalidData))
+                }
+                return
+            }
+            
+            do{
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let apiResponse = try decoder.decode(VideosAPIResponse.self, from: data)
+                DispatchQueue.main.async {
+                    completed(.success(apiResponse))
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    completed(.failure(.invalidData))
+                }
+            }
+        }
+        
+        task.resume()
+        
+    }
+    
     
     func searchMovies(withURL url:URL, completed: @escaping (Result<[MovieResponse], MOError>, _ totalPages:Int)-> Void){
         

@@ -71,9 +71,9 @@ class MOMovieCastView: UIView {
         cast = []
         cast = movie.credits.cast
         if movie.credits.cast.count == 0{
-            castLabel.text = "No Cast Found"
+            castLabel.text = NSLocalizedString("No Cast Found", comment: "No Cast Found")
         }else{
-            castLabel.text = "The Cast"
+            castLabel.text = NSLocalizedString("The Cast", comment: "The Cast")
         }
     }
 }

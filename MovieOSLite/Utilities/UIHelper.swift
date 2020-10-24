@@ -23,11 +23,11 @@ enum UIHelper {
             case .feature:
                 return "Feature"
             case .popular:
-                return "Popular"
+                return NSLocalizedString("Popular", comment: "popular category")
             case .nowPlaying:
-                return "Now Playing"
+                return NSLocalizedString("Now Playing", comment: "now playing category")
             case .upcoming:
-                return "Upcoming"
+                return NSLocalizedString("Upcoming", comment: "upcoming category")
             }
         }
     }

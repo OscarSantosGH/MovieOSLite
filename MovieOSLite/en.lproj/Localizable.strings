@@ -31,7 +31,7 @@
 "lsWestern" = "Western";
 
 /* Favorite View - Empty table description */
-"touchTheHeart" = "Touch the heart icon to save a movie";
+"noFavMovie" = "You don't have favorite movies yet";
 
 /* Internet status info */
 "Internet connection lost" = "Internet connection lost";
@@ -44,6 +44,8 @@
 "Getting Popular movies..." = "Getting Popular movies...";
 "Getting Upcomming movies..." = "Getting Upcomming movies...";
 "Getting playing now movies..." = "Getting playing now movies...";
+"Getting Featured Movies..." = "Getting Features Movies...";
+"Welcome to MovieOS" = "Welcome to MovieOS";
 
 /* Cast placeholders */
 "cName" = "Name";
@@ -51,12 +53,49 @@
 
 "Not Rated" = "Not Rated";
 "Release date unknown" = "Release date unknown";
-"No Story found" = "No Story found";
+"No Overview Found" = "No Overview Found";
 "Title not found" = "Title not found";
-"No Cast found" = "No Cast found";
+"No Cast Found" = "No Cast Found";
 "The Cast" = "The Cast";
 
-"Search your movies" = "Search your movies";
+"Overview" = "Overview";
+
+"Ratings" = "Ratings";
+"Rating: " = "Rating: ";
+"Release Date" = "Release Date";
+"Unknown" = "Unknown";
+
+/* Person Details */
+"Age" = "Age";
+"Place Of Birth" = "Place Of Birth";
+"Biography" = "Biography";
+"No Biography Found" = "No Biography Found";
+"Known For" = "Known For";
+"No Movie Credit Found" = "No Movie Credit Found";
+
+"Search for a movie" = "Search for a movie";
+"Home" = "Home";
+"Search" = "Search";
+"Favorites" = "Favorites";
+"Settings" = "Settings";
 "Upcoming" = "Upcoming";
 "Now Playing" = "Now Playing";
 "Popular" = "Popular";
+
+"Trailers" = "Trailers";
+"No Trailers Found" = "No Trailers Found";
+
+"No movies found" = "No movies found";
+"Try searching again" = "Try searching again using a different spelling or keyword.";
+
+"Powered by" = "Powered by";
+"Language" = "Language";
+"Preferred Language" = "Preferred Language";
+"Appearance" = "Appearance";
+
+"Automatic" = "Automatic";
+"Match the appearance of the system" = "Match the appearance of the system";
+"Light Mode" = "Light Mode";
+"Stays in light mode" = "Stays in light mode";
+"Dark Mode" = "Dark Mode";
+"Stays in dark mode" = "Stays in dark mode";

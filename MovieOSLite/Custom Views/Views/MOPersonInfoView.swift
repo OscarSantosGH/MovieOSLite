@@ -47,12 +47,12 @@ class MOPersonInfoView: UIView {
             posterImageView.setImage(forURL: person.profilePath)
         }
         nameLabel.text = person.name
-        birthdayLabel = MOHighlightInfoView(info: getAgeFromString(stringDate: person.birthday), desc: "Age")
-        placeOfBirthLabel = MOHighlightInfoView(info: person.placeOfBirth ?? "Unknown", desc: "Place Of Birth")
+        birthdayLabel = MOHighlightInfoView(info: getAgeFromString(stringDate: person.birthday), desc: NSLocalizedString("Age", comment: "Age"))
+        placeOfBirthLabel = MOHighlightInfoView(info: person.placeOfBirth ?? NSLocalizedString("Unknown", comment: "Unknown"), desc: NSLocalizedString("Place Of Birth", comment: "Place Of Birth"))
         if person.biography == ""{
-            biographyLabel.text = "No Biography Found"
+            biographyLabel.text = NSLocalizedString("No Biography Found", comment: "No Biography Found")
         }else{
-            biographyLabel.text = "Biography"
+            biographyLabel.text = NSLocalizedString("Biography", comment: "Biography")
         }
         
         biographyBodyLabel.text = person.biography
@@ -108,7 +108,7 @@ class MOPersonInfoView: UIView {
 
             birthdayLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: padding),
             birthdayLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: padding),
-            birthdayLabel.widthAnchor.constraint(equalToConstant: 35),
+            birthdayLabel.widthAnchor.constraint(equalToConstant: 55),
             birthdayLabel.heightAnchor.constraint(equalToConstant: 60),
 
             placeOfBirthLabel.topAnchor.constraint(equalTo: birthdayLabel.topAnchor),

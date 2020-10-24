@@ -7,7 +7,7 @@
 */
 
 /* App language */
-"lang" = "es-MX";
+"lang" = "es";
 
 /* Movie genders */
 "lsAction" = "Acción";

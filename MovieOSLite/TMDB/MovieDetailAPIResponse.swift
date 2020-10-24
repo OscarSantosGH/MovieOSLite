@@ -19,5 +19,5 @@ struct MovieDetailAPIResponse: Codable {
     let releaseDate: String
     let genres: [GenreResponse]
     let credits: CreditsAPIResponse
-    let videos: VideosAPIResponse
+    var videos: VideosAPIResponse
 }

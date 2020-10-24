@@ -21,6 +21,7 @@ class LoadingMoviesVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setAppearance()
         configure()
         NetworkManager.shared.checkForInternetConnection()
         NotificationCenter.default.addObserver(self, selector: #selector(checkForInternetConnection(notification:)), name: NotificationNames.internetAvailable, object: nil)
@@ -55,7 +56,23 @@ class LoadingMoviesVC: UIViewController {
         ])
         
         activityView.startAnimating()
-        messageLabelView.text = "Loading Movies..."
+        messageLabelView.text = NSLocalizedString("Getting movies...", comment: "MovieOS is downloading the movies")
+    }
+    
+    private func setAppearance(){
+        let value = UserDefaults.standard.integer(forKey: "appearance")
+        guard let scene = UIApplication.shared.connectedScenes.first,
+            let windowSceneDelegate = scene.delegate as? UIWindowSceneDelegate,
+            let window = windowSceneDelegate.window else {return}
+        
+        switch value {
+        case 1:
+            window?.overrideUserInterfaceStyle = .light
+        case 2:
+            window?.overrideUserInterfaceStyle = .dark
+        default:
+            window?.overrideUserInterfaceStyle = .unspecified
+        }
     }
     
     @objc func checkForInternetConnection(notification:NSNotification){
@@ -64,13 +81,13 @@ class LoadingMoviesVC: UIViewController {
         if isConnected{
             self.getPopularMovies()
         }else{
-            self.messageLabelView.text = "Check Your Internet Connection and Try Again."
+            self.messageLabelView.text = NSLocalizedString("Internet connection lost", comment: "No internet")
         }
     }
     
     
     func getPopularMovies() {
-        messageLabelView.text = "Loading Popular Movies..."
+        messageLabelView.text = NSLocalizedString("Getting Popular movies...", comment: "MovieOS is downloading the popular movies")
         TMDBClient.shared.getMovies(from: .popular ) { [weak self] (result) in
             guard let self = self else {return}
             
@@ -85,7 +102,7 @@ class LoadingMoviesVC: UIViewController {
     }
     
     func getUpcomingMovies() {
-        messageLabelView.text = "Loading Upcoming Movies..."
+        messageLabelView.text = NSLocalizedString("Getting Upcomming movies...", comment: "MovieOS is downloading the upcomming movies")
         TMDBClient.shared.getMovies(from: .upcoming ) { [weak self] (result) in
             guard let self = self else {return}
             
@@ -100,7 +117,7 @@ class LoadingMoviesVC: UIViewController {
     }
     
     func getNowPlayingMovies() {
-        messageLabelView.text = "Loading Now Playing Movies..."
+        messageLabelView.text = NSLocalizedString("Getting playing now movies...", comment: "MovieOS is downloading the now playing movies")
         TMDBClient.shared.getMovies(from: .nowPlaying ) { [weak self] (result) in
             guard let self = self else {return}
             
@@ -115,7 +132,7 @@ class LoadingMoviesVC: UIViewController {
     }
     
     func getFeaturesMovies(){
-        messageLabelView.text = "Loading Features Movies..."
+        messageLabelView.text = NSLocalizedString("Getting Featured Movies...", comment: "MovieOS is downloading fetured movies")
         TMDBClient.shared.getMovies(from: .topRated ) { [weak self] (result) in
             guard let self = self else {return}
             
@@ -130,7 +147,7 @@ class LoadingMoviesVC: UIViewController {
     }
     
     private func goToHome(){
-        messageLabelView.text = "Welcome to MovieOS"
+        messageLabelView.text = NSLocalizedString("Welcome to MovieOS", comment: "welcome to MovieOS")
         let tabBar = MOTabBarController(popularMovies: popularMovies, upcomingMovies: upcomingMovies, nowPlayingMovies: nowPlayingMovies, featuresMovies: featuresMovies)
         show(tabBar, sender: self)
     }

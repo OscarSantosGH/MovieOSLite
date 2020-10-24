@@ -27,8 +27,8 @@ class MOEmptySearchView: UIView {
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         iconImageView.tintColor = .label
         iconImageView.contentMode = .scaleAspectFit
-        titleLabel.text = "No movies found"
-        subTitleLabel.text = "Try searching again using a different spelling or keyword."
+        titleLabel.text = NSLocalizedString("No movies found", comment: "No movies found")
+        subTitleLabel.text = NSLocalizedString("Try searching again", comment: "Try searching again using a different spelling or keyword.")
         
         addSubviews(iconImageView, titleLabel, subTitleLabel)
         

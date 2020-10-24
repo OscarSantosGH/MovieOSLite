@@ -12,6 +12,7 @@ class MovieTrailerCell: UICollectionViewCell {
     static let reuseID = "TrailerMovieCell"
     var trailerImage = MOTrailerImageView(frame: .zero)
     var titleLabel = MOTitleLabel(ofSize: 15, textAlignment: .left)
+    let activityView = UIActivityIndicatorView(style: .large)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,7 +31,9 @@ class MovieTrailerCell: UICollectionViewCell {
     private func configure(){
         layer.cornerRadius = 5
         clipsToBounds = true
-        addSubviews(trailerImage, titleLabel)
+        activityView.translatesAutoresizingMaskIntoConstraints = false
+        activityView.alpha = 0
+        addSubviews(trailerImage, titleLabel, activityView)
         
         let padding:CGFloat = 5
         
@@ -43,7 +46,21 @@ class MovieTrailerCell: UICollectionViewCell {
             titleLabel.topAnchor.constraint(equalTo: trailerImage.bottomAnchor, constant: padding),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            titleLabel.heightAnchor.constraint(equalToConstant: 40)
+            titleLabel.heightAnchor.constraint(equalToConstant: 40),
+            
+            activityView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding + 20),
+            activityView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+            activityView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding)
         ])
+    }
+    
+    func startLoading(){
+        activityView.alpha = 1
+        activityView.startAnimating()
+    }
+    
+    func stopLoading(){
+        activityView.alpha = 0
+        activityView.stopAnimating()
     }
 }

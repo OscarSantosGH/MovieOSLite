@@ -29,9 +29,9 @@ class MOPersonCreditsView: UIView {
         personMovieCredit = movieCredits
         
         if movieCredits.count == 0{
-            knownForLabel.text = "No Movie Credit Found"
+            knownForLabel.text = NSLocalizedString("No Movie Credit Found", comment: "No Movie Credit Found")
         }else{
-            knownForLabel.text = "Known For"
+            knownForLabel.text = NSLocalizedString("Known For", comment: "Known For")
         }
         
         configureCollectionView()

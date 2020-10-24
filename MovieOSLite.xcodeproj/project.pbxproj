@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -42,7 +42,10 @@
 		832B58842443D20100327E06 /* MOHeaderBackdropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B58832443D20100327E06 /* MOHeaderBackdropView.swift */; };
 		832B58862443EC5600327E06 /* CAGradientLayer+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B58852443EC5600327E06 /* CAGradientLayer+Ext.swift */; };
 		832B58882443F2D400327E06 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B58872443F2D400327E06 /* UIViewController+Ext.swift */; };
-		8364F8AD2518B744008A9B7F /* VideoPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8364F8AC2518B744008A9B7F /* VideoPlayerVC.swift */; };
+		834BCB1625312F6900DF2E33 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834BCB1525312F6900DF2E33 /* SettingsVC.swift */; };
+		834BCB1925313A3600DF2E33 /* TMDBattributionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834BCB1825313A3600DF2E33 /* TMDBattributionView.swift */; };
+		83565FE42522B1C00009C582 /* YoutubeDirectLinkExtractor in Frameworks */ = {isa = PBXBuildFile; productRef = 83565FE32522B1C00009C582 /* YoutubeDirectLinkExtractor */; };
+		835A2B5D25293370007EB53E /* MOPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835A2B5C25293370007EB53E /* MOPlayerViewController.swift */; };
 		8364F8B6251A09C8008A9B7F /* MOTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8364F8B5251A09C8008A9B7F /* MOTabBarController.swift */; };
 		8374628E23F8E2D6003AD63E /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8374628D23F8E2D6003AD63E /* UIView+Ext.swift */; };
 		838F7C1123D27D9A005CF45B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838F7C1023D27D9A005CF45B /* AppDelegate.swift */; };
@@ -117,7 +120,10 @@
 		832B58832443D20100327E06 /* MOHeaderBackdropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOHeaderBackdropView.swift; sourceTree = "<group>"; };
 		832B58852443EC5600327E06 /* CAGradientLayer+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Ext.swift"; sourceTree = "<group>"; };
 		832B58872443F2D400327E06 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
-		8364F8AC2518B744008A9B7F /* VideoPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerVC.swift; sourceTree = "<group>"; };
+		834BCB1125307AEE00DF2E33 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		834BCB1525312F6900DF2E33 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		834BCB1825313A3600DF2E33 /* TMDBattributionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBattributionView.swift; sourceTree = "<group>"; };
+		835A2B5C25293370007EB53E /* MOPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPlayerViewController.swift; sourceTree = "<group>"; };
 		8364F8B5251A09C8008A9B7F /* MOTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOTabBarController.swift; sourceTree = "<group>"; };
 		8374628D23F8E2D6003AD63E /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		838F7C0D23D27D9A005CF45B /* MovieOSLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieOSLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,7 +160,6 @@
 		83C761902511A27A00787CB3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		83D619D22400AA3000E21320 /* MovieDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsVC.swift; sourceTree = "<group>"; };
 		83D619D42400B3F800E21320 /* MOGenresLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOGenresLabel.swift; sourceTree = "<group>"; };
-		83D619D62400BC9D00E21320 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		83D619DA2400BD5D00E21320 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83D619DC2400BD6300E21320 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		83D619DE241347B500E21320 /* MOHighlightInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOHighlightInfoView.swift; sourceTree = "<group>"; };
@@ -165,6 +170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83565FE42522B1C00009C582 /* YoutubeDirectLinkExtractor in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				8364F8B5251A09C8008A9B7F /* MOTabBarController.swift */,
+				835A2B5C25293370007EB53E /* MOPlayerViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -309,7 +316,7 @@
 				831CA64D24EC90B600DB6BF3 /* SearchVC.swift */,
 				831CA66A24FAA4AF00DB6BF3 /* LoadingMoviesVC.swift */,
 				83262F4F25085CA70090999D /* SearchCategoryDetailsVC.swift */,
-				8364F8AC2518B744008A9B7F /* VideoPlayerVC.swift */,
+				834BCB1525312F6900DF2E33 /* SettingsVC.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -367,6 +374,7 @@
 				831CA64324E9A7D100DB6BF3 /* MOPersonCreditsView.swift */,
 				83262F40250101490090999D /* MOMovieTrailersView.swift */,
 				83C7618E2511829800787CB3 /* MOEmptySearchView.swift */,
+				834BCB1825313A3600DF2E33 /* TMDBattributionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -387,6 +395,9 @@
 			dependencies = (
 			);
 			name = MovieOSLite;
+			packageProductDependencies = (
+				83565FE32522B1C00009C582 /* YoutubeDirectLinkExtractor */,
+			);
 			productName = MovieOSLite;
 			productReference = 838F7C0D23D27D9A005CF45B /* MovieOSLite.app */;
 			productType = "com.apple.product-type.application";
@@ -414,8 +425,12 @@
 				en,
 				Base,
 				"es-419",
+				es,
 			);
 			mainGroup = 838F7C0423D27D9A005CF45B;
+			packageReferences = (
+				83565FE22522B1C00009C582 /* XCRemoteSwiftPackageReference "YoutubeDirectLinkExtractor" */,
+			);
 			productRefGroup = 838F7C0E23D27D9A005CF45B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -457,6 +472,7 @@
 				831CA65B24F17E2B00DB6BF3 /* Movie+Ext.swift in Sources */,
 				831CA65224F0BF8D00DB6BF3 /* MOFavoriteButtonImageView.swift in Sources */,
 				831CA64824E9AC3000DB6BF3 /* PersonDetailsVC.swift in Sources */,
+				834BCB1925313A3600DF2E33 /* TMDBattributionView.swift in Sources */,
 				831CA65D24F1834500DB6BF3 /* Person+Ext.swift in Sources */,
 				8374628E23F8E2D6003AD63E /* UIView+Ext.swift in Sources */,
 				831CA65724F166D900DB6BF3 /* MovieOS.xcdatamodeld in Sources */,
@@ -464,10 +480,10 @@
 				831CA64E24EC90B700DB6BF3 /* SearchVC.swift in Sources */,
 				83D619DF241347B500E21320 /* MOHighlightInfoView.swift in Sources */,
 				831CA65424F153EE00DB6BF3 /* PersistenceManager.swift in Sources */,
+				834BCB1625312F6900DF2E33 /* SettingsVC.swift in Sources */,
 				838F7C3823D2C4CA005CF45B /* MoviesAPIResponse.swift in Sources */,
 				831CA66B24FAA4AF00DB6BF3 /* LoadingMoviesVC.swift in Sources */,
 				838F7C3C23D3B22A005CF45B /* MovieCell.swift in Sources */,
-				8364F8AD2518B744008A9B7F /* VideoPlayerVC.swift in Sources */,
 				838F7C2823D2814D005CF45B /* FavoritesVC.swift in Sources */,
 				838F7C3023D2A619005CF45B /* NetworkManager.swift in Sources */,
 				831CA64424E9A7D100DB6BF3 /* MOPersonCreditsView.swift in Sources */,
@@ -486,6 +502,7 @@
 				838F7C4023D4E77D005CF45B /* MORatingLabel.swift in Sources */,
 				83262F41250101490090999D /* MOMovieTrailersView.swift in Sources */,
 				83C7618F2511829800787CB3 /* MOEmptySearchView.swift in Sources */,
+				835A2B5D25293370007EB53E /* MOPlayerViewController.swift in Sources */,
 				83262F5025085CA70090999D /* SearchCategoryDetailsVC.swift in Sources */,
 				8364F8B6251A09C8008A9B7F /* MOTabBarController.swift in Sources */,
 				83D619D32400AA3000E21320 /* MovieDetailsVC.swift in Sources */,
@@ -522,7 +539,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				838F7C1C23D27D9B005CF45B /* Base */,
-				83D619D62400BC9D00E21320 /* es-419 */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -532,6 +548,7 @@
 			children = (
 				83D619DA2400BD5D00E21320 /* en */,
 				83D619DC2400BD6300E21320 /* es-419 */,
+				834BCB1125307AEE00DF2E33 /* es */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -715,6 +732,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		83565FE22522B1C00009C582 /* XCRemoteSwiftPackageReference "YoutubeDirectLinkExtractor" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devandsev/YoutubeDirectLinkExtractor.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		83565FE32522B1C00009C582 /* YoutubeDirectLinkExtractor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 83565FE22522B1C00009C582 /* XCRemoteSwiftPackageReference "YoutubeDirectLinkExtractor" */;
+			productName = YoutubeDirectLinkExtractor;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		831CA65524F166D900DB6BF3 /* MovieOS.xcdatamodeld */ = {

@@ -184,7 +184,7 @@ extension MovieDetailsVC: UICollectionViewDelegate{
             let actor = movieCastView.cast[indexPath.row]
             checkIfPersonIsSaved(withPerson: actor.id)
         }else{
-            showTrailer(withKey: movieTrailersView.videoResponses[indexPath.row].key)
+            showTrailer(withKey: movieTrailersView.videoResponses[indexPath.row].key, cell: collectionView.cellForItem(at: indexPath) as! MovieTrailerCell)
         }
     }
     
@@ -236,8 +236,18 @@ extension MovieDetailsVC: UICollectionViewDelegate{
         present(navigationController, animated: true)
     }
     
-    private func showTrailer(withKey key:String){
-        presentVideoPlayer(withTrailerKey: key)
+    private func showTrailer(withKey key:String, cell: MovieTrailerCell){
+        if MOPlayerViewController.shared.isOnPictureInPictureMode{
+            cell.startLoading()
+            MOPlayerViewController.shared.playVideoWithKey(key: key){
+                cell.stopLoading()
+            }
+        }else{
+            MOPlayerViewController.shared.playerVC.player = nil
+            present(MOPlayerViewController.shared.playerVC, animated: true) {
+                MOPlayerViewController.shared.playVideoWithKey(key: key)
+            }
+        }
     }
     
 }
