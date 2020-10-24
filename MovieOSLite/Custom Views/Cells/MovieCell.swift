@@ -11,9 +11,9 @@ import UIKit
 class MovieCell: UICollectionViewCell {
     static let reuseID = "MovieCell"
     let posterImageView = MOPosterImageView(frame: .zero)
-    let titleLabel = MOTitleLabel(ofSize: 12, textAlignment: .center)
-    let ratingLabel = MORatingLabel(ofSize: 13)
-    let ratingTextLabel = MOTitleLabel(ofSize:15, textAlignment: .left, textColor: .secondaryLabel)
+    let titleLabel = MOTitleLabel(ofSize: 14, textAlignment: .center)
+    let ratingLabel = MORatingLabel(ofSize: 11)
+    let ratingTextLabel = MOTitleLabel(ofSize:12, textAlignment: .left, textColor: .secondaryLabel)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,14 +57,14 @@ class MovieCell: UICollectionViewCell {
             titleLabel.heightAnchor.constraint(equalToConstant: 25),
             
             ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
-            ratingLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            ratingLabel.heightAnchor.constraint(equalToConstant: 25),
+            ratingLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            ratingLabel.heightAnchor.constraint(equalToConstant: 20),
             ratingLabel.widthAnchor.constraint(equalToConstant: 25),
             
             ratingTextLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
-            ratingTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            ratingTextLabel.trailingAnchor.constraint(equalTo: ratingLabel.leadingAnchor, constant: -padding),
-            ratingTextLabel.heightAnchor.constraint(equalToConstant: 25)
+            ratingTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            ratingTextLabel.trailingAnchor.constraint(equalTo: ratingLabel.leadingAnchor, constant: -8),
+            ratingTextLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
 }
