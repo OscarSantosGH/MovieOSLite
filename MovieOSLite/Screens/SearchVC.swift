@@ -58,7 +58,6 @@ class SearchVC: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseID)
         collectionView.register(MovieCategoryCell.self, forCellWithReuseIdentifier: MovieCategoryCell.reuseID)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
         collectionView.pinToEdges(of: view)
     }

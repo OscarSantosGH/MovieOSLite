@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol PersonProfileImageDelegate: class {
+protocol PersonProfileImageDelegate: AnyObject {
     func updateProfileImage(profileImage:UIImage)
 }
 

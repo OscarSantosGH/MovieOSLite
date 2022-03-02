@@ -41,7 +41,7 @@ class FavoriteMovieCell: UITableViewCell {
         blurView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(containerView)
-        containerView.pinToEdgesWithSafeArea(of: contentView, withPadding: 8)
+        containerView.pinToEdgesWithSafeArea(of: self, withPadding: 8)
         
         containerView.addSubviews(backdropImageView, blurView, titleLabel)
         backdropImageView.pinToEdges(of: containerView)

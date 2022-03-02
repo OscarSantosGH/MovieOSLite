@@ -38,19 +38,19 @@ class MovieTrailerCell: UICollectionViewCell {
         let padding:CGFloat = 5
         
         NSLayoutConstraint.activate([
-            trailerImage.topAnchor.constraint(equalTo: contentView.topAnchor),
-            trailerImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            trailerImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            trailerImage.topAnchor.constraint(equalTo: topAnchor),
+            trailerImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            trailerImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             trailerImage.heightAnchor.constraint(equalToConstant: 80),
             
             titleLabel.topAnchor.constraint(equalTo: trailerImage.bottomAnchor, constant: padding),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             titleLabel.heightAnchor.constraint(equalToConstant: 40),
             
-            activityView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding + 20),
-            activityView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            activityView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding)
+            activityView.topAnchor.constraint(equalTo: topAnchor, constant: padding + 20),
+            activityView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            activityView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding)
         ])
     }
     

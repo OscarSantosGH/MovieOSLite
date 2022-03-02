@@ -34,7 +34,6 @@ class MovieCategoryCell: UICollectionViewCell {
     }
     
     private func configure(){
-        translatesAutoresizingMaskIntoConstraints = false
         clipsToBounds = true
         layer.cornerRadius = 10
         
