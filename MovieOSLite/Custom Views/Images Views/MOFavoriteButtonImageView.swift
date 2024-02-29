@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol MOFavoriteButtonDelegate: class {
+protocol MOFavoriteButtonDelegate: AnyObject {
     func saveMovieToFavorites()
     func deleteMovieFromFavorite()
 }
