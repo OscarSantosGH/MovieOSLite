@@ -237,17 +237,21 @@ extension MovieDetailsVC: UICollectionViewDelegate{
     }
     
     private func showTrailer(withKey key:String, cell: MovieTrailerCell){
-        if MOPlayerViewController.shared.isOnPictureInPictureMode{
-            cell.startLoading()
-            MOPlayerViewController.shared.playVideoWithKey(key: key){
-                cell.stopLoading()
-            }
-        }else{
-            MOPlayerViewController.shared.playerVC.player = nil
-            present(MOPlayerViewController.shared.playerVC, animated: true) {
-                MOPlayerViewController.shared.playVideoWithKey(key: key)
-            }
-        }
+        print(key)
+//        present(MOPlayerViewController.shared.playerVC, animated: true) {
+//            MOPlayerViewController.shared.playVideoWithKey(key: key)
+//        }
+//        if MOPlayerViewController.shared.isOnPictureInPictureMode{
+//            cell.startLoading()
+//            MOPlayerViewController.shared.playVideoWithKey(key: key){
+//                cell.stopLoading()
+//            }
+//        }else{
+//            MOPlayerViewController.shared.playerVC.player = nil
+//            present(MOPlayerViewController.shared.playerVC, animated: true) {
+//                MOPlayerViewController.shared.playVideoWithKey(key: key)
+//            }
+//        }
     }
     
 }
