@@ -7,19 +7,14 @@
 //
 
 import UIKit
-import AVKit
+import Combine
 import YouTubePlayerKit
 
 class MOPlayerViewController: UIViewController {
     
     var playerVC: YouTubePlayerViewController!
-    var isOpen = false
-    let maxHeight:CGFloat = 240
-    
     private let activityView = UIActivityIndicatorView(style: .large)
-    private(set) lazy var playerState = { [weak self] in
-        self?.playerVC.player.playbackState
-    }
+    private var playerSubscription: AnyCancellable?
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -44,15 +39,41 @@ class MOPlayerViewController: UIViewController {
         let player = YouTubePlayer(configuration: configuration)
         playerVC = YouTubePlayerViewController(player: player)
         addChild(playerVC)
+        
+        activityView.hidesWhenStopped = true
+        playerSubscription = playerVC.player.statePublisher
+            .sink { [weak self] state in
+                switch state {
+                case .idle:
+                    self?.activityView.startAnimating()
+                case .ready:
+                    self?.activityView.stopAnimating()
+                case .error(_):
+                    self?.activityView.stopAnimating()
+                }
+            }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        playerSubscription?.cancel()
+    }
+    
     private func configureLayout() {
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(closePlayer))
         navigationItem.rightBarButtonItem = doneButton
+        
+        view.addSubview(activityView)
+        activityView.translatesAutoresizingMaskIntoConstraints = false
+        activityView.startAnimating()
+        NSLayoutConstraint.activate([
+            activityView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
         view.addSubview(playerVC.view)
         playerVC.view.translatesAutoresizingMaskIntoConstraints = false
         playerVC.view.pinToEdgesWithSafeArea(of: view)
