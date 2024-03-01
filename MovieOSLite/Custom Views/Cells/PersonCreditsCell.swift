@@ -39,19 +39,19 @@ class PersonCreditsCell: UICollectionViewCell {
         addSubviews(movieImageView, movieName, actorCharacter)
         
         NSLayoutConstraint.activate([
-            movieImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            movieImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            movieImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            movieImageView.topAnchor.constraint(equalTo: topAnchor),
+            movieImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            movieImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             movieImageView.heightAnchor.constraint(equalToConstant: 190),
             
             movieName.topAnchor.constraint(equalTo: movieImageView.bottomAnchor),
-            movieName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            movieName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            movieName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            movieName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             movieName.heightAnchor.constraint(equalToConstant: 25),
             
             actorCharacter.topAnchor.constraint(equalTo: movieName.bottomAnchor),
-            actorCharacter.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            actorCharacter.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            actorCharacter.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            actorCharacter.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             actorCharacter.heightAnchor.constraint(equalToConstant: 25)
         ])
     }

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-protocol PersonDetailsVCDelegate: class {
+protocol PersonDetailsVCDelegate: AnyObject {
     func updateMovieDetailsVC(withMovie movie:MovieDetailAPIResponse, posterImage:UIImage?, backdropImage:UIImage?, isFavorite:Bool)
 }
 

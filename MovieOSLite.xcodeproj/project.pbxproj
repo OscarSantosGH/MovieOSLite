@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -44,10 +44,10 @@
 		832B58882443F2D400327E06 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B58872443F2D400327E06 /* UIViewController+Ext.swift */; };
 		834BCB1625312F6900DF2E33 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834BCB1525312F6900DF2E33 /* SettingsVC.swift */; };
 		834BCB1925313A3600DF2E33 /* TMDBattributionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834BCB1825313A3600DF2E33 /* TMDBattributionView.swift */; };
-		83565FE42522B1C00009C582 /* YoutubeDirectLinkExtractor in Frameworks */ = {isa = PBXBuildFile; productRef = 83565FE32522B1C00009C582 /* YoutubeDirectLinkExtractor */; };
 		835A2B5D25293370007EB53E /* MOPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835A2B5C25293370007EB53E /* MOPlayerViewController.swift */; };
 		8364F8B6251A09C8008A9B7F /* MOTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8364F8B5251A09C8008A9B7F /* MOTabBarController.swift */; };
 		8374628E23F8E2D6003AD63E /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8374628D23F8E2D6003AD63E /* UIView+Ext.swift */; };
+		838DB6AF2B8EB66500549B7B /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 838DB6AE2B8EB66500549B7B /* YouTubePlayerKit */; };
 		838F7C1123D27D9A005CF45B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838F7C1023D27D9A005CF45B /* AppDelegate.swift */; };
 		838F7C1323D27D9A005CF45B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838F7C1223D27D9A005CF45B /* SceneDelegate.swift */; };
 		838F7C1A23D27D9B005CF45B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 838F7C1923D27D9B005CF45B /* Assets.xcassets */; };
@@ -170,7 +170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83565FE42522B1C00009C582 /* YoutubeDirectLinkExtractor in Frameworks */,
+				838DB6AF2B8EB66500549B7B /* YouTubePlayerKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,7 +396,7 @@
 			);
 			name = MovieOSLite;
 			packageProductDependencies = (
-				83565FE32522B1C00009C582 /* YoutubeDirectLinkExtractor */,
+				838DB6AE2B8EB66500549B7B /* YouTubePlayerKit */,
 			);
 			productName = MovieOSLite;
 			productReference = 838F7C0D23D27D9A005CF45B /* MovieOSLite.app */;
@@ -429,7 +429,7 @@
 			);
 			mainGroup = 838F7C0423D27D9A005CF45B;
 			packageReferences = (
-				83565FE22522B1C00009C582 /* XCRemoteSwiftPackageReference "YoutubeDirectLinkExtractor" */,
+				838DB6AD2B8EB66500549B7B /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 			);
 			productRefGroup = 838F7C0E23D27D9A005CF45B /* Products */;
 			projectDirPath = "";
@@ -608,7 +608,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -664,7 +664,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -734,21 +734,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		83565FE22522B1C00009C582 /* XCRemoteSwiftPackageReference "YoutubeDirectLinkExtractor" */ = {
+		838DB6AD2B8EB66500549B7B /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/devandsev/YoutubeDirectLinkExtractor.git";
+			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.3.1;
+				minimumVersion = 1.7.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		83565FE32522B1C00009C582 /* YoutubeDirectLinkExtractor */ = {
+		838DB6AE2B8EB66500549B7B /* YouTubePlayerKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 83565FE22522B1C00009C582 /* XCRemoteSwiftPackageReference "YoutubeDirectLinkExtractor" */;
-			productName = YoutubeDirectLinkExtractor;
+			package = 838DB6AD2B8EB66500549B7B /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
+			productName = YouTubePlayerKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 

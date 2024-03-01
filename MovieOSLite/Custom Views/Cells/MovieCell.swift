@@ -12,7 +12,7 @@ class MovieCell: UICollectionViewCell {
     static let reuseID = "MovieCell"
     let posterImageView = MOPosterImageView(frame: .zero)
     let titleLabel = MOTitleLabel(ofSize: 14, textAlignment: .center)
-    let ratingLabel = MORatingLabel(ofSize: 11)
+    let ratingLabel = MORatingLabel(ofSize: 11, textAlignment: .right)
     let ratingTextLabel = MOTitleLabel(ofSize:12, textAlignment: .left, textColor: .secondaryLabel)
     
     override init(frame: CGRect) {
@@ -46,25 +46,30 @@ class MovieCell: UICollectionViewCell {
         addSubviews(posterImageView, titleLabel, ratingLabel, ratingTextLabel)
         
         NSLayoutConstraint.activate([
-            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-            posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+            posterImageView.topAnchor.constraint(equalTo: topAnchor),
+            posterImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            posterImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             posterImageView.heightAnchor.constraint(equalToConstant: 190),
             
             titleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: padding),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             titleLabel.heightAnchor.constraint(equalToConstant: 25),
             
             ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
-            ratingLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            ratingLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             ratingLabel.heightAnchor.constraint(equalToConstant: 20),
-            ratingLabel.widthAnchor.constraint(equalToConstant: 25),
+            ratingLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 25),
             
             ratingTextLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
-            ratingTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            ratingTextLabel.trailingAnchor.constraint(equalTo: ratingLabel.leadingAnchor, constant: -8),
+            ratingTextLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            ratingTextLabel.trailingAnchor.constraint(equalTo: ratingLabel.leadingAnchor, constant: -padding),
             ratingTextLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
+        ratingTextLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        ratingTextLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
+        ratingLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        ratingLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
 }

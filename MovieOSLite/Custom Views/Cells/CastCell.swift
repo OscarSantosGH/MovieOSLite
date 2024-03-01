@@ -39,19 +39,19 @@ class CastCell: UICollectionViewCell {
         addSubviews(actorImageView, actorName, actorCharacter)
         
         NSLayoutConstraint.activate([
-            actorImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            actorImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            actorImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            actorImageView.topAnchor.constraint(equalTo: topAnchor),
+            actorImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            actorImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             actorImageView.heightAnchor.constraint(equalToConstant: 190),
             
             actorName.topAnchor.constraint(equalTo: actorImageView.bottomAnchor),
-            actorName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            actorName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            actorName.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            actorName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             actorName.heightAnchor.constraint(equalToConstant: 25),
             
             actorCharacter.topAnchor.constraint(equalTo: actorName.bottomAnchor),
-            actorCharacter.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            actorCharacter.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            actorCharacter.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            actorCharacter.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             actorCharacter.heightAnchor.constraint(equalToConstant: 25)
         ])
     }

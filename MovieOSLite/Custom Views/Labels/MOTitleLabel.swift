@@ -30,7 +30,7 @@ class MOTitleLabel: UILabel {
     private func configure(){
         numberOfLines = 2
         adjustsFontSizeToFitWidth = true
-        minimumScaleFactor = 0.7
+        minimumScaleFactor = 0.6
         lineBreakMode = .byTruncatingTail
         translatesAutoresizingMaskIntoConstraints = false
     }
