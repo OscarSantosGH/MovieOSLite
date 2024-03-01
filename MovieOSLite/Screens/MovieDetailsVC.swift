@@ -241,7 +241,7 @@ extension MovieDetailsVC: UICollectionViewDelegate{
         let nav = UINavigationController(rootViewController: playerVC)
         nav.modalPresentationStyle = .pageSheet
         if let sheet = nav.sheetPresentationController {
-            sheet.detents = [.medium()]
+            sheet.detents = [.medium(), .large()]
         }
         present(nav, animated: true) {
             playerVC.playVideoWithKey(key: key)

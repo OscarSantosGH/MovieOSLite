@@ -57,7 +57,7 @@ class MOPlayerViewController: UIViewController {
         playerVC.view.translatesAutoresizingMaskIntoConstraints = false
         playerVC.view.pinToEdgesWithSafeArea(of: view)
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .black
     }
     
     @objc private func closePlayer() {

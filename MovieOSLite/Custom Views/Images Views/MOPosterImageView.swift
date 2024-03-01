@@ -23,10 +23,10 @@ class MOPosterImageView: UIImageView {
     }
     
     private func configure(){
+        image = imagePlaceHolder
         layer.cornerRadius = 10
         contentMode = .scaleAspectFill
         clipsToBounds = true
-        image = imagePlaceHolder
         translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -44,6 +44,5 @@ class MOPosterImageView: UIImageView {
             
         }
     }
-    
 
 }
