@@ -14,7 +14,6 @@ class MOTabBarController: UITabBarController {
     var upcomingMovies: [MovieResponse] = []
     var nowPlayingMovies: [MovieResponse] = []
     var featuresMovies: [MovieResponse] = []
-    var playerVC = MOPlayerViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +32,6 @@ class MOTabBarController: UITabBarController {
         self.nowPlayingMovies = nowPlayingMovies
         self.featuresMovies = featuresMovies
         viewControllers = [createHomeVC(), createSearchVC(), createFavoriteVC(), createSettingsVC()]
-        createMoviePlayer()
     }
     
     required init?(coder: NSCoder) {
@@ -78,17 +76,4 @@ class MOTabBarController: UITabBarController {
         return UINavigationController(rootViewController: settingsVC)
     }
     
-    private func createMoviePlayer() {
-        self.view.addSubview(playerVC.view)
-        playerVC.view.layer.masksToBounds = true
-        playerVC.view.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            playerVC.view.leadingAnchor.constraint(equalTo: self.tabBar.leadingAnchor),
-            playerVC.view.trailingAnchor.constraint(equalTo: self.tabBar.trailingAnchor),
-            playerVC.view.bottomAnchor.constraint(equalTo: self.tabBar.topAnchor),
-            playerVC.view.heightAnchor.constraint(equalToConstant: playerVC.maxHeight)
-        ])
-    }
-
 }

@@ -13,11 +13,10 @@ import YouTubePlayerKit
 class MOPlayerViewController: UIViewController {
     
     var playerVC: YouTubePlayerViewController!
-    var isPlaying = false
+    var isOpen = false
     let maxHeight:CGFloat = 240
     
     private let activityView = UIActivityIndicatorView(style: .large)
-    private var closeBtn = UIButton()
     private(set) lazy var playerState = { [weak self] in
         self?.playerVC.player.playbackState
     }
@@ -28,7 +27,6 @@ class MOPlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         configurePlayer()
-        createCloseButton()
         configureLayout()
     }
     
@@ -37,13 +35,14 @@ class MOPlayerViewController: UIViewController {
             fullscreenMode: .system,
             autoPlay: true,
             showControls: true,
+            showAnnotations: false,
             loopEnabled: false,
+            useModestBranding: true,
             playInline: true
         )
         
         let player = YouTubePlayer(configuration: configuration)
         playerVC = YouTubePlayerViewController(player: player)
-        playerVC.player.source = .video(id: "xwYNVhFJyYk")
         addChild(playerVC)
     }
     
@@ -51,45 +50,19 @@ class MOPlayerViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func createCloseButton() {
-        closeBtn = UIButton(type: .system, primaryAction: .init(title: "Close",
-                                                                image: UIImage(systemName: "xmark.circle"),
-                                                                handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.closePlayer {}
-        }))
-        closeBtn.tintColor = .label
-    }
-    
     private func configureLayout() {
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(closePlayer))
+        navigationItem.rightBarButtonItem = doneButton
         view.addSubview(playerVC.view)
         playerVC.view.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            playerVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            playerVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            playerVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            playerVC.view.heightAnchor.constraint(equalToConstant: 200)
-        ])
-        
-        view.addSubview(closeBtn)
-        closeBtn.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            closeBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -8),
-            closeBtn.heightAnchor.constraint(equalToConstant: 40),
-            closeBtn.bottomAnchor.constraint(equalTo: playerVC.view.topAnchor)
-        ])
+        playerVC.view.pinToEdgesWithSafeArea(of: view)
         
         view.backgroundColor = .systemBackground
-        view.layer.cornerRadius = 16
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
     
-    func closePlayer(_ completion: @escaping () -> Void) {
-        print("closePlayer action")
+    @objc private func closePlayer() {
         playerVC.player.stop()
-        completion()
+        dismiss(animated: true)
     }
     
     func playVideoWithKey(key: String){

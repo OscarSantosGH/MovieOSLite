@@ -236,22 +236,17 @@ extension MovieDetailsVC: UICollectionViewDelegate{
         present(navigationController, animated: true)
     }
     
-    private func showTrailer(withKey key:String, cell: MovieTrailerCell){
-        print(key)
-//        present(MOPlayerViewController.shared.playerVC, animated: true) {
-//            MOPlayerViewController.shared.playVideoWithKey(key: key)
-//        }
-//        if MOPlayerViewController.shared.isOnPictureInPictureMode{
-//            cell.startLoading()
-//            MOPlayerViewController.shared.playVideoWithKey(key: key){
-//                cell.stopLoading()
-//            }
-//        }else{
-//            MOPlayerViewController.shared.playerVC.player = nil
-//            present(MOPlayerViewController.shared.playerVC, animated: true) {
-//                MOPlayerViewController.shared.playVideoWithKey(key: key)
-//            }
-//        }
+    private func showTrailer(withKey key: String, cell: MovieTrailerCell){
+        let playerVC = MOPlayerViewController()
+        let nav = UINavigationController(rootViewController: playerVC)
+        nav.modalPresentationStyle = .pageSheet
+        if let sheet = nav.sheetPresentationController {
+            sheet.detents = [.medium()]
+        }
+        present(nav, animated: true) {
+            playerVC.playVideoWithKey(key: key)
+        }
+        
     }
     
 }
