@@ -9,13 +9,17 @@
 import SwiftUI
 
 struct ContentView: View {
-
+    
+    @State private var loadingViewModel = LoadingViewModel()
+    
     var body: some View {
         VStack {
-            Text("Hello, world!")
-
+            Text(loadingViewModel.messageText)
         }
         .padding()
+        .task {
+            await loadingViewModel.getMovies()
+        }
     }
 }
 

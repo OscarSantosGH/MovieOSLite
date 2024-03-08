@@ -93,6 +93,7 @@
 		839601A22B96658D007FB1F4 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831CA65324F153ED00DB6BF3 /* PersistenceManager.swift */; };
 		839601A32B966595007FB1F4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839004932427D217007D4E32 /* Constants.swift */; };
 		839601A42B9665AA007FB1F4 /* MovieCategorySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83262F4D2506C52F0090999D /* MovieCategorySearch.swift */; };
+		83A372EB2B9B93CA0016FB4F /* LoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A372EA2B9B93CA0016FB4F /* LoadingViewModel.swift */; };
 		83A893F623F8E7B500FB9185 /* TitleSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A893F523F8E7B500FB9185 /* TitleSupplementaryView.swift */; };
 		83A893F823F8F52600FB9185 /* MOBackdropImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A893F723F8F52600FB9185 /* MOBackdropImageView.swift */; };
 		83A893FA23F8F6DE00FB9185 /* FeatureMovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A893F923F8F6DE00FB9185 /* FeatureMovieCell.swift */; };
@@ -179,6 +180,7 @@
 		8396018B2B96410B007FB1F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8396018E2B96410B007FB1F4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		839601902B96410B007FB1F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		83A372EA2B9B93CA0016FB4F /* LoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewModel.swift; sourceTree = "<group>"; };
 		83A893F523F8E7B500FB9185 /* TitleSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSupplementaryView.swift; sourceTree = "<group>"; };
 		83A893F723F8F52600FB9185 /* MOBackdropImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOBackdropImageView.swift; sourceTree = "<group>"; };
 		83A893F923F8F6DE00FB9185 /* FeatureMovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureMovieCell.swift; sourceTree = "<group>"; };
@@ -402,6 +404,7 @@
 			isa = PBXGroup;
 			children = (
 				839601852B964108007FB1F4 /* MovieOSVisionApp.swift */,
+				83A372EA2B9B93CA0016FB4F /* LoadingViewModel.swift */,
 				839601872B964108007FB1F4 /* ContentView.swift */,
 				8396018B2B96410B007FB1F4 /* Assets.xcassets */,
 				839601902B96410B007FB1F4 /* Info.plist */,
@@ -640,6 +643,7 @@
 				8396019D2B9663F5007FB1F4 /* VideosAPIResponse.swift in Sources */,
 				8396019E2B9663F8007FB1F4 /* VideoResponse.swift in Sources */,
 				839601862B964108007FB1F4 /* MovieOSVisionApp.swift in Sources */,
+				83A372EB2B9B93CA0016FB4F /* LoadingViewModel.swift in Sources */,
 				839601A22B96658D007FB1F4 /* PersistenceManager.swift in Sources */,
 				839601A02B966562007FB1F4 /* MOError.swift in Sources */,
 				839601992B9663D7007FB1F4 /* PersonMovieCreditResponse.swift in Sources */,

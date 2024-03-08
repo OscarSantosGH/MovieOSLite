@@ -84,6 +84,29 @@ class NetworkManager{
         task.resume()
     }
     
+    func getMovies(withURL url:URL, movieCategory category:String) async -> (Result<[MovieResponse], MOError>, Int) {
+        do{
+            let (data, response) = try await URLSession.shared.data(from: url)
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
+                return (.failure(.invalidResponse), 0)
+            }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let apiResponse = try decoder.decode(MoviesAPIResponse.self, from: data)
+            var moviesWithCategories:[MovieResponse] = []
+            for m in apiResponse.results{
+                var newMovie = m
+                newMovie.category = category
+                moviesWithCategories.append(newMovie)
+            }
+            return (.success(moviesWithCategories), apiResponse.totalPages)
+            
+        } catch {
+            return (.failure(.invalidData), 0)
+        }
+    }
+    
     func getMovie(withURL url:URL, completed: @escaping (Result<MovieDetailAPIResponse,MOError>)->Void){
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
