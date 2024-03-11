@@ -12,7 +12,7 @@ import SwiftUI
 struct MovieOSVisionApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoadingView()
         }.windowStyle(.plain)
     }
 }

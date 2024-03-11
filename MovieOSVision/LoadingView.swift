@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  LoadingView.swift
 //  MovieOSVision
 //
 //  Created by Oscar Santos on 3/4/24.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct LoadingView: View {
     
     @State private var loadingViewModel = LoadingViewModel()
     
@@ -32,5 +32,5 @@ struct ContentView: View {
 }
 
 #Preview(windowStyle: .automatic) {
-    ContentView()
+    LoadingView()
 }
