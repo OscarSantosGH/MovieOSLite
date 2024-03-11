@@ -190,6 +190,15 @@ class TMDBClient{
         }
     }
     
+    func downloadBackdropImage(from urlString: String) async -> UIImage? {
+        let endPoint = baseBackdropImgUrl + urlString
+        guard let url = URL(string: endPoint) else {
+            return nil
+        }
+        
+        return await NetworkManager.shared.downloadImage(withURL: url)
+    }
+    
     func downloadCastImage(from urlString:String, completed: @escaping (UIImage?)->Void) {
         
         let endPoint = baseCastImgUrl + urlString
