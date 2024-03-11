@@ -41,10 +41,12 @@ struct PosterDetailView: View {
                         .font(.headline)
                         .foregroundStyle(.secondary)
                     
-                    Spacer()
-                    Text(String(rating))
-                        .font(.headline)
-                        .foregroundStyle(.moSorange)
+                    if rating > 0 {
+                        Spacer()
+                        Text(String(rating))
+                            .font(.headline)
+                            .foregroundStyle(.moSorange)
+                    }
                 }
             }
             .padding(.horizontal)
