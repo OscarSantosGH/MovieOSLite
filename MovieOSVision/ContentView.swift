@@ -13,12 +13,20 @@ struct ContentView: View {
     @State private var loadingViewModel = LoadingViewModel()
     
     var body: some View {
-        VStack {
-            Text(loadingViewModel.messageText)
-        }
-        .padding()
-        .task {
-            await loadingViewModel.getMovies()
+        NavigationStack {
+            VStack {
+                Text(loadingViewModel.messageText)
+            }
+            .padding()
+            .task {
+                await loadingViewModel.getMovies()
+            }
+            .navigationDestination(isPresented: $loadingViewModel.showHomeView) {
+                HomeScreenView(popularMovies: loadingViewModel.popularMovies,
+                               upcomingMovies: loadingViewModel.upcomingMovies,
+                               nowPlayingMovies: loadingViewModel.nowPlayingMovies,
+                               featuredMovies: loadingViewModel.featuredMovies)
+            }
         }
     }
 }
