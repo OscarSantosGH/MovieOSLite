@@ -15,7 +15,7 @@ struct HomeScreenView: View {
     var featuredMovies: [MovieResponse]
     
     var body: some View {
-        VStack {
+        ScrollView {
             // Featured movies
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10) {
@@ -28,7 +28,50 @@ struct HomeScreenView: View {
                 .padding()
             }
             
-            //TODO: Popular movies
+            //Popular movies
+            Text(NSLocalizedString("Popular", comment: "popular category"))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.title)
+                .padding(.horizontal)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    ForEach(popularMovies, id: \.id) { movie in
+                        PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage)
+                    }
+                }
+                .padding()
+            }
+            
+            //Now playing movies
+            Text(NSLocalizedString("Now Playing", comment: "now playing category"))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.title)
+                .padding(.horizontal)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    ForEach(nowPlayingMovies, id: \.id) { movie in
+                        PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage)
+                    }
+                }
+                .padding()
+            }
+            
+            //Upcoming movies
+            Text(NSLocalizedString("Upcoming", comment: "upcoming category"))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.title)
+                .padding(.horizontal)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    ForEach(upcomingMovies, id: \.id) { movie in
+                        PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage)
+                    }
+                }
+                .padding()
+            }
             
             Spacer()
         }
