@@ -12,21 +12,12 @@ struct PosterDetailView: View {
     var posterPath: String
     var title: String
     var rating: Float
-    let basePath = "https://image.tmdb.org/t/p/original/"
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: basePath+posterPath)) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-            } placeholder: {
-                Image(.posterPlaceholder)
-                    .resizable()
-                    .scaledToFill()
-            }
-            .frame(height: 330)
-            .clipShape(RoundedRectangle(cornerRadius: 25.0))
+            MOImageLoaderView(imagePath: posterPath)
+                .frame(height: 330)
+                .clipShape(RoundedRectangle(cornerRadius: 25.0))
             
             VStack(spacing: 10) {
                 Text(title)
@@ -45,7 +36,7 @@ struct PosterDetailView: View {
                         Spacer()
                         Text(String(rating))
                             .font(.headline)
-                            .foregroundStyle(.moSorange)
+                            .foregroundStyle(.orange)
                     }
                 }
             }

@@ -12,19 +12,10 @@ struct BannerMovieView: View {
     let id = UUID()
     var title: String
     var imageURLPath: String
-    let basePath = "https://image.tmdb.org/t/p/original/"
     
     var body: some View {
         ZStack {
-            AsyncImage(url: URL(string: basePath+imageURLPath)) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-            } placeholder: {
-                LinearGradient(colors: [Color.purple, Color.red],
-                               startPoint: UnitPoint(x: 0, y: 0),
-                               endPoint: UnitPoint(x: 1, y: 1))
-            }
+            MOImageLoaderView(imagePath: imageURLPath, imageType: .backdrop)
             
             LinearGradient(colors: [Color.black.opacity(0.8), Color.black.opacity(0)],
                            startPoint: UnitPoint(x: 0, y: 0),
