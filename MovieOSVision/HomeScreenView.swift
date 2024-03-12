@@ -13,6 +13,7 @@ struct HomeScreenView: View {
     var upcomingMovies: [MovieResponse]
     var nowPlayingMovies: [MovieResponse]
     var featuredMovies: [MovieResponse]
+    @State private var selectedMovie: MovieResponse?
     
     var body: some View {
         ScrollView {
@@ -38,7 +39,7 @@ struct HomeScreenView: View {
                 HStack(spacing: 10) {
                     ForEach(popularMovies, id: \.id) { movie in
                         PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
-                            print(movie)
+                            selectedMovie = movie
                         }
                     }
                 }
@@ -55,7 +56,7 @@ struct HomeScreenView: View {
                 HStack(spacing: 10) {
                     ForEach(nowPlayingMovies, id: \.id) { movie in
                         PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
-                            print(movie)
+                            selectedMovie = movie
                         }
                     }
                 }
@@ -72,7 +73,7 @@ struct HomeScreenView: View {
                 HStack(spacing: 10) {
                     ForEach(upcomingMovies, id: \.id) { movie in
                         PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
-                            print(movie)
+                            selectedMovie = movie
                         }
                     }
                 }
@@ -82,6 +83,9 @@ struct HomeScreenView: View {
             Spacer()
         }
         .navigationBarBackButtonHidden()
+        .navigationDestination(item: $selectedMovie) { movie in
+            MovieDetailView(movie: movie)
+        }
     }
 }
 
