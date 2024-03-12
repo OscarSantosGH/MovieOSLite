@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct MOImageLoaderView: View {
-    let basePath = "https://image.tmdb.org/t/p/original/"
+    let basePath = "https://image.tmdb.org/t/p/w780/"
     var imagePath: String
     var imageType: ImageType = .poster
     
