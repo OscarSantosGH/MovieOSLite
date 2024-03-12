@@ -12,41 +12,51 @@ struct PosterDetailView: View {
     var posterPath: String
     var title: String
     var rating: Float
+    var action: (() -> Void)
     
     var body: some View {
-        VStack {
-            MOImageLoaderView(imagePath: posterPath)
-                .frame(height: 330)
-                .clipShape(RoundedRectangle(cornerRadius: 25.0))
-            
-            VStack(spacing: 10) {
-                Text(title)
-                    .frame(height: 40)
-                    .font(.title2)
-                    .minimumScaleFactor(0.5)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
+        
+        Button {
+            action()
+        } label: {
+            VStack {
+                MOImageLoaderView(imagePath: posterPath)
+                    .frame(height: 330)
+                    .clipShape(RoundedRectangle(cornerRadius: 25.0))
                 
-                HStack {
-                    Text(ratingText)
-                        .font(.headline)
-                        .foregroundStyle(.secondary)
+                VStack(spacing: 10) {
+                    Text(title)
+                        .frame(height: 40)
+                        .font(.title2)
+                        .minimumScaleFactor(0.5)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
                     
-                    if rating > 0 {
-                        Spacer()
-                        Text(String(rating))
+                    HStack {
+                        Text(ratingText)
                             .font(.headline)
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(.secondary)
+                        
+                        if rating > 0 {
+                            Spacer()
+                            Text(String(rating))
+                                .font(.headline)
+                                .foregroundStyle(.orange)
+                        }
                     }
                 }
+                .padding(.horizontal)
+                
+                Spacer()
             }
-            .padding(.horizontal)
-
-            Spacer()
+            .frame(width: 250, height: 420)
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 25.0))
+            
         }
-        .frame(width: 250, height: 420)
-        .background(.regularMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 25.0))
+        .buttonStyle(.plain)
+        .hoverEffectDisabled()
+        
     }
     
     var ratingText: String {
@@ -59,5 +69,5 @@ struct PosterDetailView: View {
 }
 
 #Preview {
-    PosterDetailView(posterPath: MovieResponse.example.posterPath!, title: MovieResponse.example.title, rating: MovieResponse.example.voteAverage)
+    PosterDetailView(posterPath: MovieResponse.example.posterPath!, title: MovieResponse.example.title, rating: MovieResponse.example.voteAverage) {  }
 }

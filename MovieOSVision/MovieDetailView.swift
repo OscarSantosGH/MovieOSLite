@@ -9,11 +9,95 @@
 import SwiftUI
 
 struct MovieDetailView: View {
+    var movie: MovieResponse
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            VStack {
+                MOImageLoaderView(imagePath: movie.backdropPath ?? "", imageType: .backdrop)
+                    .frame(height: 360)
+                    .overlay(.regularMaterial.opacity(0.8))
+                    .clipped()
+                
+                Spacer()
+            }
+            
+            //Header view
+            VStack {
+                HStack(alignment: .center, spacing: 10) {
+                    MOImageLoaderView(imagePath: movie.posterPath ?? "", imageType: .poster)
+                        .frame(width: 200, height: 300)
+                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                    
+                    VStack(alignment: .leading) {
+                        Text(movie.title)
+                            .font(.extraLargeTitle)
+                        
+                        HStack {
+                            Text(NSLocalizedString("Release Date", comment: "Release Date")+":")
+                            Text(configureReleaseDate(from: movie.releaseDate))
+                        }
+                        
+                        HStack(spacing: 20) {
+                            //TODO: Make a circular gauge to show the rating %
+                            VStack {
+                                Text(String(movie.voteAverage))
+                                Text(NSLocalizedString("Ratings", comment: "Ratings"))
+                            }
+                            
+                            Button {
+                                //TODO: Add to favorite
+                            } label: {
+                                RoundedRectangle(cornerRadius: 25)
+                                    .frame(width: 200, height: 50)
+                                    .foregroundStyle(.moSorange)
+                                    .overlay {
+                                        //TODO: Add localization and make it responsive
+                                        HStack {
+                                            Text("Add to Favorite")
+                                                .font(.headline)
+                                            Spacer()
+                                            Image(systemName: "heart.circle")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .padding(5)
+                                        }
+                                        .padding(.leading)
+                                    }
+                            }
+                            .buttonStyle(.plain)
+                            
+                        }
+                        .padding()
+                    }
+                    .padding()
+                    
+                    Spacer()
+                }
+                .padding()
+                
+                Spacer()
+            }
+            .padding()
+            //End of Header view
+            
+        }
+        .ignoresSafeArea()
+    }
+    
+    private func configureReleaseDate(from stringDate:String) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        guard let date = dateFormatter.date(from:stringDate) else {return NSLocalizedString("Unknown", comment: "Unknown")}
+        
+        let newFormatter = DateFormatter()
+        newFormatter.dateFormat = "MMM d, yyyy"
+        
+        return newFormatter.string(from: date)
     }
 }
 
 #Preview {
-    MovieDetailView()
+    MovieDetailView(movie: MovieResponse.example)
 }

@@ -37,7 +37,9 @@ struct HomeScreenView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10) {
                     ForEach(popularMovies, id: \.id) { movie in
-                        PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage)
+                        PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
+                            print(movie)
+                        }
                     }
                 }
                 .padding()
@@ -52,7 +54,9 @@ struct HomeScreenView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10) {
                     ForEach(nowPlayingMovies, id: \.id) { movie in
-                        PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage)
+                        PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
+                            print(movie)
+                        }
                     }
                 }
                 .padding()
@@ -67,7 +71,9 @@ struct HomeScreenView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10) {
                     ForEach(upcomingMovies, id: \.id) { movie in
-                        PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage)
+                        PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
+                            print(movie)
+                        }
                     }
                 }
                 .padding()
