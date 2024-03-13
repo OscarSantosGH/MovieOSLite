@@ -22,67 +22,97 @@ struct MovieDetailView: View {
                 Spacer()
             }
             
-            //Header view
-            VStack {
-                HStack(alignment: .center, spacing: 10) {
-                    MOImageLoaderView(imagePath: movie.posterPath ?? "", imageType: .poster)
-                        .frame(width: 200, height: 300)
-                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
+            VStack(alignment: .leading) {
+                
+                HeaderDetailsView(movie: movie)
+                
+                Text(overviewLabel)
+                    .font(.title)
+                    .padding(.bottom)
+                
+                if movie.overview != "" {
+                    Text(movie.overview)
+                }
+            }
+            .padding()
+            
+        }
+        .ignoresSafeArea()
+    }
+    
+    private var overviewLabel: String {
+        if movie.overview == ""{
+            NSLocalizedString("No Overview Found", comment: "No Overview Found")
+        }else{
+            NSLocalizedString("Overview", comment: "Overview")
+        }
+    }
+    
+}
+
+#Preview {
+    MovieDetailView(movie: MovieResponse.example)
+}
+
+private struct HeaderDetailsView: View {
+    var movie: MovieResponse
+    
+    var body: some View {
+        VStack {
+            HStack(alignment: .center, spacing: 10) {
+                MOImageLoaderView(imagePath: movie.posterPath ?? "", imageType: .poster)
+                    .frame(width: 200, height: 300)
+                    .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                
+                VStack(alignment: .leading) {
+                    Text(movie.title)
+                        .font(.extraLargeTitle)
                     
-                    VStack(alignment: .leading) {
-                        Text(movie.title)
-                            .font(.extraLargeTitle)
-                        
-                        HStack {
-                            Text(NSLocalizedString("Release Date", comment: "Release Date")+":")
-                            Text(configureReleaseDate(from: movie.releaseDate))
+                    HStack {
+                        Text(NSLocalizedString("Release Date", comment: "Release Date")+":")
+                        Text(configureReleaseDate(from: movie.releaseDate))
+                    }
+                    
+                    HStack(spacing: 20) {
+                        //TODO: Make a circular gauge to show the rating %
+                        VStack {
+                            Text(String(movie.voteAverage))
+                            Text(NSLocalizedString("Ratings", comment: "Ratings"))
                         }
                         
-                        HStack(spacing: 20) {
-                            //TODO: Make a circular gauge to show the rating %
-                            VStack {
-                                Text(String(movie.voteAverage))
-                                Text(NSLocalizedString("Ratings", comment: "Ratings"))
-                            }
-                            
-                            Button {
-                                //TODO: Add to favorite
-                            } label: {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .frame(width: 200, height: 50)
-                                    .foregroundStyle(.moSorange)
-                                    .overlay {
-                                        //TODO: Add localization and make it responsive
-                                        HStack {
-                                            Text("Add to Favorite")
-                                                .font(.headline)
-                                            Spacer()
-                                            Image(systemName: "heart.circle")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .padding(5)
-                                        }
-                                        .padding(.leading)
+                        Button {
+                            //TODO: Add to favorite
+                        } label: {
+                            RoundedRectangle(cornerRadius: 25)
+                                .frame(width: 200, height: 50)
+                                .foregroundStyle(.moSorange)
+                                .overlay {
+                                    //TODO: Add localization and make it responsive
+                                    HStack {
+                                        Text("Add to Favorite")
+                                            .font(.headline)
+                                        Spacer()
+                                        Image(systemName: "heart.circle")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .padding(5)
                                     }
-                            }
-                            .buttonStyle(.plain)
-                            
+                                    .padding(.leading)
+                                }
                         }
-                        .padding()
+                        .buttonStyle(.plain)
+                        
                     }
                     .padding()
-                    
-                    Spacer()
                 }
                 .padding()
                 
                 Spacer()
             }
             .padding()
-            //End of Header view
             
+            Spacer()
         }
-        .ignoresSafeArea()
     }
     
     private func configureReleaseDate(from stringDate:String) -> String{
@@ -96,8 +126,4 @@ struct MovieDetailView: View {
         
         return newFormatter.string(from: date)
     }
-}
-
-#Preview {
-    MovieDetailView(movie: MovieResponse.example)
 }
