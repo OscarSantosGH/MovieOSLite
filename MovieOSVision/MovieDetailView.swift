@@ -28,11 +28,13 @@ struct MovieDetailView: View {
                 
                 Text(overviewLabel)
                     .font(.title)
-                    .padding(.bottom)
+                    .padding(.vertical)
                 
                 if movie.overview != "" {
                     Text(movie.overview)
                 }
+                
+                Spacer()
             }
             .padding()
             
@@ -110,8 +112,6 @@ private struct HeaderDetailsView: View {
                 Spacer()
             }
             .padding()
-            
-            Spacer()
         }
     }
     
