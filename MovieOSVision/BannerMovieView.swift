@@ -9,33 +9,59 @@
 import SwiftUI
 
 struct BannerMovieView: View {
-    let id = UUID()
-    var title: String
-    var imageURLPath: String
+    let movie: MovieResponse
     
     var body: some View {
-        ZStack {
-            MOImageLoaderView(imagePath: imageURLPath, imageType: .backdrop)
-            
-            LinearGradient(colors: [Color.black.opacity(0.8), Color.black.opacity(0)],
-                           startPoint: UnitPoint(x: 0, y: 0),
-                           endPoint: UnitPoint(x: 0, y: 1))
-            
-            VStack {
-                HStack {
-                    Text(title)
-                        .font(.largeTitle)
-                        .padding(.top, 30)
-                        .padding(.leading, 25)
-                    Spacer()
+        
+        VStack {
+            HStack(alignment: .center) {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text(NSLocalizedString("Release Date", comment: "Release Date")+":")
+                        Text(configureReleaseDate(from: movie.releaseDate))
+                    }
+                    
+                    Text(movie.title)
+                        .font(.extraLargeTitle)
+                    
+                    Text(movie.overview)
+                        .lineLimit(3)
+                        .padding(.top)
+                    
                 }
+                .padding(.trailing)
+                
                 Spacer()
+                
+                MOImageLoaderView(imagePath: movie.posterPath ?? "", imageType: .poster)
+                    .frame(width: 250, height: 350)
+                    .clipShape(RoundedRectangle(cornerRadius: 25.0))
             }
-
+            .padding()
+            .padding(.horizontal, 25)
         }
+        .background {
+            MOImageLoaderView(imagePath: movie.backdropPath ?? "", imageType: .backdrop)
+                .overlay(Material.regular)
+        }
+        .frame(minWidth: 800, minHeight: 400)
+        .clipShape(RoundedRectangle(cornerRadius: 35))
+    }
+    
+    //TODO: refactor this method to reuse in other views
+    private func configureReleaseDate(from stringDate: String) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        guard let date = dateFormatter.date(from:stringDate) else {return NSLocalizedString("Unknown", comment: "Unknown")}
+        
+        let newFormatter = DateFormatter()
+        newFormatter.dateFormat = "MMM d, yyyy"
+        
+        return newFormatter.string(from: date)
     }
 }
 
 #Preview {
-    BannerMovieView(title: "The Best Movie", imageURLPath: "9Le7N3fmrHnWwdxCg35jSSawFyK.jpg")
+    BannerMovieView(movie: MovieResponse.example)
 }

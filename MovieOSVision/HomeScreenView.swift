@@ -16,75 +16,77 @@ struct HomeScreenView: View {
     @State private var selectedMovie: MovieResponse?
     
     var body: some View {
-        ScrollView {
-            // Featured movies
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
-                    ForEach(featuredMovies, id: \.id) { movie in
-                        BannerMovieView(title: movie.title, imageURLPath: movie.backdropPath ?? "")
-                            .frame(width: 450, height: 250)
-                            .clipShape(RoundedRectangle(cornerRadius: 25.0))
-                    }
-                }
-                .padding()
-            }
-            
-            //Popular movies
-            Text(NSLocalizedString("Popular", comment: "popular category"))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .font(.title)
-                .padding(.horizontal)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
-                    ForEach(popularMovies, id: \.id) { movie in
-                        PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
-                            selectedMovie = movie
+        GeometryReader { geo in
+            ScrollView {
+                // Featured movies
+                //TODO: Implement pagination behavior
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 15) {
+                        ForEach(featuredMovies, id: \.id) { movie in
+                            BannerMovieView(movie: movie)
+                                .frame(width: geo.size.width * 0.95)
                         }
                     }
+                    .padding()
                 }
-                .padding()
-            }
-            
-            //Now playing movies
-            Text(NSLocalizedString("Now Playing", comment: "now playing category"))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .font(.title)
-                .padding(.horizontal)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
-                    ForEach(nowPlayingMovies, id: \.id) { movie in
-                        PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
-                            selectedMovie = movie
+                
+                //Popular movies
+                Text(NSLocalizedString("Popular", comment: "popular category"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.title)
+                    .padding(.horizontal)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(popularMovies, id: \.id) { movie in
+                            PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
+                                selectedMovie = movie
+                            }
                         }
                     }
+                    .padding()
                 }
-                .padding()
-            }
-            
-            //Upcoming movies
-            Text(NSLocalizedString("Upcoming", comment: "upcoming category"))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .font(.title)
-                .padding(.horizontal)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
-                    ForEach(upcomingMovies, id: \.id) { movie in
-                        PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
-                            selectedMovie = movie
+                
+                //Now playing movies
+                Text(NSLocalizedString("Now Playing", comment: "now playing category"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.title)
+                    .padding(.horizontal)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(nowPlayingMovies, id: \.id) { movie in
+                            PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
+                                selectedMovie = movie
+                            }
                         }
                     }
+                    .padding()
                 }
-                .padding()
+                
+                //Upcoming movies
+                Text(NSLocalizedString("Upcoming", comment: "upcoming category"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .font(.title)
+                    .padding(.horizontal)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(upcomingMovies, id: \.id) { movie in
+                            PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
+                                selectedMovie = movie
+                            }
+                        }
+                    }
+                    .padding()
+                }
+                
+                Spacer()
             }
-            
-            Spacer()
-        }
-        .navigationBarBackButtonHidden()
-        .navigationDestination(item: $selectedMovie) { movie in
-            MovieDetailView(movie: movie)
+            .navigationBarBackButtonHidden()
+            .navigationDestination(item: $selectedMovie) { movie in
+                MovieDetailView(movie: movie)
+            }
         }
     }
 }
@@ -92,7 +94,7 @@ struct HomeScreenView: View {
 #Preview {
     let exampleMovieArray = Array(repeating: MovieResponse.example, count: 6)
     return HomeScreenView(popularMovies: exampleMovieArray,
-                   upcomingMovies: exampleMovieArray,
-                   nowPlayingMovies: exampleMovieArray,
-                   featuredMovies: exampleMovieArray)
+                          upcomingMovies: exampleMovieArray,
+                          nowPlayingMovies: exampleMovieArray,
+                          featuredMovies: exampleMovieArray)
 }
