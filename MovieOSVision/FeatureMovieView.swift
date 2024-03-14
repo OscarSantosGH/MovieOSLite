@@ -1,5 +1,5 @@
 //
-//  BannerMovieView.swift
+//  FeatureMovieView.swift
 //  MovieOSVision
 //
 //  Created by Oscar Santos on 3/8/24.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct BannerMovieView: View {
+struct FeatureMovieView: View {
     let movie: MovieResponse
     
     var body: some View {
@@ -63,5 +63,5 @@ struct BannerMovieView: View {
 }
 
 #Preview {
-    BannerMovieView(movie: MovieResponse.example)
+    FeatureMovieView(movie: MovieResponse.example)
 }

@@ -23,7 +23,7 @@ struct HomeScreenView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 15) {
                         ForEach(featuredMovies, id: \.id) { movie in
-                            BannerMovieView(movie: movie)
+                            FeatureMovieView(movie: movie)
                                 .frame(width: geo.size.width * 0.95)
                         }
                     }
