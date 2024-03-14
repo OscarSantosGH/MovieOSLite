@@ -9,12 +9,12 @@
 import SwiftUI
 
 struct MOImageLoaderView: View {
-    let basePath = "https://image.tmdb.org/t/p/w780/"
+    let basePath = "https://image.tmdb.org/t/p/"
     var imagePath: String
     var imageType: ImageType = .poster
     
     var body: some View {
-        AsyncImage(url: URL(string: basePath+imagePath)) { image in
+        AsyncImage(url: URL(string: basePath+imageSize+imagePath)) { image in
             image
                 .resizable()
                 .scaledToFill()
@@ -24,6 +24,7 @@ struct MOImageLoaderView: View {
                 LinearGradient(colors: [Color.purple, Color.red],
                                startPoint: UnitPoint(x: 0, y: 0),
                                endPoint: UnitPoint(x: 1, y: 1))
+                .scaledToFill()
             case .poster:
                 Image(.posterPlaceholder)
                     .resizable()
@@ -38,6 +39,15 @@ struct MOImageLoaderView: View {
     
     enum ImageType {
         case backdrop, poster, cast
+    }
+    
+    private var imageSize: String {
+        switch imageType {
+        case .backdrop:
+            "w300"
+        case .poster, .cast:
+            "w342"
+        }
     }
 }
 
