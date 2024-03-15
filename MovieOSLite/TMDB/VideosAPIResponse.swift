@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct VideosAPIResponse: Codable {
+struct VideosAPIResponse: Codable, Hashable {
     var results:[VideoResponse]
 }

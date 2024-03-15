@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct CreditsAPIResponse: Codable {
+struct CreditsAPIResponse: Codable, Hashable {
     let cast: [ActorResponse]
 }

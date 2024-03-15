@@ -6,9 +6,9 @@
 //  Copyright © 2020 Oscar Santos. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-struct MovieDetailAPIResponse: Codable {
+struct MovieDetailAPIResponse: Codable, Hashable {
     let id: Int
     var posterPath: String?
     var backdropPath: String?

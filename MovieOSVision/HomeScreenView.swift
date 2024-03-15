@@ -13,7 +13,7 @@ struct HomeScreenView: View {
     var upcomingMovies: [MovieResponse]
     var nowPlayingMovies: [MovieResponse]
     var featuredMovies: [MovieResponse]
-    @State private var selectedMovie: MovieResponse?
+    @State private var selectedMovie: MovieDetailAPIResponse?
     
     var body: some View {
         GeometryReader { geo in
@@ -24,7 +24,7 @@ struct HomeScreenView: View {
                     HStack(spacing: 15) {
                         ForEach(featuredMovies, id: \.id) { movie in
                             FeatureMovieView(movie: movie) {
-                                selectedMovie = movie
+                                presentMovieDetails(movie: movie)
                             }
                             .frame(width: geo.size.width * 0.95)
                         }
@@ -42,7 +42,7 @@ struct HomeScreenView: View {
                     HStack(spacing: 10) {
                         ForEach(popularMovies, id: \.id) { movie in
                             PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
-                                selectedMovie = movie
+                                presentMovieDetails(movie: movie)
                             }
                         }
                     }
@@ -59,7 +59,7 @@ struct HomeScreenView: View {
                     HStack(spacing: 10) {
                         ForEach(nowPlayingMovies, id: \.id) { movie in
                             PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
-                                selectedMovie = movie
+                                presentMovieDetails(movie: movie)
                             }
                         }
                     }
@@ -76,7 +76,7 @@ struct HomeScreenView: View {
                     HStack(spacing: 10) {
                         ForEach(upcomingMovies, id: \.id) { movie in
                             PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
-                                selectedMovie = movie
+                                presentMovieDetails(movie: movie)
                             }
                         }
                     }
@@ -88,6 +88,21 @@ struct HomeScreenView: View {
             .navigationBarBackButtonHidden()
             .navigationDestination(item: $selectedMovie) { movie in
                 MovieDetailView(movie: movie)
+            }
+        }
+    }
+    
+    private func presentMovieDetails(movie: MovieResponse) {
+        //TODO: Make some loading animation while downloading the movie details
+        Task {
+            let response = await TMDBClient.shared.getMovie(withID: movie.id)
+            
+            switch response {
+            case .success(let movieDetails):
+                selectedMovie = movieDetails
+            case .failure(let error):
+                //TODO: Create a view to display some message to the user to informed that the movie details fetching fails
+                print("Error getting movie details: \(error)")
             }
         }
     }

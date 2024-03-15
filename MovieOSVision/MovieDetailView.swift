@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct MovieDetailView: View {
-    var movie: MovieResponse
+    var movie: MovieDetailAPIResponse
     
     var body: some View {
         ZStack {
@@ -52,12 +52,12 @@ struct MovieDetailView: View {
     
 }
 
-#Preview {
-    MovieDetailView(movie: MovieResponse.example)
-}
+//#Preview {
+//    MovieDetailView(movie: MovieResponse.example)
+//}
 
 private struct HeaderDetailsView: View {
-    var movie: MovieResponse
+    var movie: MovieDetailAPIResponse
     
     var body: some View {
         VStack {
