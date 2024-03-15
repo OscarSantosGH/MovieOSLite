@@ -108,7 +108,6 @@ class NetworkManager{
     }
     
     func getMovie(withURL url:URL, completed: @escaping (Result<MovieDetailAPIResponse,MOError>)->Void){
-        
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if let _ = error{
@@ -144,9 +143,24 @@ class NetworkManager{
                 }
             }
         }
-        
         task.resume()
-        
+    }
+    
+    func getMovie(withURL url: URL) async -> Result<MovieDetailAPIResponse,MOError> {
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
+                return .failure(.invalidResponse)
+            }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let apiResponse = try decoder.decode(MovieDetailAPIResponse.self, from: data)
+            
+            return .success(apiResponse)
+        } catch {
+            return .failure(.invalidData)
+        }
     }
     
     func getTrailers(withURL url:URL, completed: @escaping (Result<VideosAPIResponse,MOError>)->Void){
@@ -191,6 +205,23 @@ class NetworkManager{
         
     }
     
+    func getTrailers(withURL url: URL) async -> Result<VideosAPIResponse,MOError> {
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
+                return .failure(.invalidResponse)
+            }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let apiResponse = try decoder.decode(VideosAPIResponse.self, from: data)
+            
+            return .success(apiResponse)
+            
+        } catch {
+            return .failure(.invalidData)
+        }
+    }
     
     func searchMovies(withURL url:URL, completed: @escaping (Result<[MovieResponse], MOError>, _ totalPages:Int)-> Void){
         
