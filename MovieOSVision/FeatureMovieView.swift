@@ -33,7 +33,7 @@ struct FeatureMovieView: View {
                 
                 Spacer()
                 
-                MOImageLoaderView(imagePath: movie.posterPath ?? "", imageType: .poster)
+                MOImageLoaderView(imagePath: movie.posterPath, imageType: .poster)
                     .frame(width: 250, height: 350)
                     .clipShape(RoundedRectangle(cornerRadius: 25.0))
             }
@@ -41,7 +41,7 @@ struct FeatureMovieView: View {
             .padding(.horizontal, 25)
         }
         .background {
-            MOImageLoaderView(imagePath: movie.backdropPath ?? "", imageType: .backdrop)
+            MOImageLoaderView(imagePath: movie.backdropPath, imageType: .backdrop)
                 .overlay(Material.regular)
         }
         .frame(minWidth: 800, minHeight: 400)

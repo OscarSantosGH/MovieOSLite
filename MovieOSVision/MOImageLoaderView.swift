@@ -10,11 +10,11 @@ import SwiftUI
 
 struct MOImageLoaderView: View {
     let basePath = "https://image.tmdb.org/t/p/"
-    var imagePath: String
+    var imagePath: String?
     var imageType: ImageType = .poster
     
     var body: some View {
-        AsyncImage(url: URL(string: basePath+imageSize+imagePath)) { image in
+        AsyncImage(url: URL(string: basePath+imageSize+(imagePath ?? ""))) { image in
             image
                 .resizable()
                 .scaledToFill()
@@ -52,5 +52,5 @@ struct MOImageLoaderView: View {
 }
 
 #Preview {
-    MOImageLoaderView(imagePath: MovieResponse.example.posterPath!)
+    MOImageLoaderView(imagePath: MovieResponse.example.posterPath)
 }

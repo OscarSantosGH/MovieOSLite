@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct PosterDetailView: View {
-    var posterPath: String
+    var posterPath: String?
     var title: String
     var rating: Float
     var action: (() -> Void)
@@ -69,5 +69,5 @@ struct PosterDetailView: View {
 }
 
 #Preview {
-    PosterDetailView(posterPath: MovieResponse.example.posterPath!, title: MovieResponse.example.title, rating: MovieResponse.example.voteAverage) {  }
+    PosterDetailView(posterPath: MovieResponse.example.posterPath, title: MovieResponse.example.title, rating: MovieResponse.example.voteAverage) {  }
 }

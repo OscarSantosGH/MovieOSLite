@@ -14,7 +14,7 @@ struct MovieDetailView: View {
     var body: some View {
         ZStack {
             VStack {
-                MOImageLoaderView(imagePath: movie.backdropPath ?? "", imageType: .backdrop)
+                MOImageLoaderView(imagePath: movie.backdropPath, imageType: .backdrop)
                     .frame(height: 360)
                     .overlay(.regularMaterial.opacity(0.8))
                     .clipped()
@@ -62,7 +62,7 @@ private struct HeaderDetailsView: View {
     var body: some View {
         VStack {
             HStack(alignment: .center, spacing: 10) {
-                MOImageLoaderView(imagePath: movie.posterPath ?? "", imageType: .poster)
+                MOImageLoaderView(imagePath: movie.posterPath, imageType: .poster)
                     .frame(width: 200, height: 300)
                     .clipShape(RoundedRectangle(cornerRadius: 20.0))
                 
