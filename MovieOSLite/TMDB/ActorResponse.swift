@@ -17,4 +17,6 @@ struct ActorResponse: Codable, Hashable {
     let name: String
     let order: Int
     var profilePath: String?
+    
+    static let example = ActorResponse(castId: 2, character: "Paul Atreides", creditId: "5e959c45955c6500159f1c98", gender: 2, id: 1190668, name: "Timothée Chalamet", order: 0, profilePath: "/BE2sdjpgsa2rNTFa66f7upkaOP.jpg")
 }

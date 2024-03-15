@@ -52,9 +52,9 @@ struct MovieDetailView: View {
     
 }
 
-//#Preview {
-//    MovieDetailView(movie: MovieResponse.example)
-//}
+#Preview {
+    MovieDetailView(movie: MovieDetailAPIResponse.example)
+}
 
 private struct HeaderDetailsView: View {
     var movie: MovieDetailAPIResponse

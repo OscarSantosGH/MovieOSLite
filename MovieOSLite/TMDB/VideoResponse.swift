@@ -9,10 +9,12 @@
 import Foundation
 
 struct VideoResponse: Codable, Hashable {
-    let id:String
-    let key:String
-    let name:String
-    let site:String
-    let size:Int
-    let type:String
+    let id: String
+    let key: String
+    let name: String
+    let site: String
+    let size: Int
+    let type: String
+    
+    static let example = VideoResponse(id: "65ebc0ca28723c01643e7dd4", key: "Xq6OPXGEzBo", name: "This or That", site: "YouTube", size: 1080, type: "Featurette")
 }
