@@ -10,42 +10,49 @@ import SwiftUI
 
 struct FeatureMovieView: View {
     let movie: MovieResponse
+    var action: (() -> Void)
     
     var body: some View {
         
-        VStack {
-            HStack(alignment: .center) {
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text(NSLocalizedString("Release Date", comment: "Release Date")+":")
-                        Text(configureReleaseDate(from: movie.releaseDate))
+        Button {
+            action()
+        } label: {
+            VStack {
+                HStack(alignment: .center) {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text(NSLocalizedString("Release Date", comment: "Release Date")+":")
+                            Text(configureReleaseDate(from: movie.releaseDate))
+                        }
+                        
+                        Text(movie.title)
+                            .font(.extraLargeTitle)
+                        
+                        Text(movie.overview)
+                            .lineLimit(3)
+                            .padding(.top)
+                        
                     }
+                    .padding(.trailing)
                     
-                    Text(movie.title)
-                        .font(.extraLargeTitle)
+                    Spacer()
                     
-                    Text(movie.overview)
-                        .lineLimit(3)
-                        .padding(.top)
-                    
+                    MOImageLoaderView(imagePath: movie.posterPath, imageType: .poster)
+                        .frame(width: 250, height: 350)
+                        .clipShape(RoundedRectangle(cornerRadius: 25.0))
                 }
-                .padding(.trailing)
-                
-                Spacer()
-                
-                MOImageLoaderView(imagePath: movie.posterPath, imageType: .poster)
-                    .frame(width: 250, height: 350)
-                    .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                .padding()
+                .padding(.horizontal, 25)
             }
-            .padding()
-            .padding(.horizontal, 25)
+            .background {
+                MOImageLoaderView(imagePath: movie.backdropPath, imageType: .backdrop)
+                    .overlay(Material.regular)
+            }
+            .frame(minWidth: 800, minHeight: 400)
+            .clipShape(RoundedRectangle(cornerRadius: 35))
         }
-        .background {
-            MOImageLoaderView(imagePath: movie.backdropPath, imageType: .backdrop)
-                .overlay(Material.regular)
-        }
-        .frame(minWidth: 800, minHeight: 400)
-        .clipShape(RoundedRectangle(cornerRadius: 35))
+        .buttonStyle(.plain)
+        .hoverEffectDisabled()
     }
     
     //TODO: refactor this method to reuse in other views
@@ -63,5 +70,5 @@ struct FeatureMovieView: View {
 }
 
 #Preview {
-    FeatureMovieView(movie: MovieResponse.example)
+    FeatureMovieView(movie: MovieResponse.example) { }
 }
