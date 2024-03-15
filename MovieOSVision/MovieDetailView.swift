@@ -76,11 +76,19 @@ private struct HeaderDetailsView: View {
                     }
                     
                     HStack(spacing: 20) {
-                        //TODO: Make a circular gauge to show the rating %
-                        VStack {
-                            Text(String(movie.voteAverage))
-                            Text(NSLocalizedString("Ratings", comment: "Ratings"))
+                        HStack(spacing: 15) {
+                            CircularRatingView(percentage: movie.voteAverage)
+                                .frame(width: 75, height: 75)
+                            VStack(alignment: .leading) {
+                                Group {
+                                    //TODO: create localization for user score
+                                    Text("User")
+                                    Text("Score")
+                                }
+                                .font(.title2)
+                            }
                         }
+                        .padding(.trailing)
                         
                         Button {
                             //TODO: Add to favorite
@@ -125,5 +133,53 @@ private struct HeaderDetailsView: View {
         newFormatter.dateFormat = "MMM d, yyyy"
         
         return newFormatter.string(from: date)
+    }
+}
+
+struct CircularRatingView: View {
+    var percentage: Float
+    var lineWidth: CGFloat = 10
+    
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(
+                    Material.thick,
+                    lineWidth: lineWidth + 5
+                )
+                .background(Circle())
+                .foregroundStyle(Material.thick)
+                
+                
+            Circle()
+                .stroke(
+                    Color.green.opacity(0.3),
+                    lineWidth: lineWidth
+                )
+            Circle()
+                .trim(from: 0, to: CGFloat(percentage)/10)
+                .stroke(
+                    Color.green,
+                    style: StrokeStyle (
+                        lineWidth: lineWidth,
+                        lineCap: .round
+                    )
+                )
+                .rotationEffect(.degrees(-90))
+            
+            HStack(alignment: .top, spacing: 0) {
+                Text(displayPercentage)
+                    .font(.title2)
+                    .bold()
+                
+                Text("%")
+                    .font(.caption)
+                    .bold()
+            }
+        }
+    }
+    
+    private var displayPercentage: String {
+        String(Int(percentage*10))
     }
 }
