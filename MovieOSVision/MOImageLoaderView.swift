@@ -9,12 +9,13 @@
 import SwiftUI
 
 struct MOImageLoaderView: View {
-    let basePath = "https://image.tmdb.org/t/p/"
+    private let basePath = "https://image.tmdb.org/t/p/"
+    private let baseYoutubeThumbUrl = "https://img.youtube.com/vi/"
     var imagePath: String?
     var imageType: ImageType = .poster
     
     var body: some View {
-        AsyncImage(url: URL(string: basePath+imageSize+(imagePath ?? ""))) { image in
+        AsyncImage(url: url) { image in
             image
                 .resizable()
                 .scaledToFill()
@@ -25,12 +26,12 @@ struct MOImageLoaderView: View {
                                startPoint: UnitPoint(x: 0, y: 0),
                                endPoint: UnitPoint(x: 1, y: 1))
                 .scaledToFill()
-            case .poster:
-                Image(.posterPlaceholder)
-                    .resizable()
-                    .scaledToFill()
             case .cast:
                 Image(.placeholderCast)
+                    .resizable()
+                    .scaledToFill()
+            default:
+                Image(.posterPlaceholder)
                     .resizable()
                     .scaledToFill()
             }
@@ -38,7 +39,7 @@ struct MOImageLoaderView: View {
     }
     
     enum ImageType {
-        case backdrop, poster, cast
+        case backdrop, poster, cast, trailer
     }
     
     private var imageSize: String {
@@ -47,8 +48,18 @@ struct MOImageLoaderView: View {
             "w300"
         case .poster, .cast:
             "w342"
+        default: ""
         }
     }
+    
+    private var url: URL? {
+        switch imageType {
+        case .trailer:
+            URL(string: baseYoutubeThumbUrl + (imagePath ?? "") + "/0.jpg")
+        default: URL(string: basePath + imageSize + (imagePath ?? ""))
+        }
+    }
+    
 }
 
 #Preview {
