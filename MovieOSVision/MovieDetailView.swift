@@ -12,32 +12,40 @@ struct MovieDetailView: View {
     var movie: MovieDetailAPIResponse
     
     var body: some View {
-        ZStack {
-            VStack {
-                MOImageLoaderView(imagePath: movie.backdropPath, imageType: .backdrop)
-                    .frame(height: 360)
-                    .overlay(.regularMaterial.opacity(0.8))
-                    .clipped()
-                
-                Spacer()
-            }
-            
-            VStack(alignment: .leading) {
-                
-                HeaderDetailsView(movie: movie)
-                
-                Text(overviewLabel)
-                    .font(.title)
-                    .padding(.vertical)
-                
-                if movie.overview != "" {
-                    Text(movie.overview)
+        ScrollView {
+            ZStack {
+                VStack {
+                    MOImageLoaderView(imagePath: movie.backdropPath, imageType: .backdrop)
+                        .frame(height: 360)
+                        .overlay(.regularMaterial)
+                        .clipped()
+                    
+                    Spacer()
                 }
                 
-                Spacer()
+                VStack(alignment: .leading) {
+                    
+                    HeaderDetailsView(movie: movie)
+                    
+                    Text(overviewLabel)
+                        .font(.title)
+                        .padding(.vertical)
+                    
+                    if movie.overview != "" {
+                        Text(movie.overview)
+                    }
+                    
+                    Text(trailersLabel)
+                        .font(.title)
+                        .padding(.top)
+                    
+                    TrailerListView(trailers: movie.videos.results)
+                    
+                    Spacer()
+                }
+                .padding()
+                
             }
-            .padding()
-            
         }
         .ignoresSafeArea()
     }
@@ -50,10 +58,20 @@ struct MovieDetailView: View {
         }
     }
     
+    private var trailersLabel: String {
+        if movie.overview == ""{
+            NSLocalizedString("No Trailers Found", comment: "No Trailers Found")
+        }else{
+            NSLocalizedString("Trailers", comment: "Trailers")
+        }
+    }
+    
 }
 
 #Preview {
-    MovieDetailView(movie: MovieDetailAPIResponse.example)
+    NavigationStack {
+        MovieDetailView(movie: MovieDetailAPIResponse.example)
+    }
 }
 
 private struct HeaderDetailsView: View {
@@ -181,5 +199,34 @@ struct CircularRatingView: View {
     
     private var displayPercentage: String {
         String(Int(percentage*10))
+    }
+}
+
+struct TrailerListView: View {
+    let trailers: [VideoResponse]
+    
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(trailers, id: \.id) { trailer in
+                    VStack {
+                        MOImageLoaderView(imagePath: trailer.key, imageType: .trailer)
+                            .frame(height: 130)
+                            .clipped()
+                        Text(trailer.name)
+                            .font(.headline)
+                            .minimumScaleFactor(0.6)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 5)
+                        Spacer()
+                    }
+                    .frame(width: 230, height: 175)
+                    .background(Material.regularMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.vertical)
+                }
+            }
+        }
     }
 }
