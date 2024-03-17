@@ -41,6 +41,18 @@ struct MovieDetailView: View {
                     
                     TrailerListView(trailers: movie.videos.results)
                     
+                    Text(castLabel)
+                        .font(.title)
+                        .padding(.top)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(movie.credits.cast, id: \.id) { cast in
+                                CastView(actor: cast)
+                            }
+                        }
+                    }
+                    
                     Spacer()
                 }
                 .padding()
@@ -51,18 +63,26 @@ struct MovieDetailView: View {
     }
     
     private var overviewLabel: String {
-        if movie.overview == ""{
+        if movie.overview == "" {
             NSLocalizedString("No Overview Found", comment: "No Overview Found")
-        }else{
+        }else {
             NSLocalizedString("Overview", comment: "Overview")
         }
     }
     
     private var trailersLabel: String {
-        if movie.overview == ""{
+        if movie.overview == "" {
             NSLocalizedString("No Trailers Found", comment: "No Trailers Found")
-        }else{
+        }else {
             NSLocalizedString("Trailers", comment: "Trailers")
+        }
+    }
+    
+    private var castLabel: String {
+        if movie.credits.cast.isEmpty {
+            NSLocalizedString ("No Cast Found", comment: "No Cast Found")
+        }else {
+            NSLocalizedString("The Cast", comment: "The Cast")
         }
     }
     
