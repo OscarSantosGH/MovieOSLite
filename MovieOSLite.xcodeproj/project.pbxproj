@@ -418,7 +418,6 @@
 			children = (
 				839601852B964108007FB1F4 /* MovieOSVisionApp.swift */,
 				83A372F92BA77EF30016FB4F /* Screens */,
-				83A372EA2B9B93CA0016FB4F /* LoadingViewModel.swift */,
 				83A372FA2BA77F170016FB4F /* Custom Views */,
 				8396018B2B96410B007FB1F4 /* Assets.xcassets */,
 				839601902B96410B007FB1F4 /* Info.plist */,
@@ -438,7 +437,7 @@
 		83A372F92BA77EF30016FB4F /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				839601872B964108007FB1F4 /* LoadingView.swift */,
+				83A372FB2BA77FB70016FB4F /* Loading View */,
 				83A372EF2B9F61630016FB4F /* HomeScreenView.swift */,
 				83A372F32B9F95290016FB4F /* MovieDetailView.swift */,
 			);
@@ -454,6 +453,15 @@
 				83A372F72BA77A970016FB4F /* CastView.swift */,
 			);
 			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		83A372FB2BA77FB70016FB4F /* Loading View */ = {
+			isa = PBXGroup;
+			children = (
+				839601872B964108007FB1F4 /* LoadingView.swift */,
+				83A372EA2B9B93CA0016FB4F /* LoadingViewModel.swift */,
+			);
+			path = "Loading View";
 			sourceTree = "<group>";
 		};
 		83D619DD241346FF00E21320 /* Views */ = {
