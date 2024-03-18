@@ -14,6 +14,7 @@ struct GenresGridView: View {
     @State private var currentRowWidth: CGFloat = 0
     @State private var currentRowGenres: [GenreResponse] = []
     @State private var genresGrid: [[GenreResponse]] = []
+    @State private var containerWidth: CGFloat = 0
     
     var body: some View {
         GeometryReader { geo in
@@ -33,15 +34,21 @@ struct GenresGridView: View {
                 }
             }
             .onAppear {
-                calculateRowWidth(viewWidth: geo.size.width)
+                containerWidth = geo.size.width
+                calculateRowWidth(viewWidth: containerWidth)
+            }
+            .onChange(of: geo.size) { _, newSize in
+                containerWidth = newSize.width
+                calculateRowWidth(viewWidth: containerWidth)
             }
         }
     }
     
     private func calculateRowWidth(viewWidth: CGFloat) {
         let fontAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .headline)]
+        genresGrid = []
         
-        for (index, genre) in genres.enumerated() {
+        for genre in genres {
             let size = genre.name.size(withAttributes: fontAttributes)
             let padding: CGFloat = 70
             currentRowWidth += (size.width + padding)
@@ -56,6 +63,8 @@ struct GenresGridView: View {
             }
         }
         genresGrid.append(currentRowGenres)
+        currentRowWidth = 0
+        currentRowGenres = []
     }
 }
 
