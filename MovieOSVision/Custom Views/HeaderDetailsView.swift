@@ -66,6 +66,8 @@ struct HeaderDetailsView: View {
                         
                     }
                     .padding()
+                    
+                    GenresGridView(genres: movie.genres)
                 }
                 .padding()
                 
@@ -86,6 +88,10 @@ struct HeaderDetailsView: View {
         
         return newFormatter.string(from: date)
     }
+}
+
+#Preview {
+    HeaderDetailsView(movie: MovieDetailAPIResponse.example)
 }
 
 struct CircularRatingView: View {
