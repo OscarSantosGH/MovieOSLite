@@ -14,49 +14,41 @@ struct MovieDetailView: View {
     var body: some View {
         ScrollView {
             ZStack {
-                VStack {
-                    MOImageLoaderView(imagePath: movie.backdropPath, imageType: .backdrop)
-                        .frame(height: 360)
-                        .overlay(.regularMaterial)
-                        .clipped()
-                    
-                    Spacer()
-                }
-                
                 LazyVStack(alignment: .leading) {
-                    
                     HeaderDetailsView(movie: movie)
+                        .padding(.bottom)
                     
-                    Text(overviewLabel)
-                        .font(.title)
-                        .padding(.vertical)
-                    
-                    if movie.overview != "" {
-                        Text(movie.overview)
-                    }
-                    
-                    Text(trailersLabel)
-                        .font(.title)
-                        .padding(.top)
-                    
-                    TrailerListView(trailers: movie.videos.results)
-                    
-                    Text(castLabel)
-                        .font(.title)
-                        .padding(.top)
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHStack {
-                            ForEach(movie.credits.cast, id: \.id) { cast in
-                                CastView(actor: cast)
+                    Group {
+                        Text(overviewLabel)
+                            .font(.title)
+                            .padding(.vertical)
+                        
+                        if movie.overview != "" {
+                            Text(movie.overview)
+                        }
+                        
+                        Text(trailersLabel)
+                            .font(.title)
+                            .padding(.top)
+                        
+                        TrailerListView(trailers: movie.videos.results)
+                        
+                        Text(castLabel)
+                            .font(.title)
+                            .padding(.top)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack {
+                                ForEach(movie.credits.cast, id: \.id) { cast in
+                                    CastView(actor: cast)
+                                }
                             }
                         }
+                        
+                        Spacer()
                     }
-                    
-                    Spacer()
+                    .padding(.horizontal)
                 }
-                .padding()
-                
             }
         }
         .ignoresSafeArea()

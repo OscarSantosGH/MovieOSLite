@@ -12,20 +12,19 @@ struct HeaderDetailsView: View {
     var movie: MovieDetailAPIResponse
     
     var body: some View {
-        VStack {
+        VStack(alignment: .center) {
+            Spacer()
             HStack(alignment: .center, spacing: 10) {
-                MOImageLoaderView(imagePath: movie.posterPath, imageType: .poster)
-                    .frame(width: 200, height: 300)
-                    .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                Spacer()
                 
                 VStack(alignment: .leading) {
-                    Text(movie.title)
-                        .font(.extraLargeTitle)
-                    
                     HStack {
                         Text(NSLocalizedString("Release Date", comment: "Release Date")+":")
                         Text(configureReleaseDate(from: movie.releaseDate))
                     }
+                    
+                    Text(movie.title)
+                        .font(.extraLargeTitle)
                     
                     HStack(spacing: 20) {
                         HStack(spacing: 15) {
@@ -65,16 +64,25 @@ struct HeaderDetailsView: View {
                         .buttonStyle(.plain)
                         
                     }
-                    .padding()
                     
                     GenresGridView(genres: movie.genres)
                 }
                 .padding()
+                .padding(.leading, 20)
+                .padding(.top)
                 
-                Spacer()
+                MOImageLoaderView(imagePath: movie.posterPath, imageType: .poster)
+                    .frame(width: 200, height: 300)
+                    .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                
             }
             .padding()
+            .background {
+                MOImageLoaderView(imagePath: movie.backdropPath, imageType: .backdrop)
+                    .overlay(.regularMaterial)
+            }
         }
+        .clipped()
     }
     
     private func configureReleaseDate(from stringDate:String) -> String{
