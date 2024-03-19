@@ -21,7 +21,7 @@ struct HomeScreenView: View {
                 // Featured movies
                 //TODO: Implement pagination behavior
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 15) {
+                    LazyHStack(spacing: 15) {
                         ForEach(featuredMovies, id: \.id) { movie in
                             FeatureMovieView(movie: movie) {
                                 presentMovieDetails(movie: movie)
@@ -39,7 +39,7 @@ struct HomeScreenView: View {
                     .padding(.horizontal)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 10) {
+                    LazyHStack(spacing: 10) {
                         ForEach(popularMovies, id: \.id) { movie in
                             PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
                                 presentMovieDetails(movie: movie)
@@ -56,7 +56,7 @@ struct HomeScreenView: View {
                     .padding(.horizontal)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 10) {
+                    LazyHStack(spacing: 10) {
                         ForEach(nowPlayingMovies, id: \.id) { movie in
                             PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
                                 presentMovieDetails(movie: movie)
@@ -73,7 +73,7 @@ struct HomeScreenView: View {
                     .padding(.horizontal)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 10) {
+                    LazyHStack(spacing: 10) {
                         ForEach(upcomingMovies, id: \.id) { movie in
                             PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
                                 presentMovieDetails(movie: movie)

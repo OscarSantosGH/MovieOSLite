@@ -23,7 +23,7 @@ struct MovieDetailView: View {
                     Spacer()
                 }
                 
-                VStack(alignment: .leading) {
+                LazyVStack(alignment: .leading) {
                     
                     HeaderDetailsView(movie: movie)
                     
@@ -46,7 +46,7 @@ struct MovieDetailView: View {
                         .padding(.top)
                     
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
+                        LazyHStack {
                             ForEach(movie.credits.cast, id: \.id) { cast in
                                 CastView(actor: cast)
                             }
@@ -99,7 +99,7 @@ struct TrailerListView: View {
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
+            LazyHStack {
                 ForEach(trailers, id: \.id) { trailer in
                     VStack {
                         MOImageLoaderView(imagePath: trailer.key, imageType: .trailer)
