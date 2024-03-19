@@ -19,4 +19,6 @@ struct MovieResponse: Codable, Hashable {
     let releaseDate: String
     let genreIds: [Int]
     var category: String?
+    
+    static let example = MovieResponse(id: 693134, posterPath: "/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg", backdropPath: "/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg", title: "Dune: Part Two", originalTitle: "Dune: Part Two", voteAverage: 8.428, overview: "Follow the mythic journey of Paul Atreides as he unites with Chani and the Fremen while on a path of revenge against the conspirators who destroyed his family. Facing a choice between the love of his life and the fate of the known universe, Paul endeavors to prevent a terrible future only he can foresee.", releaseDate: "2024-02-27", genreIds: [878, 12], category: "now_playing")
 }

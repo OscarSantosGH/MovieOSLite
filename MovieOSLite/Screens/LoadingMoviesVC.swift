@@ -102,7 +102,7 @@ class LoadingMoviesVC: UIViewController {
     }
     
     func getUpcomingMovies() {
-        messageLabelView.text = NSLocalizedString("Getting Upcomming movies...", comment: "MovieOS is downloading the upcomming movies")
+        messageLabelView.text = NSLocalizedString("Getting Upcoming movies...", comment: "MovieOS is downloading the upcoming movies")
         TMDBClient.shared.getMovies(from: .upcoming ) { [weak self] (result) in
             guard let self = self else {return}
             
@@ -132,7 +132,7 @@ class LoadingMoviesVC: UIViewController {
     }
     
     func getFeaturesMovies(){
-        messageLabelView.text = NSLocalizedString("Getting Featured Movies...", comment: "MovieOS is downloading fetured movies")
+        messageLabelView.text = NSLocalizedString("Getting Featured Movies...", comment: "MovieOS is downloading featured movies")
         TMDBClient.shared.getMovies(from: .topRated ) { [weak self] (result) in
             guard let self = self else {return}
             

@@ -6,9 +6,9 @@
 //  Copyright © 2020 Oscar Santos. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-struct GenreResponse: Codable {
+struct GenreResponse: Codable, Hashable {
     let id:Int
     let name:String
 }

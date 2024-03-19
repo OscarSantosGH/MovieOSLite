@@ -51,6 +51,23 @@ class TMDBClient{
         }
     }
     
+    func getMovies(from list:MoviesList) async -> Result<[MovieResponse], MOError> {
+        let endPoint = baseUrl + "movie/" + "\(list.rawValue)?api_key=\(API_KEY)" + lang
+        
+        guard let url = URL(string: endPoint) else {
+            return .failure(.invalidURL)
+        }
+        
+        let (result, _ ) = await NetworkManager.shared.getMovies(withURL: url, movieCategory: list.rawValue)
+        
+        switch result {
+        case .success(let movies):
+            return .success(movies)
+        case .failure(let error):
+            return .failure(error)
+        }
+    }
+    
     func getMovie(withID id:Int, completed: @escaping (Result<MovieDetailAPIResponse,MOError>)->Void){
         let endPoint = baseUrl + "movie/" + "\(String(id))?api_key=\(API_KEY)" + "&append_to_response=credits,videos" + lang
         
@@ -90,6 +107,42 @@ class TMDBClient{
         
     }
     
+    func getMovie(withID id: Int) async -> Result<MovieDetailAPIResponse,MOError> {
+        let endPoint = baseUrl + "movie/" + "\(String(id))?api_key=\(API_KEY)" + "&append_to_response=credits,videos" + lang
+        
+        guard let url = URL(string: endPoint) else {
+            return .failure(.invalidURL)
+        }
+        
+        let result = await NetworkManager.shared.getMovie(withURL: url)
+        
+        switch result {
+        case .success(let movie):
+            if self.lang != "&language=en-US"{
+                let endPoint2 = baseUrl + "movie/" + "\(String(id))/videos?api_key=\(API_KEY)"
+                
+                guard let url2 = URL(string: endPoint2) else {
+                    return .success(movie)
+                }
+                
+                let result2 = await NetworkManager.shared.getTrailers(withURL: url2)
+                
+                switch result2{
+                case .success(let originalTrailers):
+                    var newMovie = movie
+                    let allTrailers = movie.videos.results + originalTrailers.results
+                    newMovie.videos.results = allTrailers
+                    return .success(newMovie)
+                case .failure(_):
+                    return .success(movie)
+                }
+            }else{
+                return .success(movie)
+            }
+        case .failure(let failure):
+            return .failure(failure)
+        }
+    }
     
     func searchMovies(withString txt:String, page:Int = 1, completed: @escaping (Result<[MovieResponse], MOError>, _ totalPages:Int)-> Void){
         let secureTxt = txt.replacingOccurrences(of: " ", with: "%20")
@@ -160,6 +213,15 @@ class TMDBClient{
         }
     }
     
+    func downloadPosterImage(from urlString: String) async -> UIImage? {
+        let endPoint = "https://image.tmdb.org/t/p/w342" + urlString
+        guard let url = URL(string: endPoint) else {
+            return nil
+        }
+        
+        return await NetworkManager.shared.downloadImage(withURL: url)
+    }
+    
     func downloadBackdropImage(from urlString:String, completed: @escaping (UIImage?)->Void) {
         
         let endPoint = baseBackdropImgUrl + urlString
@@ -171,6 +233,15 @@ class TMDBClient{
         NetworkManager.shared.downloadImage(withURL: url) { (image) in
             completed(image)
         }
+    }
+    
+    func downloadBackdropImage(from urlString: String) async -> UIImage? {
+        let endPoint = "https://image.tmdb.org/t/p/w300" + urlString
+        guard let url = URL(string: endPoint) else {
+            return nil
+        }
+        
+        return await NetworkManager.shared.downloadImage(withURL: url)
     }
     
     func downloadCastImage(from urlString:String, completed: @escaping (UIImage?)->Void) {
@@ -186,6 +257,15 @@ class TMDBClient{
         }
     }
     
+    func downloadCastImage(from urlString: String) async -> UIImage? {
+        let endPoint = "https://image.tmdb.org/t/p/w342" + urlString
+        guard let url = URL(string: endPoint) else {
+            return nil
+        }
+        
+        return await NetworkManager.shared.downloadImage(withURL: url)
+    }
+    
     func downloadTrailerImage(from urlString:String, completed: @escaping (UIImage?)->Void) {
         
         let endPoint = baseYoutubeThumbUrl + urlString + "/0.jpg"
@@ -199,5 +279,14 @@ class TMDBClient{
         NetworkManager.shared.downloadImage(withURL: url) { (image) in
             completed(image)
         }
+    }
+    
+    func downloadTrailerImage(from urlString:String) async -> UIImage? {
+        let endPoint = baseYoutubeThumbUrl + urlString + "/0.jpg"
+        guard let url = URL(string: endPoint) else {
+            return nil
+        }
+        
+        return await NetworkManager.shared.downloadImage(withURL: url)
     }
 }

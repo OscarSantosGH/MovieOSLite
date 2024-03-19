@@ -84,8 +84,30 @@ class NetworkManager{
         task.resume()
     }
     
+    func getMovies(withURL url:URL, movieCategory category:String) async -> (Result<[MovieResponse], MOError>, Int) {
+        do{
+            let (data, response) = try await URLSession.shared.data(from: url)
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
+                return (.failure(.invalidResponse), 0)
+            }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let apiResponse = try decoder.decode(MoviesAPIResponse.self, from: data)
+            var moviesWithCategories:[MovieResponse] = []
+            for m in apiResponse.results{
+                var newMovie = m
+                newMovie.category = category
+                moviesWithCategories.append(newMovie)
+            }
+            return (.success(moviesWithCategories), apiResponse.totalPages)
+            
+        } catch {
+            return (.failure(.invalidData), 0)
+        }
+    }
+    
     func getMovie(withURL url:URL, completed: @escaping (Result<MovieDetailAPIResponse,MOError>)->Void){
-        
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             
             if let _ = error{
@@ -121,9 +143,24 @@ class NetworkManager{
                 }
             }
         }
-        
         task.resume()
-        
+    }
+    
+    func getMovie(withURL url: URL) async -> Result<MovieDetailAPIResponse,MOError> {
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
+                return .failure(.invalidResponse)
+            }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let apiResponse = try decoder.decode(MovieDetailAPIResponse.self, from: data)
+            
+            return .success(apiResponse)
+        } catch {
+            return .failure(.invalidData)
+        }
     }
     
     func getTrailers(withURL url:URL, completed: @escaping (Result<VideosAPIResponse,MOError>)->Void){
@@ -168,6 +205,23 @@ class NetworkManager{
         
     }
     
+    func getTrailers(withURL url: URL) async -> Result<VideosAPIResponse,MOError> {
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else{
+                return .failure(.invalidResponse)
+            }
+            
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let apiResponse = try decoder.decode(VideosAPIResponse.self, from: data)
+            
+            return .success(apiResponse)
+            
+        } catch {
+            return .failure(.invalidData)
+        }
+    }
     
     func searchMovies(withURL url:URL, completed: @escaping (Result<[MovieResponse], MOError>, _ totalPages:Int)-> Void){
         
@@ -286,6 +340,27 @@ class NetworkManager{
         }
         
         task.resume()
+    }
+    
+    func downloadImage(withURL url: URL) async -> UIImage? {
+        let urlString = url.absoluteString
+        let cacheKey = NSString(string: urlString)
+        if let image = cache.object(forKey: cacheKey){
+            return image
+        }
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200, let image = UIImage(data: data) else{
+                return nil
+            }
+            
+            cache.setObject(image, forKey: cacheKey)
+            return image
+            
+        } catch {
+            return nil
+        }
     }
     
 }
