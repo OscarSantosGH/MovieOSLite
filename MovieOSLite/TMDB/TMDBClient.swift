@@ -213,6 +213,15 @@ class TMDBClient{
         }
     }
     
+    func downloadPosterImage(from urlString: String) async -> UIImage? {
+        let endPoint = "https://image.tmdb.org/t/p/w342" + urlString
+        guard let url = URL(string: endPoint) else {
+            return nil
+        }
+        
+        return await NetworkManager.shared.downloadImage(withURL: url)
+    }
+    
     func downloadBackdropImage(from urlString:String, completed: @escaping (UIImage?)->Void) {
         
         let endPoint = baseBackdropImgUrl + urlString
@@ -227,7 +236,7 @@ class TMDBClient{
     }
     
     func downloadBackdropImage(from urlString: String) async -> UIImage? {
-        let endPoint = baseBackdropImgUrl + urlString
+        let endPoint = "https://image.tmdb.org/t/p/w300" + urlString
         guard let url = URL(string: endPoint) else {
             return nil
         }
@@ -248,6 +257,15 @@ class TMDBClient{
         }
     }
     
+    func downloadCastImage(from urlString: String) async -> UIImage? {
+        let endPoint = "https://image.tmdb.org/t/p/w342" + urlString
+        guard let url = URL(string: endPoint) else {
+            return nil
+        }
+        
+        return await NetworkManager.shared.downloadImage(withURL: url)
+    }
+    
     func downloadTrailerImage(from urlString:String, completed: @escaping (UIImage?)->Void) {
         
         let endPoint = baseYoutubeThumbUrl + urlString + "/0.jpg"
@@ -261,5 +279,14 @@ class TMDBClient{
         NetworkManager.shared.downloadImage(withURL: url) { (image) in
             completed(image)
         }
+    }
+    
+    func downloadTrailerImage(from urlString:String) async -> UIImage? {
+        let endPoint = baseYoutubeThumbUrl + urlString + "/0.jpg"
+        guard let url = URL(string: endPoint) else {
+            return nil
+        }
+        
+        return await NetworkManager.shared.downloadImage(withURL: url)
     }
 }
