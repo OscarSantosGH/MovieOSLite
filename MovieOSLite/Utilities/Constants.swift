@@ -20,6 +20,7 @@ enum MOElementsSize{
     static let DetailMoviePosterWidth = ScreenSize.width * 0.27
     static let GenresStackiewWidth = ScreenSize.width * 0.673
 }
+#endif
 
 enum SearchCategories{
     static let allCategories:[MovieCategorySearch] = [
@@ -35,7 +36,6 @@ enum SearchCategories{
         MovieCategorySearch(title: "1990s", color1: .rgb(red: 62, green: 81, blue: 81), color2: .rgb(red: 222, green: 203, blue: 164), image: UIImage(systemName: "film")!, url: "&release_date.gte=1990-01-01&release_date.lte=1999-12-31")
     ]
 }
-#endif
 
 enum MOLanguage{
     
