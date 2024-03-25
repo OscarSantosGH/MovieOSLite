@@ -15,14 +15,21 @@ struct SearchScreenView: View {
         NavigationSplitView {
             List {
                 ForEach(SearchCategories.allCategories, id: \.self) { category in
-                    Label {
-                        Text(category.title)
-                    } icon: {
-                        Image(uiImage: category.image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
-                            .foregroundStyle(.white)
+                    Button {
+                        
+                    } label: {
+                        Label {
+                            Text(category.title)
+                        } icon: {
+                            Image(uiImage: category.image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20, height: 20)
+                                .foregroundStyle(.white)
+                                .padding(8)
+                                .background(Gradient(colors: [Color.init(uiColor: category.color1), Color.init(uiColor: category.color2)]))
+                                .clipShape(Circle())
+                        }
                     }
                 }
             }

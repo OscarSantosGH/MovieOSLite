@@ -22,7 +22,7 @@ struct LoadingView: View {
                 await loadingViewModel.getMovies()
             }
             .navigationDestination(isPresented: $loadingViewModel.showHomeView) {
-                HomeScreenView(popularMovies: loadingViewModel.popularMovies.shuffled(),
+                MainTabView(popularMovies: loadingViewModel.popularMovies.shuffled(),
                                upcomingMovies: loadingViewModel.upcomingMovies.shuffled(),
                                nowPlayingMovies: loadingViewModel.nowPlayingMovies.shuffled(),
                                featuredMovies: loadingViewModel.featuredMovies)
