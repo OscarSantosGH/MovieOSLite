@@ -13,19 +13,18 @@ struct LoadingView: View {
     @State private var loadingViewModel = LoadingViewModel()
     
     var body: some View {
-        NavigationStack {
+        if loadingViewModel.showHomeView {
+            MainTabView(popularMovies: loadingViewModel.popularMovies.shuffled(),
+                           upcomingMovies: loadingViewModel.upcomingMovies.shuffled(),
+                           nowPlayingMovies: loadingViewModel.nowPlayingMovies.shuffled(),
+                           featuredMovies: loadingViewModel.featuredMovies)
+        } else {
             VStack {
                 Text(loadingViewModel.messageText)
             }
             .padding()
             .task {
                 await loadingViewModel.getMovies()
-            }
-            .navigationDestination(isPresented: $loadingViewModel.showHomeView) {
-                MainTabView(popularMovies: loadingViewModel.popularMovies.shuffled(),
-                               upcomingMovies: loadingViewModel.upcomingMovies.shuffled(),
-                               nowPlayingMovies: loadingViewModel.nowPlayingMovies.shuffled(),
-                               featuredMovies: loadingViewModel.featuredMovies)
             }
         }
     }

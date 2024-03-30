@@ -16,78 +16,80 @@ struct HomeScreenView: View {
     @State private var selectedMovie: MovieDetailAPIResponse?
     
     var body: some View {
-        GeometryReader { geo in
-            ScrollView {
-                // Featured movies
-                //TODO: Implement pagination behavior
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: 15) {
-                        ForEach(featuredMovies, id: \.id) { movie in
-                            FeatureMovieView(movie: movie) {
-                                presentMovieDetails(movie: movie)
-                            }
-                            .frame(width: geo.size.width * 0.95)
-                        }
-                    }
-                    .padding()
-                }
-                
-                //Popular movies
-                Text(NSLocalizedString("Popular", comment: "popular category"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.title)
-                    .padding(.horizontal)
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: 10) {
-                        ForEach(popularMovies, id: \.id) { movie in
-                            PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
-                                presentMovieDetails(movie: movie)
+        NavigationStack {
+            GeometryReader { geo in
+                ScrollView {
+                    // Featured movies
+                    //TODO: Implement pagination behavior
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        LazyHStack(spacing: 15) {
+                            ForEach(featuredMovies, id: \.id) { movie in
+                                FeatureMovieView(movie: movie) {
+                                    presentMovieDetails(movie: movie)
+                                }
+                                .frame(width: geo.size.width * 0.95)
                             }
                         }
+                        .padding()
                     }
-                    .padding()
-                }
-                
-                //Now playing movies
-                Text(NSLocalizedString("Now Playing", comment: "now playing category"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.title)
-                    .padding(.horizontal)
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: 10) {
-                        ForEach(nowPlayingMovies, id: \.id) { movie in
-                            PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
-                                presentMovieDetails(movie: movie)
+                    
+                    //Popular movies
+                    Text(NSLocalizedString("Popular", comment: "popular category"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .font(.title)
+                        .padding(.horizontal)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        LazyHStack(spacing: 10) {
+                            ForEach(popularMovies, id: \.id) { movie in
+                                PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
+                                    presentMovieDetails(movie: movie)
+                                }
                             }
                         }
+                        .padding()
                     }
-                    .padding()
-                }
-                
-                //Upcoming movies
-                Text(NSLocalizedString("Upcoming", comment: "upcoming category"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .font(.title)
-                    .padding(.horizontal)
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: 10) {
-                        ForEach(upcomingMovies, id: \.id) { movie in
-                            PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
-                                presentMovieDetails(movie: movie)
+                    
+                    //Now playing movies
+                    Text(NSLocalizedString("Now Playing", comment: "now playing category"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .font(.title)
+                        .padding(.horizontal)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        LazyHStack(spacing: 10) {
+                            ForEach(nowPlayingMovies, id: \.id) { movie in
+                                PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
+                                    presentMovieDetails(movie: movie)
+                                }
                             }
                         }
+                        .padding()
                     }
-                    .padding()
+                    
+                    //Upcoming movies
+                    Text(NSLocalizedString("Upcoming", comment: "upcoming category"))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .font(.title)
+                        .padding(.horizontal)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        LazyHStack(spacing: 10) {
+                            ForEach(upcomingMovies, id: \.id) { movie in
+                                PosterDetailView(posterPath: movie.posterPath ?? "", title: movie.title, rating: movie.voteAverage) {
+                                    presentMovieDetails(movie: movie)
+                                }
+                            }
+                        }
+                        .padding()
+                    }
+                    
+                    Spacer()
                 }
-                
-                Spacer()
-            }
-            .navigationBarBackButtonHidden()
-            .navigationDestination(item: $selectedMovie) { movie in
-                MovieDetailView(movie: movie)
+                .navigationBarBackButtonHidden()
+                .navigationDestination(item: $selectedMovie) { movie in
+                    MovieDetailView(movie: movie)
+                }
             }
         }
     }
