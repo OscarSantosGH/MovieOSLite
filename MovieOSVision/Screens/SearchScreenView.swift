@@ -10,13 +10,20 @@ import SwiftUI
 
 struct SearchScreenView: View {
     @State private var searchMovie = ""
+    @State private var viewModel = SearchScreenViewModel()
+    
+    private var columns: [GridItem] = [
+        GridItem(.adaptive(minimum: 250)),
+    ]
     
     var body: some View {
         NavigationSplitView {
             List {
                 ForEach(SearchCategories.allCategories, id: \.self) { category in
                     Button {
-                        
+                        Task {
+                            await viewModel.getMoviesByCategory(withCategoryURL: category.url)
+                        }
                     } label: {
                         Label {
                             Text(category.title)
@@ -36,7 +43,24 @@ struct SearchScreenView: View {
             .searchable(text: $searchMovie)
             
         } detail: {
-            Text("content")
+            if viewModel.isLoadingMovies {
+                ProgressView()
+            } else {
+                if viewModel.movies.isEmpty {
+                    Text("Search for movies")
+                } else {
+                    ScrollView {
+                        LazyVGrid(columns: columns) {
+                            ForEach(viewModel.movies, id: \.id) { movie in
+                                PosterDetailView(posterPath: movie.posterPath,title: movie.title, rating: movie.voteAverage) {
+                                    //TODO: navigate to movie details
+                                }
+                                .padding(.vertical)
+                            }
+                        }
+                    }
+                }
+            }
         }
 
     }

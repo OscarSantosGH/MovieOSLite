@@ -181,6 +181,16 @@ class TMDBClient{
         }
     }
     
+    func getMoviesBy(txt: String, page:Int = 1) async -> (Result<[MovieResponse], MOError>, Int) {
+        let endPoint = baseUrl + "discover/movie?api_key=\(API_KEY)&page=" + String(page) + txt + lang
+        
+        guard let url = URL(string: endPoint) else {
+            return (.failure(.invalidURL), 0)
+        }
+        
+        return await NetworkManager.shared.getMovies(withURL: url, movieCategory: txt)
+    }
+    
     func getPersonInfo(from id:Int, completed: @escaping (Result<PersonResponse, MOError>)->Void){
         let endPoint = baseUrl + "person/" + String(id) + "?api_key=\(API_KEY)" + "&append_to_response=movie_credits" + lang
         
