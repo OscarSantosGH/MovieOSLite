@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct SearchScreenView: View {
+    @State private var searchTitle = ""
     @State private var searchMovie = ""
     @State private var viewModel = SearchScreenViewModel()
     
@@ -23,6 +24,7 @@ struct SearchScreenView: View {
                     Button {
                         Task {
                             await viewModel.getMoviesByCategory(withCategoryURL: category.url)
+                            searchTitle = category.title
                         }
                     } label: {
                         Label {
@@ -41,6 +43,12 @@ struct SearchScreenView: View {
                 }
             }
             .searchable(text: $searchMovie)
+            .onChange(of: searchMovie) { _, movieName in
+                Task {
+                    await viewModel.getMoviesBySearch(movieName: movieName)
+                    searchTitle = movieName
+                }
+            }
             
         } detail: {
             if viewModel.isLoadingMovies {
@@ -49,16 +57,19 @@ struct SearchScreenView: View {
                 if viewModel.movies.isEmpty {
                     Text("Search for movies")
                 } else {
-                    ScrollView {
-                        LazyVGrid(columns: columns) {
-                            ForEach(viewModel.movies, id: \.id) { movie in
-                                PosterDetailView(posterPath: movie.posterPath,title: movie.title, rating: movie.voteAverage) {
-                                    //TODO: navigate to movie details
+                    VStack {
+                        ScrollView {
+                            LazyVGrid(columns: columns) {
+                                ForEach(viewModel.movies, id: \.id) { movie in
+                                    PosterDetailView(posterPath: movie.posterPath,title: movie.title, rating: movie.voteAverage) {
+                                        //TODO: navigate to movie details
+                                    }
+                                    .padding(.vertical)
                                 }
-                                .padding(.vertical)
                             }
                         }
                     }
+                    .navigationTitle(searchTitle)
                 }
             }
         }

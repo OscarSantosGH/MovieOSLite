@@ -30,4 +30,19 @@ class SearchScreenViewModel {
         }
         
     }
+    
+    func getMoviesBySearch(movieName: String) async {
+        isLoadingMovies = true
+        let (moviesResult, totalPages) = await TMDBClient.shared.searchMovies(withString: movieName)
+        isLoadingMovies = false
+        
+        switch moviesResult {
+        case .success(let movies):
+            self.movies = movies
+            self.totalPages = totalPages
+        case .failure(let error):
+            print("Error loading movies: \(error.localizedDescription)")
+            self.totalPages = 0
+        }
+    }
 }

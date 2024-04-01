@@ -14,6 +14,7 @@ class NetworkManager{
     let cache = NSCache<NSString, UIImage>()
     private let monitor = NWPathMonitor()
     private var searchMoviesDataTask: URLSessionDataTask?
+    private var searchTask: Task<(Result<[MovieResponse], MOError>, Int), Error>?
     var isInternetAvailable = false
     
     private init(){}
@@ -269,6 +270,39 @@ class NetworkManager{
         }
         
         searchMoviesDataTask?.resume()
+    }
+    
+    func searchMovies(withURL url: URL) async -> (Result<[MovieResponse], MOError>, Int) {
+        searchTask?.cancel()
+        searchTask = Task<(Result<[MovieResponse], MOError>, Int), Error> {
+            do {
+                let (data, response) = try await URLSession.shared.data(from: url)
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    return (.failure(.unableToComplete), 0)
+                }
+                
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let apiResponse = try decoder.decode(MoviesAPIResponse.self, from: data)
+                var moviesWithCategories:[MovieResponse] = []
+                for m in apiResponse.results{
+                    var newMovie = m
+                    newMovie.category = "search"
+                    moviesWithCategories.append(newMovie)
+                }
+                
+                return (.success(moviesWithCategories), apiResponse.totalPages)
+                
+            } catch {
+                return (.failure(.invalidData), 0)
+            }
+        }
+        
+        do {
+            return try await searchTask?.value ?? (.failure(.invalidData), 0)
+        } catch {
+            return (.failure(.invalidData), 0)
+        }
     }
     
     func getPersonInfo(withURL url:URL, completed: @escaping (Result<PersonResponse, MOError>)->Void){
