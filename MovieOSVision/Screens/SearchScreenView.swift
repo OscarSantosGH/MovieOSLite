@@ -57,19 +57,25 @@ struct SearchScreenView: View {
                 if viewModel.movies.isEmpty {
                     Text("Search for movies")
                 } else {
-                    VStack {
-                        ScrollView {
-                            LazyVGrid(columns: columns) {
-                                ForEach(viewModel.movies, id: \.id) { movie in
-                                    PosterDetailView(posterPath: movie.posterPath,title: movie.title, rating: movie.voteAverage) {
-                                        //TODO: navigate to movie details
+                    NavigationStack {
+                        VStack {
+                            ScrollView {
+                                LazyVGrid(columns: columns) {
+                                    ForEach(viewModel.movies, id: \.id) { movie in
+                                        PosterDetailView(posterPath: movie.posterPath,title: movie.title, rating: movie.voteAverage) {
+                                            viewModel.presentMovieDetails(movie: movie)
+                                        }
+                                        .padding(.vertical)
                                     }
-                                    .padding(.vertical)
                                 }
                             }
                         }
+                        .navigationTitle(searchTitle)
+                        .navigationDestination(item: $viewModel.selectedMovie) { movie in
+                            MovieDetailView(movie: movie)
+                        }
                     }
-                    .navigationTitle(searchTitle)
+                    
                 }
             }
         }

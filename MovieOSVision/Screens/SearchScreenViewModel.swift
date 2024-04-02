@@ -13,6 +13,8 @@ class SearchScreenViewModel {
     var isLoadingMovies = false
     var movies: [MovieResponse] = []
     var totalPages: Int = 0
+    var selectedMovie: MovieDetailAPIResponse?
+    private var selectedMovieTask: Task<Void, Error>?
     
     //TODO: Manage Task locally for canceling current running task and replace it with the new one
     func getMoviesByCategory(withCategoryURL categoryURL: String) async {
@@ -43,6 +45,21 @@ class SearchScreenViewModel {
         case .failure(let error):
             print("Error loading movies: \(error.localizedDescription)")
             self.totalPages = 0
+        }
+    }
+    
+    func presentMovieDetails(movie: MovieResponse) {
+        //TODO: Make some loading animation while downloading the movie details
+        selectedMovieTask?.cancel()
+        selectedMovieTask = Task {
+            let response = await TMDBClient.shared.getMovie(withID: movie.id)
+            switch response {
+            case .success(let movieDetails):
+                selectedMovie = movieDetails
+            case .failure(let error):
+                //TODO: Create a view to display some message to the user to informed that the movie details fetching fails
+                print("Error getting movie details: \(error)")
+            }
         }
     }
 }
