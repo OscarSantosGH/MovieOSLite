@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MovieDetailView: View {
     var movie: MovieDetailAPIResponse
+    @State private var showTrailer = false
     
     var body: some View {
         ScrollView {
@@ -93,22 +94,28 @@ struct TrailerListView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack {
                 ForEach(trailers, id: \.id) { trailer in
-                    VStack {
-                        MOImageLoaderView(imagePath: trailer.key, imageType: .trailer)
-                            .frame(height: 130)
-                            .clipped()
-                        Text(trailer.name)
-                            .font(.headline)
-                            .minimumScaleFactor(0.6)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 5)
-                        Spacer()
+                    Button {
+                        
+                    } label: {
+                        VStack {
+                            MOImageLoaderView(imagePath: trailer.key, imageType: .trailer)
+                                .frame(height: 130)
+                                .clipped()
+                            Text(trailer.name)
+                                .font(.headline)
+                                .minimumScaleFactor(0.6)
+                                .lineLimit(2)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 5)
+                            Spacer()
+                        }
+                        .frame(width: 230, height: 175)
+                        .background(Material.regularMaterial)
+                        .hoverEffect(.lift)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .padding(.vertical)
                     }
-                    .frame(width: 230, height: 175)
-                    .background(Material.regularMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .padding(.vertical)
+                    .buttonStyle(.plain)
                 }
             }
         }

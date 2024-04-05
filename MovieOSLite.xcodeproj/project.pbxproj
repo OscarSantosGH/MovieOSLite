@@ -48,6 +48,8 @@
 		8364F8B6251A09C8008A9B7F /* MOTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8364F8B5251A09C8008A9B7F /* MOTabBarController.swift */; };
 		836909D52BB9D41C00D6E405 /* SearchScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836909D42BB9D41C00D6E405 /* SearchScreenViewModel.swift */; };
 		836909D62BB9D4E300D6E405 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83D619DB2400BD5D00E21320 /* Localizable.strings */; };
+		836909D82BC09E8A00D6E405 /* MovieTrailerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836909D72BC09E8A00D6E405 /* MovieTrailerView.swift */; };
+		836909DB2BC09FE000D6E405 /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 836909DA2BC09FE000D6E405 /* YouTubePlayerKit */; };
 		8374628E23F8E2D6003AD63E /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8374628D23F8E2D6003AD63E /* UIView+Ext.swift */; };
 		837DCC5C2BAA7D2B003A29BA /* SearchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837DCC5B2BAA7D2B003A29BA /* SearchScreenView.swift */; };
 		837DCC5D2BAA80CA003A29BA /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A893FE23F9CCB500FB9185 /* UIColor+Ext.swift */; };
@@ -162,6 +164,7 @@
 		835A2B5C25293370007EB53E /* MOPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPlayerViewController.swift; sourceTree = "<group>"; };
 		8364F8B5251A09C8008A9B7F /* MOTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOTabBarController.swift; sourceTree = "<group>"; };
 		836909D42BB9D41C00D6E405 /* SearchScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScreenViewModel.swift; sourceTree = "<group>"; };
+		836909D72BC09E8A00D6E405 /* MovieTrailerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTrailerView.swift; sourceTree = "<group>"; };
 		8374628D23F8E2D6003AD63E /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		837DCC5B2BAA7D2B003A29BA /* SearchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScreenView.swift; sourceTree = "<group>"; };
 		837DCC5E2BAB42CA003A29BA /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -232,6 +235,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				836909DB2BC09FE000D6E405 /* YouTubePlayerKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +323,13 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
+		836909D92BC09FE000D6E405 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8374628C23F8E2B8003AD63E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,6 +348,7 @@
 				838F7C0F23D27D9A005CF45B /* MovieOSLite */,
 				839601802B964108007FB1F4 /* MovieOSVision */,
 				838F7C0E23D27D9A005CF45B /* Products */,
+				836909D92BC09FE000D6E405 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -455,6 +467,7 @@
 				837DCC5B2BAA7D2B003A29BA /* SearchScreenView.swift */,
 				836909D42BB9D41C00D6E405 /* SearchScreenViewModel.swift */,
 				83A372F32B9F95290016FB4F /* MovieDetailView.swift */,
+				836909D72BC09E8A00D6E405 /* MovieTrailerView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -535,6 +548,7 @@
 			);
 			name = MovieOSVision;
 			packageProductDependencies = (
+				836909DA2BC09FE000D6E405 /* YouTubePlayerKit */,
 			);
 			productName = MovieOSVision;
 			productReference = 8396017F2B964108007FB1F4 /* MovieOSVision.app */;
@@ -711,6 +725,7 @@
 				839601982B9663D3007FB1F4 /* PersonResponse.swift in Sources */,
 				839601A12B966581007FB1F4 /* NetworkManager.swift in Sources */,
 				8396019D2B9663F5007FB1F4 /* VideosAPIResponse.swift in Sources */,
+				836909D82BC09E8A00D6E405 /* MovieTrailerView.swift in Sources */,
 				83A372FF2BA784030016FB4F /* GenresGridView.swift in Sources */,
 				8396019E2B9663F8007FB1F4 /* VideoResponse.swift in Sources */,
 				836909D52BB9D41C00D6E405 /* SearchScreenViewModel.swift in Sources */,
@@ -1021,6 +1036,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		836909DA2BC09FE000D6E405 /* YouTubePlayerKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 838DB6AD2B8EB66500549B7B /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
+			productName = YouTubePlayerKit;
+		};
 		838DB6AE2B8EB66500549B7B /* YouTubePlayerKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 838DB6AD2B8EB66500549B7B /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
