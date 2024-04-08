@@ -10,7 +10,6 @@ import SwiftUI
 
 struct MovieDetailView: View {
     var movie: MovieDetailAPIResponse
-    @State private var showTrailer = false
     
     var body: some View {
         ScrollView {
@@ -89,13 +88,14 @@ struct MovieDetailView: View {
 
 struct TrailerListView: View {
     let trailers: [VideoResponse]
+    @State private var selectedTrailer: VideoResponse?
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack {
-                ForEach(trailers, id: \.id) { trailer in
+                ForEach(trailers) { trailer in
                     Button {
-                        
+                        selectedTrailer = trailer
                     } label: {
                         VStack {
                             MOImageLoaderView(imagePath: trailer.key, imageType: .trailer)
@@ -118,6 +118,10 @@ struct TrailerListView: View {
                     .buttonStyle(.plain)
                 }
             }
+        }
+        .navigationDestination(item: $selectedTrailer) { trailer in
+            let viewModel = MovieTrailerViewModel(trailer: trailer)
+            MovieTrailerView(viewModel: viewModel)
         }
     }
 }

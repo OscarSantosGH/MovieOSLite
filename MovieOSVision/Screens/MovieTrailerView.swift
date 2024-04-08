@@ -10,27 +10,44 @@ import SwiftUI
 import YouTubePlayerKit
 
 struct MovieTrailerView: View {
-    var videoID: String
+    @State var viewModel: MovieTrailerViewModel
     
     var body: some View {
-        YouTubePlayerView(self.youTubePlayer) { state in
-            switch state {
-            case .idle:
-                ProgressView()
-            case .ready:
-                EmptyView()
-            case .error(let error):
-                Text(verbatim: "YouTube player couldn't be loaded")
+        ZStack {
+            Color.black
+                .ignoresSafeArea()
+            YouTubePlayerView(viewModel.youTubePlayer) { state in
+                switch state {
+                case .idle:
+                    ProgressView()
+                case .ready:
+                    EmptyView()
+                case .error(let error):
+                    Text(verbatim: "YouTube player couldn't be loaded")
+                        .onAppear{
+                            print(error.localizedDescription)
+                        }
+                }
             }
+            .ignoresSafeArea()
         }
+        //TODO: Create video controls using ornament
+//        .ornament(attachmentAnchor: .scene(.bottom)) {
+//            HStack {
+//                Button {
+//                    viewModel.youTubePlayer.pause()
+//                } label: {
+//                    Image(systemName: "play.fill")
+//                }
+//            }
+//            .padding()
+//            .background(.regularMaterial)
+//            .clipShape(Capsule())
+//        }
     }
     
-    private var youTubePlayer: YouTubePlayer {
-    //TODO: Make a proper video configuration
-        return YouTubePlayer(source: .video(id: videoID))
-    }
 }
 
 #Preview {
-    MovieTrailerView(videoID: "psL_5RIBqnY")
+    MovieTrailerView(viewModel: MovieTrailerViewModel(trailer: VideoResponse.example))
 }
