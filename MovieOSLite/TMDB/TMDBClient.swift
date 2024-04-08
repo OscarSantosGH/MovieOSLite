@@ -163,6 +163,24 @@ class TMDBClient{
         }
     }
     
+    func searchMovies(withString txt: String, page: Int = 1) async -> (Result<[MovieResponse], MOError>, Int){
+        let secureTxt = txt.replacingOccurrences(of: " ", with: "%20")
+        let endPoint = baseUrl + "search/movie?api_key=\(API_KEY)&query=\(secureTxt)&page=" + String(page) + lang
+        
+        guard let url = URL(string: endPoint) else {
+            return (.failure(.invalidURL), 0)
+        }
+        
+        let (result, totalPages) = await NetworkManager.shared.searchMovies(withURL: url)
+        
+        switch result{
+        case .success(let movie):
+            return (.success(movie), totalPages)
+        case .failure(let error):
+            return (.failure(error), 0)
+        }
+    }
+    
     func getMoviesBy(txt:String, page:Int = 1, completed: @escaping (Result<[MovieResponse], MOError>, _ totalPages:Int)->Void){
         let endPoint = baseUrl + "discover/movie?api_key=\(API_KEY)&page=" + String(page) + txt + lang
         
@@ -179,6 +197,16 @@ class TMDBClient{
                 completed(.failure(error), 0)
             }
         }
+    }
+    
+    func getMoviesBy(txt: String, page:Int = 1) async -> (Result<[MovieResponse], MOError>, Int) {
+        let endPoint = baseUrl + "discover/movie?api_key=\(API_KEY)&page=" + String(page) + txt + lang
+        
+        guard let url = URL(string: endPoint) else {
+            return (.failure(.invalidURL), 0)
+        }
+        
+        return await NetworkManager.shared.getMovies(withURL: url, movieCategory: txt)
     }
     
     func getPersonInfo(from id:Int, completed: @escaping (Result<PersonResponse, MOError>)->Void){

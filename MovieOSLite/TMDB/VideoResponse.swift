@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct VideoResponse: Codable, Hashable {
+struct VideoResponse: Codable, Hashable, Identifiable {
     let id: String
     let key: String
     let name: String

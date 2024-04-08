@@ -88,29 +88,40 @@ struct MovieDetailView: View {
 
 struct TrailerListView: View {
     let trailers: [VideoResponse]
+    @State private var selectedTrailer: VideoResponse?
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack {
-                ForEach(trailers, id: \.id) { trailer in
-                    VStack {
-                        MOImageLoaderView(imagePath: trailer.key, imageType: .trailer)
-                            .frame(height: 130)
-                            .clipped()
-                        Text(trailer.name)
-                            .font(.headline)
-                            .minimumScaleFactor(0.6)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 5)
-                        Spacer()
+                ForEach(trailers) { trailer in
+                    Button {
+                        selectedTrailer = trailer
+                    } label: {
+                        VStack {
+                            MOImageLoaderView(imagePath: trailer.key, imageType: .trailer)
+                                .frame(height: 130)
+                                .clipped()
+                            Text(trailer.name)
+                                .font(.headline)
+                                .minimumScaleFactor(0.6)
+                                .lineLimit(2)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 5)
+                            Spacer()
+                        }
+                        .frame(width: 230, height: 175)
+                        .background(Material.regularMaterial)
+                        .hoverEffect(.lift)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .padding(.vertical)
                     }
-                    .frame(width: 230, height: 175)
-                    .background(Material.regularMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .padding(.vertical)
+                    .buttonStyle(.plain)
                 }
             }
+        }
+        .navigationDestination(item: $selectedTrailer) { trailer in
+            let viewModel = MovieTrailerViewModel(trailer: trailer)
+            MovieTrailerView(viewModel: viewModel)
         }
     }
 }
