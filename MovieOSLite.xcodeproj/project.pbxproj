@@ -332,6 +332,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		836909DE2BC4906F00D6E405 /* MovieTrailer */ = {
+			isa = PBXGroup;
+			children = (
+				836909D72BC09E8A00D6E405 /* MovieTrailerView.swift */,
+				836909DC2BC2073D00D6E405 /* MovieTrailerViewModel.swift */,
+			);
+			path = MovieTrailer;
+			sourceTree = "<group>";
+		};
 		8374628C23F8E2B8003AD63E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,13 +473,12 @@
 			isa = PBXGroup;
 			children = (
 				83A372FB2BA77FB70016FB4F /* Loading View */,
+				836909DE2BC4906F00D6E405 /* MovieTrailer */,
 				83A372EF2B9F61630016FB4F /* HomeScreenView.swift */,
 				837DCC5E2BAB42CA003A29BA /* MainTabView.swift */,
 				837DCC5B2BAA7D2B003A29BA /* SearchScreenView.swift */,
 				836909D42BB9D41C00D6E405 /* SearchScreenViewModel.swift */,
 				83A372F32B9F95290016FB4F /* MovieDetailView.swift */,
-				836909D72BC09E8A00D6E405 /* MovieTrailerView.swift */,
-				836909DC2BC2073D00D6E405 /* MovieTrailerViewModel.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";

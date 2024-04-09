@@ -8,26 +8,31 @@
 
 import Foundation
 import YouTubePlayerKit
+import Combine
 
 @Observable
 class MovieTrailerViewModel {
     let trailer: VideoResponse
     var youTubePlayer: YouTubePlayer
+    var playbackState: YouTubePlayer.PlaybackState?
+    private var cancellables = Set<AnyCancellable>()
     
     init(trailer: VideoResponse) {
         self.trailer = trailer
         let config = YouTubePlayer.Configuration(
-            allowsPictureInPictureMediaPlayback: true,
-            fullscreenMode: .web,
             autoPlay: true,
-            showControls: true,
-            showFullscreenButton: true,
+            showControls: false,
             showAnnotations: false,
             loopEnabled: false,
             useModestBranding: true,
-            playInline: true
+            playInline: false
         )
         self.youTubePlayer = YouTubePlayer(source: .video(id: trailer.key), configuration: config)
+        self.youTubePlayer.playbackStatePublisher
+            .sink { [self] state in
+                self.playbackState = state
+            }
+            .store(in: &cancellables)
     }
     
 }

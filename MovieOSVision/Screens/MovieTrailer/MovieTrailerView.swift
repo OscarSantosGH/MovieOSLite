@@ -32,18 +32,20 @@ struct MovieTrailerView: View {
             .ignoresSafeArea()
         }
         //TODO: Create video controls using ornament
-//        .ornament(attachmentAnchor: .scene(.bottom)) {
-//            HStack {
-//                Button {
-//                    viewModel.youTubePlayer.pause()
-//                } label: {
-//                    Image(systemName: "play.fill")
-//                }
-//            }
-//            .padding()
-//            .background(.regularMaterial)
-//            .clipShape(Capsule())
-//        }
+        .ornament(attachmentAnchor: .scene(.bottom)) {
+            HStack {
+                Button {
+                    if viewModel.playbackState == .playing {
+                        viewModel.youTubePlayer.pause()
+                    } else {
+                        viewModel.youTubePlayer.play()
+                    }
+                } label: {
+                    Image(systemName: viewModel.playbackState == .playing ? "pause.fill" : "play.fill")
+                }
+            }
+            .padding()
+        }
     }
     
 }
