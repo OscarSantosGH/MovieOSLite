@@ -31,8 +31,10 @@ struct MovieTrailerView: View {
             }
             .ignoresSafeArea()
         }
-        //TODO: Create video controls using ornament
-        .ornament(attachmentAnchor: .scene(.bottom)) {
+        .task {
+            await viewModel.config()
+        }
+        .ornament(visibility: .visible, attachmentAnchor: .scene(.bottom)) {
             HStack {
                 Button {
                     if viewModel.playbackState == .playing {
@@ -43,8 +45,22 @@ struct MovieTrailerView: View {
                 } label: {
                     Image(systemName: viewModel.playbackState == .playing ? "pause.fill" : "play.fill")
                 }
+                
+                Slider(value: $viewModel.currentTime, in: 0...viewModel.videoDuration) { editing in
+                    if editing {
+                        viewModel.youTubePlayer.pause()
+                    } else {
+                        viewModel.youTubePlayer.seek(to: viewModel.currentTime, allowSeekAhead: true)
+                        viewModel.youTubePlayer.play()
+                    }
+                }
+                .frame(width: 300)
+                
+                Text(viewModel.playbackTimeDisplay)
+                    .frame(width: 100)
             }
             .padding()
+            .glassBackgroundEffect()
         }
     }
     
