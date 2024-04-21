@@ -12,13 +12,14 @@ struct SearchScreenView: View {
     @State private var searchTitle = ""
     @State private var searchMovie = ""
     @State private var viewModel = SearchScreenViewModel()
-    
+    @State private var columnVisibility =
+    NavigationSplitViewVisibility.all
     private var columns: [GridItem] = [
         GridItem(.adaptive(minimum: 250)),
     ]
     
     var body: some View {
-        NavigationSplitView {
+        NavigationSplitView(columnVisibility: $columnVisibility) {
             List {
                 ForEach(SearchCategories.allCategories, id: \.self) { category in
                     Button {
@@ -77,6 +78,13 @@ struct SearchScreenView: View {
                     }
                     
                 }
+            }
+        }
+        .onChange(of: viewModel.selectedMovie) { _, selectedMovie in
+            if selectedMovie != nil {
+                columnVisibility = .detailOnly
+            } else {
+                columnVisibility = .all
             }
         }
 
