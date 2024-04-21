@@ -7,12 +7,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct MovieOSVisionApp: App {
     var body: some Scene {
         WindowGroup {
             LoadingView()
-        }.windowStyle(.plain)
+        }
+        .windowStyle(.plain)
+        .modelContainer(for: Movie.self)
     }
 }
