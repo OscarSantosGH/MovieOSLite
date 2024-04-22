@@ -12,17 +12,17 @@ import SwiftData
 @Model
 class Movie {
     var id: Int
-    var posterPath: String
-    var posterImage: Data
-    var backdropPath: String
-    var backdropImage: Data
+    var posterPath: String?
+    var posterImage: Data?
+    var backdropPath: String?
+    var backdropImage: Data?
     var title: String
     var originalTitle: String
     var voteAverage: Float
     var overview: String
     var releaseDate: String
     
-    init(id: Int, posterPath: String = "", posterImage: Data, backdropPath: String = "", backdropImage: Data, title: String, originalTitle: String, voteAverage: Float, overview: String, releaseDate: String) {
+    init(id: Int, posterPath: String?, posterImage: Data?, backdropPath: String?, backdropImage: Data?, title: String, originalTitle: String, voteAverage: Float, overview: String, releaseDate: String) {
         self.id = id
         self.posterPath = posterPath
         self.posterImage = posterImage
@@ -33,5 +33,18 @@ class Movie {
         self.voteAverage = voteAverage
         self.overview = overview
         self.releaseDate = releaseDate
+    }
+    
+    convenience init(from movieDetail: MovieDetailAPIResponse, posterImage: Data?, backdropImage: Data?) {
+        self.init(id: movieDetail.id,
+                  posterPath: movieDetail.posterPath,
+                  posterImage: posterImage,
+                  backdropPath: movieDetail.backdropPath,
+                  backdropImage: backdropImage,
+                  title: movieDetail.title,
+                  originalTitle: movieDetail.originalTitle,
+                  voteAverage: movieDetail.voteAverage,
+                  overview: movieDetail.overview,
+                  releaseDate: movieDetail.releaseDate)
     }
 }

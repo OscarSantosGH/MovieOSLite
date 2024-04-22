@@ -11,6 +11,7 @@ import SwiftUI
 struct MOImageLoaderView: View {
     var imagePath: String?
     var imageType: ImageType = .poster
+    var imageData: ((Data?) -> Void)?
     @State private var image: UIImage?
     
     var body: some View {
@@ -49,6 +50,7 @@ struct MOImageLoaderView: View {
             case .trailer:
                 image = await TMDBClient.shared.downloadTrailerImage(from: path)
             }
+            self.imageData?(image?.pngData())
         }
     }
     

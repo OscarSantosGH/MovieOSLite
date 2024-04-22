@@ -28,7 +28,8 @@ struct FavoritesScreenView: View {
                     }
                     .background {
                         Group {
-                            if let image = UIImage(data: movie.backdropImage) {
+                            if let imageData = movie.backdropImage,
+                               let image = UIImage(data: imageData) {
                                 Image(uiImage: image)
                                     .resizable()
                                     .scaledToFit()
