@@ -124,6 +124,7 @@
 		83F772BB2BD5AE4600F0A34A /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F772BA2BD5AE4600F0A34A /* Movie.swift */; };
 		83F772BD2BD5B32900F0A34A /* FavoritesScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F772BC2BD5B32900F0A34A /* FavoritesScreenView.swift */; };
 		83F772BF2BD6E4BC00F0A34A /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F772BE2BD6E4BC00F0A34A /* Genre.swift */; };
+		83F772C12BD6F47100F0A34A /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F772C02BD6F47100F0A34A /* Video.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -228,6 +229,7 @@
 		83F772BA2BD5AE4600F0A34A /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		83F772BC2BD5B32900F0A34A /* FavoritesScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesScreenView.swift; sourceTree = "<group>"; };
 		83F772BE2BD6E4BC00F0A34A /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
+		83F772C02BD6F47100F0A34A /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -535,6 +537,7 @@
 			children = (
 				83F772BA2BD5AE4600F0A34A /* Movie.swift */,
 				83F772BE2BD6E4BC00F0A34A /* Genre.swift */,
+				83F772C02BD6F47100F0A34A /* Video.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -746,6 +749,7 @@
 				839601882B964108007FB1F4 /* LoadingView.swift in Sources */,
 				83A372F82BA77A970016FB4F /* CastView.swift in Sources */,
 				83A372F02B9F61630016FB4F /* HomeScreenView.swift in Sources */,
+				83F772C12BD6F47100F0A34A /* Video.swift in Sources */,
 				83F772BB2BD5AE4600F0A34A /* Movie.swift in Sources */,
 				839601972B9663D0007FB1F4 /* CreditsAPIResponse.swift in Sources */,
 				836909DD2BC2073D00D6E405 /* MovieTrailerViewModel.swift in Sources */,
