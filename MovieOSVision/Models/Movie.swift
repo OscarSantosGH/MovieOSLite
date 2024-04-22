@@ -21,8 +21,9 @@ class Movie {
     var voteAverage: Float
     var overview: String
     var releaseDate: String
+    @Relationship(deleteRule: .cascade) var genres: [Genre]
     
-    init(id: Int, posterPath: String?, posterImage: Data?, backdropPath: String?, backdropImage: Data?, title: String, originalTitle: String, voteAverage: Float, overview: String, releaseDate: String) {
+    init(id: Int, posterPath: String?, posterImage: Data?, backdropPath: String?, backdropImage: Data?, title: String, originalTitle: String, voteAverage: Float, overview: String, releaseDate: String, genres: [Genre] = []) {
         self.id = id
         self.posterPath = posterPath
         self.posterImage = posterImage
@@ -33,9 +34,11 @@ class Movie {
         self.voteAverage = voteAverage
         self.overview = overview
         self.releaseDate = releaseDate
+        self.genres = genres
     }
     
     convenience init(from movieDetail: MovieDetailAPIResponse, posterImage: Data?, backdropImage: Data?) {
+        let genres = movieDetail.genres.map { Genre(from: $0) }
         self.init(id: movieDetail.id,
                   posterPath: movieDetail.posterPath,
                   posterImage: posterImage,
@@ -45,6 +48,7 @@ class Movie {
                   originalTitle: movieDetail.originalTitle,
                   voteAverage: movieDetail.voteAverage,
                   overview: movieDetail.overview,
-                  releaseDate: movieDetail.releaseDate)
+                  releaseDate: movieDetail.releaseDate,
+                  genres: genres)
     }
 }
