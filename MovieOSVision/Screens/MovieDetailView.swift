@@ -17,6 +17,7 @@ struct MovieDetailView: View {
     @State private var videos: [Video] = []
     @State private var posterImageData: Data?
     @State private var backdropImageData: Data?
+    @State private var actorsProfilePics: Dictionary<Int,Data> = [:]
     
     var body: some View {
         ScrollView {
@@ -53,7 +54,9 @@ struct MovieDetailView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHStack {
                                 ForEach(movie.credits.cast, id: \.id) { cast in
-                                    CastView(actor: cast)
+                                    CastView(actor: cast) { profileImageData in
+                                        actorsProfilePics[cast.id] = profileImageData
+                                    }
                                 }
                             }
                         }
@@ -101,10 +104,12 @@ struct MovieDetailView: View {
             guard let movieToDelete = savedMovie else { return }
             modelContext.delete(movieToDelete)
         } else {
+            let actors = movie.credits.cast.map { Actor(from: $0, profileImage: actorsProfilePics[$0.id]) }
             let movieToSave = Movie(from: movie,
                                     posterImage: posterImageData, 
                                     backdropImage: backdropImageData,
-                                    videos: videos)
+                                    videos: videos, 
+                                    actors: actors)
             modelContext.insert(movieToSave)
         }
     }

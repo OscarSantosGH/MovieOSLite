@@ -19,8 +19,9 @@ class Actor {
     var name: String
     var order: Int
     var profilePath: String?
+    var profileImage: Data?
     
-    init(castId: Int, character: String, creditId: String, gender: Int? = nil, id: Int, name: String, order: Int, profilePath: String? = nil) {
+    init(castId: Int, character: String, creditId: String, gender: Int? = nil, id: Int, name: String, order: Int, profilePath: String? = nil, profileImage: Data? = nil) {
         self.castId = castId
         self.character = character
         self.creditId = creditId
@@ -29,9 +30,10 @@ class Actor {
         self.name = name
         self.order = order
         self.profilePath = profilePath
+        self.profileImage = profileImage
     }
     
-    convenience init(from actorResponse: ActorResponse) {
+    convenience init(from actorResponse: ActorResponse, profileImage: Data?) {
         self.init(castId: actorResponse.castId,
                   character: actorResponse.character,
                   creditId: actorResponse.creditId,
@@ -39,6 +41,7 @@ class Actor {
                   id: actorResponse.id,
                   name: actorResponse.name,
                   order: actorResponse.order,
-                  profilePath: actorResponse.profilePath)
+                  profilePath: actorResponse.profilePath,
+                  profileImage: profileImage)
     }
 }

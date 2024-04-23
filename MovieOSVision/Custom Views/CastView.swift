@@ -10,12 +10,15 @@ import SwiftUI
 
 struct CastView: View {
     var actor: ActorResponse
+    var profileImage: (Data?) -> Void
     
     var body: some View {
         VStack {
-            MOImageLoaderView(imagePath: actor.profilePath, imageType: .cast)
-                .frame(height: 330)
-                .clipShape(RoundedRectangle(cornerRadius: 25.0))
+            MOImageLoaderView(imagePath: actor.profilePath, imageType: .cast) { imageData in
+                profileImage(imageData)
+            }
+            .frame(height: 330)
+            .clipShape(RoundedRectangle(cornerRadius: 25.0))
             
             VStack(spacing: 10) {
                 Text(actor.name)
@@ -46,5 +49,5 @@ struct CastView: View {
 }
 
 #Preview {
-    CastView(actor: MovieDetailAPIResponse.example.credits.cast.first!)
+    CastView(actor: MovieDetailAPIResponse.example.credits.cast.first!) { _ in }
 }
