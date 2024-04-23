@@ -125,6 +125,7 @@
 		83F772BD2BD5B32900F0A34A /* FavoritesScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F772BC2BD5B32900F0A34A /* FavoritesScreenView.swift */; };
 		83F772BF2BD6E4BC00F0A34A /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F772BE2BD6E4BC00F0A34A /* Genre.swift */; };
 		83F772C12BD6F47100F0A34A /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F772C02BD6F47100F0A34A /* Video.swift */; };
+		83F772C32BD73C0100F0A34A /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F772C22BD73C0100F0A34A /* Actor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -230,6 +231,7 @@
 		83F772BC2BD5B32900F0A34A /* FavoritesScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesScreenView.swift; sourceTree = "<group>"; };
 		83F772BE2BD6E4BC00F0A34A /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		83F772C02BD6F47100F0A34A /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		83F772C22BD73C0100F0A34A /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -538,6 +540,7 @@
 				83F772BA2BD5AE4600F0A34A /* Movie.swift */,
 				83F772BE2BD6E4BC00F0A34A /* Genre.swift */,
 				83F772C02BD6F47100F0A34A /* Video.swift */,
+				83F772C22BD73C0100F0A34A /* Actor.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -764,6 +767,7 @@
 				83A372FF2BA784030016FB4F /* GenresGridView.swift in Sources */,
 				8396019E2B9663F8007FB1F4 /* VideoResponse.swift in Sources */,
 				836909D52BB9D41C00D6E405 /* SearchScreenViewModel.swift in Sources */,
+				83F772C32BD73C0100F0A34A /* Actor.swift in Sources */,
 				83A372F62B9F99E50016FB4F /* MOImageLoaderView.swift in Sources */,
 				839601862B964108007FB1F4 /* MovieOSVisionApp.swift in Sources */,
 				83A372EB2B9B93CA0016FB4F /* LoadingViewModel.swift in Sources */,
