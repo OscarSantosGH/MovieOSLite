@@ -15,13 +15,19 @@ struct MovieDetailView: View {
     @Query private var movies: [Movie]
     
     @State private var videos: [Video] = []
+    @State private var posterImageData: Data?
+    @State private var backdropImageData: Data?
     
     var body: some View {
         ScrollView {
             ZStack {
                 LazyVStack(alignment: .leading) {
-                    HeaderDetailsView(movie: movie)
-                        .padding(.bottom)
+                    HeaderDetailsView(movie: movie, isMovieSaved: isMovieSaved) { posterData, backdropData in
+                        posterImageData = posterData
+                        backdropImageData = backdropData
+                        updateFavorite()
+                    }
+                    .padding(.bottom)
                     
                     Group {
                         Text(overviewLabel)
@@ -82,6 +88,24 @@ struct MovieDetailView: View {
             NSLocalizedString ("No Cast Found", comment: "No Cast Found")
         }else {
             NSLocalizedString("The Cast", comment: "The Cast")
+        }
+    }
+    
+    private var isMovieSaved: Bool {
+        movies.contains { $0.id == movie.id }
+    }
+    
+    private func updateFavorite() {
+        if isMovieSaved {
+            let savedMovie = movies.first { $0.id == movie.id }
+            guard let movieToDelete = savedMovie else { return }
+            modelContext.delete(movieToDelete)
+        } else {
+            let movieToSave = Movie(from: movie,
+                                    posterImage: posterImageData, 
+                                    backdropImage: backdropImageData,
+                                    videos: videos)
+            modelContext.insert(movieToSave)
         }
     }
     

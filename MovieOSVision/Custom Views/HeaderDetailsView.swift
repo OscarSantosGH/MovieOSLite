@@ -10,9 +10,9 @@ import SwiftUI
 import SwiftData
 
 struct HeaderDetailsView: View {
-    @Environment(\.modelContext) var modelContext
-    @Query private var movies: [Movie]
     var movie: MovieDetailAPIResponse
+    var isMovieSaved: Bool
+    var favoriteAction: (_ posterData: Data?, _ backdropData: Data?) -> Void
     @State private var posterImageData: Data?
     @State private var backdropImageData: Data?
     
@@ -47,7 +47,7 @@ struct HeaderDetailsView: View {
                         .padding(.trailing)
                         
                         Button {
-                            manageFavorite()
+                            favoriteAction(posterImageData, backdropImageData)
                         } label: {
                             RoundedRectangle(cornerRadius: 25)
                                 .frame(width: 230, height: 50)
@@ -108,24 +108,10 @@ struct HeaderDetailsView: View {
         return newFormatter.string(from: date)
     }
     
-    private var isMovieSaved: Bool {
-        movies.contains { $0.id == movie.id }
-    }
-    
-    private func manageFavorite() {
-        if isMovieSaved {
-            let savedMovie = movies.first { $0.id == movie.id }
-            guard let movieToDelete = savedMovie else { return }
-            modelContext.delete(movieToDelete)
-        } else {
-            let movieToSave = Movie(from: movie, posterImage: posterImageData, backdropImage: backdropImageData)
-            modelContext.insert(movieToSave)
-        }
-    }
 }
 
 #Preview {
-    HeaderDetailsView(movie: MovieDetailAPIResponse.example)
+    HeaderDetailsView(movie: MovieDetailAPIResponse.example, isMovieSaved: false) { _,_ in }
 }
 
 struct CircularRatingView: View {
