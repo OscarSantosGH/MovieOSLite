@@ -22,10 +22,13 @@ class Movie {
     var overview: String
     var releaseDate: String
     var actors: [Actor]
+    var creditsResponse: CreditsAPIResponse
+    var genreResponse: [GenreResponse]
+    var videosResponse: VideosAPIResponse
     @Relationship(deleteRule: .cascade) var genres: [Genre]
     @Relationship(deleteRule: .cascade) var videos: [Video]
     
-    init(id: Int, posterPath: String?, posterImage: Data?, backdropPath: String?, backdropImage: Data?, title: String, originalTitle: String, voteAverage: Float, overview: String, releaseDate: String, actors: [Actor], genres: [Genre], videos: [Video]) {
+    init(id: Int, posterPath: String?, posterImage: Data?, backdropPath: String?, backdropImage: Data?, title: String, originalTitle: String, voteAverage: Float, overview: String, releaseDate: String, actors: [Actor], creditsResponse: CreditsAPIResponse, genreResponse: [GenreResponse], videosResponse: VideosAPIResponse, genres: [Genre], videos: [Video]) {
         self.id = id
         self.posterPath = posterPath
         self.posterImage = posterImage
@@ -36,6 +39,9 @@ class Movie {
         self.voteAverage = voteAverage
         self.overview = overview
         self.releaseDate = releaseDate
+        self.creditsResponse = creditsResponse
+        self.genreResponse = genreResponse
+        self.videosResponse = videosResponse
         self.actors = actors
         self.genres = genres
         self.videos = videos
@@ -54,6 +60,9 @@ class Movie {
                   overview: movieDetail.overview,
                   releaseDate: movieDetail.releaseDate,
                   actors: actors,
+                  creditsResponse: movieDetail.credits,
+                  genreResponse: movieDetail.genres,
+                  videosResponse: movieDetail.videos,
                   genres: genres,
                   videos: videos)
     }

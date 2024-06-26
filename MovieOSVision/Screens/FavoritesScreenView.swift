@@ -11,40 +11,56 @@ import SwiftData
 
 struct FavoritesScreenView: View {
     @Query var movies: [Movie]
+    @State private var selectedMovie: MovieDetailAPIResponse?
+    
+    private let columns = [
+        GridItem(.adaptive(minimum: 250))
+    ]
     
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(movies) { movie in
-                    VStack(alignment: .center) {
-                        Spacer()
-                        
-                        Text(movie.title)
-                            .font(.title)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(.thinMaterial)
-                    }
-                    .background {
-                        Group {
-                            if let imageData = movie.backdropImage,
-                               let image = UIImage(data: imageData) {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFit()
-                            } else {
-                                Color.primary
+        NavigationStack {
+            if movies.isEmpty {
+                VStack(spacing: 15) {
+                    Image(systemName: "heart")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 50)
+                    Text("noFavMovie")
+                        .font(.title)
+                }
+            } else {
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 50) {
+                        ForEach(movies) { movie in
+                            PosterDetailView(posterPath: movie.posterPath, title: movie.title, rating: movie.voteAverage) {
+                                presentMovie(movie)
                             }
                         }
-                        .ignoresSafeArea()
                     }
+                    .padding()
+                }
+                .navigationTitle("Favorites")
+                .navigationDestination(item: $selectedMovie) { movie in
+                    MovieDetailView(movie: movie)
                 }
             }
-        } detail: {
-            Text("Movie Details")
         }
 
+    }
+    
+    private func presentMovie(_ movie: Movie) {
+        let movieDetail = MovieDetailAPIResponse(id: movie.id,
+                               posterPath: movie.posterPath,
+                               backdropPath: movie.backdropPath,
+                               title: movie.title,
+                               originalTitle: movie.originalTitle,
+                               voteAverage: movie.voteAverage,
+                               overview: movie.overview,
+                               releaseDate: movie.releaseDate,
+                               genres: movie.genreResponse,
+                               credits: movie.creditsResponse,
+                               videos: movie.videosResponse)
+        selectedMovie = movieDetail
     }
 }
 
