@@ -7,9 +7,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HeaderDetailsView: View {
     var movie: MovieDetailAPIResponse
+    var isMovieSaved: Bool
+    var favoriteAction: (_ posterData: Data?, _ backdropData: Data?) -> Void
+    @State private var posterImageData: Data?
+    @State private var backdropImageData: Data?
     
     var body: some View {
         VStack(alignment: .center) {
@@ -42,18 +47,20 @@ struct HeaderDetailsView: View {
                         .padding(.trailing)
                         
                         Button {
-                            //TODO: Add to favorite
+                            favoriteAction(posterImageData, backdropImageData)
                         } label: {
                             RoundedRectangle(cornerRadius: 25)
-                                .frame(width: 200, height: 50)
-                                .foregroundStyle(.moSorange)
+                                .frame(width: 230, height: 50)
+                                .foregroundStyle(isMovieSaved ? .gray : .moSorange)
                                 .overlay {
                                     //TODO: Add localization and make it responsive
                                     HStack {
-                                        Text("Add to Favorite")
+                                        Text(isMovieSaved ? "Remove from Favorite" : "Add to Favorite")
                                             .font(.headline)
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.8)
                                         Spacer()
-                                        Image(systemName: "heart.circle")
+                                        Image(systemName: isMovieSaved ? "heart.slash.circle" : "heart.circle")
                                             .resizable()
                                             .scaledToFit()
                                             .padding(5)
@@ -71,15 +78,19 @@ struct HeaderDetailsView: View {
                 .padding(.leading, 20)
                 .padding(.top)
                 
-                MOImageLoaderView(imagePath: movie.posterPath, imageType: .poster)
-                    .frame(width: 200, height: 300)
-                    .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                MOImageLoaderView(imagePath: movie.posterPath, imageType: .poster) { imageData in
+                    self.posterImageData = imageData
+                }
+                .frame(width: 200, height: 300)
+                .clipShape(RoundedRectangle(cornerRadius: 20.0))
                 
             }
             .padding()
             .background {
-                MOImageLoaderView(imagePath: movie.backdropPath, imageType: .backdrop)
-                    .overlay(.regularMaterial)
+                MOImageLoaderView(imagePath: movie.backdropPath, imageType: .backdrop) { imageData in
+                    self.backdropImageData = imageData
+                }
+                .overlay(.regularMaterial)
             }
         }
         .clipped()
@@ -96,10 +107,11 @@ struct HeaderDetailsView: View {
         
         return newFormatter.string(from: date)
     }
+    
 }
 
 #Preview {
-    HeaderDetailsView(movie: MovieDetailAPIResponse.example)
+    HeaderDetailsView(movie: MovieDetailAPIResponse.example, isMovieSaved: false) { _,_ in }
 }
 
 struct CircularRatingView: View {

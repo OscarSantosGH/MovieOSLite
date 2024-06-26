@@ -7,16 +7,28 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MovieDetailView: View {
     var movie: MovieDetailAPIResponse
+    @Environment(\.modelContext) var modelContext
+    @Query private var movies: [Movie]
+    
+    @State private var videos: [Video] = []
+    @State private var posterImageData: Data?
+    @State private var backdropImageData: Data?
+    @State private var actorsProfilePics: Dictionary<Int,Data> = [:]
     
     var body: some View {
         ScrollView {
             ZStack {
                 LazyVStack(alignment: .leading) {
-                    HeaderDetailsView(movie: movie)
-                        .padding(.bottom)
+                    HeaderDetailsView(movie: movie, isMovieSaved: isMovieSaved) { posterData, backdropData in
+                        posterImageData = posterData
+                        backdropImageData = backdropData
+                        updateFavorite()
+                    }
+                    .padding(.bottom)
                     
                     Group {
                         Text(overviewLabel)
@@ -31,7 +43,9 @@ struct MovieDetailView: View {
                             .font(.title)
                             .padding(.top)
                         
-                        TrailerListView(trailers: movie.videos.results)
+                        TrailerListView(trailers: movie.videos.results) { videos in
+                            self.videos = videos
+                        }
                         
                         Text(castLabel)
                             .font(.title)
@@ -40,7 +54,9 @@ struct MovieDetailView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHStack {
                                 ForEach(movie.credits.cast, id: \.id) { cast in
-                                    CastView(actor: cast)
+                                    CastView(actor: cast) { profileImageData in
+                                        actorsProfilePics[cast.id] = profileImageData
+                                    }
                                 }
                             }
                         }
@@ -78,6 +94,26 @@ struct MovieDetailView: View {
         }
     }
     
+    private var isMovieSaved: Bool {
+        movies.contains { $0.id == movie.id }
+    }
+    
+    private func updateFavorite() {
+        if isMovieSaved {
+            let savedMovie = movies.first { $0.id == movie.id }
+            guard let movieToDelete = savedMovie else { return }
+            modelContext.delete(movieToDelete)
+        } else {
+            let actors = movie.credits.cast.map { Actor(from: $0, profileImage: actorsProfilePics[$0.id]) }
+            let movieToSave = Movie(from: movie,
+                                    posterImage: posterImageData, 
+                                    backdropImage: backdropImageData,
+                                    videos: videos, 
+                                    actors: actors)
+            modelContext.insert(movieToSave)
+        }
+    }
+    
 }
 
 #Preview {
@@ -88,7 +124,10 @@ struct MovieDetailView: View {
 
 struct TrailerListView: View {
     let trailers: [VideoResponse]
+    var videos: ([Video]) -> Void
+    
     @State private var selectedTrailer: VideoResponse?
+    @State private var videoImages: Dictionary<String,Data> = [:]
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -98,9 +137,12 @@ struct TrailerListView: View {
                         selectedTrailer = trailer
                     } label: {
                         VStack {
-                            MOImageLoaderView(imagePath: trailer.key, imageType: .trailer)
-                                .frame(height: 130)
-                                .clipped()
+                            MOImageLoaderView(imagePath: trailer.key, imageType: .trailer) { imageData in
+                                videoImages[trailer.key] = imageData
+                            }
+                            .frame(height: 130)
+                            .clipped()
+                            
                             Text(trailer.name)
                                 .font(.headline)
                                 .minimumScaleFactor(0.6)
@@ -123,5 +165,11 @@ struct TrailerListView: View {
             let viewModel = MovieTrailerViewModel(trailer: trailer)
             MovieTrailerView(viewModel: viewModel)
         }
+        .onAppear(perform: sendVideoImages)
+    }
+    
+    private func sendVideoImages() {
+        let videoModels = trailers.map { Video(from: $0, imageData: videoImages[$0.key]) }
+        self.videos(videoModels)
     }
 }

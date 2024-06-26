@@ -25,6 +25,11 @@ struct MainTabView: View {
                 .tabItem {
                     Label("Search", systemImage: "magnifyingglass")
                 }
+            
+            FavoritesScreenView()
+                .tabItem {
+                    Label("Favorites", systemImage: "heart")
+                }
         }
     }
 }
