@@ -227,6 +227,24 @@ class TMDBClient{
         }
     }
     
+    func getPersonInfo(from id:Int) async throws -> PersonResponse {
+        let endPoint = baseUrl + "person/" + String(id) + "?api_key=\(API_KEY)" + "&append_to_response=movie_credits" + lang
+        
+        guard let url = URL(string: endPoint) else {
+            throw MOError.invalidURL
+        }
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            NetworkManager.shared.getPersonInfo(withURL: url) { (result) in
+                switch result{
+                case .success(let person):
+                    continuation.resume(with: .success(person))
+                case .failure(let error):
+                    continuation.resume(with: .failure(error))
+                }
+            }
+        }
+    }
     
     func downloadPosterImage(from urlString:String, completed: @escaping (UIImage?)->Void) {
         
