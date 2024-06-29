@@ -18,6 +18,7 @@ struct MovieDetailView: View {
     @State private var posterImageData: Data?
     @State private var backdropImageData: Data?
     @State private var actorsProfilePics: Dictionary<Int,Data> = [:]
+    @State private var selectedCastMember: PersonResponse?
     
     var body: some View {
         ScrollView {
@@ -56,6 +57,8 @@ struct MovieDetailView: View {
                                 ForEach(movie.credits.cast, id: \.id) { cast in
                                     CastView(actor: cast) { profileImageData in
                                         actorsProfilePics[cast.id] = profileImageData
+                                        updateFavorite()
+                                        presentCastDetails(actor: cast)
                                     }
                                 }
                             }
@@ -68,6 +71,9 @@ struct MovieDetailView: View {
             }
         }
         .ignoresSafeArea()
+        .navigationDestination(item: $selectedCastMember) { cast in
+            CastDetailView(actor: cast)
+        }
     }
     
     private var overviewLabel: String {
@@ -111,6 +117,19 @@ struct MovieDetailView: View {
                                     videos: videos, 
                                     actors: actors)
             modelContext.insert(movieToSave)
+        }
+    }
+    
+    private func presentCastDetails(actor: ActorResponse) {
+        //TODO: Make some loading animation while downloading the actor details
+        Task {
+            do {
+                let actorDetails = try await TMDBClient.shared.getPersonInfo(from: actor.id)
+                selectedCastMember = actorDetails
+            } catch {
+                //TODO: Create a view to display some message to the user to informed that the actor details fetching fails
+                print("Error getting actor details: \(error)")
+            }
         }
     }
     

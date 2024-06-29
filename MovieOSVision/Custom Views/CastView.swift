@@ -10,41 +10,47 @@ import SwiftUI
 
 struct CastView: View {
     var actor: ActorResponse
-    var profileImage: (Data?) -> Void
+    @State private var profileImage: Data?
+    var action: ((Data?) -> Void)
     
     var body: some View {
-        VStack {
-            MOImageLoaderView(imagePath: actor.profilePath, imageType: .cast) { imageData in
-                profileImage(imageData)
+        Button {
+            action(profileImage)
+        } label: {
+            VStack {
+                MOImageLoaderView(imagePath: actor.profilePath, imageType: .cast) { imageData in
+                    profileImage = imageData
+                }
+                .frame(height: 330)
+                .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                
+                VStack(spacing: 10) {
+                    Text(actor.name)
+                        .frame(height: 40)
+                        .font(.title2)
+                        .minimumScaleFactor(0.5)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
+                    
+                    Text(actor.character)
+                        .frame(height: 40)
+                        .font(.title2)
+                        .minimumScaleFactor(0.5)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
+                        .foregroundStyle(.orange)
+                        .padding(.bottom)
+                    
+                }
+                .padding(.horizontal)
+                
+                Spacer()
             }
-            .frame(height: 330)
+            .frame(width: 250, height: 420)
+            .background(.regularMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 25.0))
-            
-            VStack(spacing: 10) {
-                Text(actor.name)
-                    .frame(height: 40)
-                    .font(.title2)
-                    .minimumScaleFactor(0.5)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                
-                Text(actor.character)
-                    .frame(height: 40)
-                    .font(.title2)
-                    .minimumScaleFactor(0.5)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .foregroundStyle(.orange)
-                    .padding(.bottom)
-                
-            }
-            .padding(.horizontal)
-            
-            Spacer()
         }
-        .frame(width: 250, height: 420)
-        .background(.regularMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 25.0))
+        .buttonStyle(.plain)
     }
 }
 

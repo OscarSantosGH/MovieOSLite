@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8301CE5D2C2F2F0D00AE4045 /* CastDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8301CE5C2C2F2F0D00AE4045 /* CastDetailView.swift */; };
 		831CA63824E95FD600DB6BF3 /* PersonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831CA63724E95FD600DB6BF3 /* PersonResponse.swift */; };
 		831CA63A24E9648000DB6BF3 /* PersonMovieCreditResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831CA63924E9648000DB6BF3 /* PersonMovieCreditResponse.swift */; };
 		831CA63C24E9743600DB6BF3 /* PersonMovieCredits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831CA63B24E9743600DB6BF3 /* PersonMovieCredits.swift */; };
@@ -129,6 +130,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8301CE5C2C2F2F0D00AE4045 /* CastDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastDetailView.swift; sourceTree = "<group>"; };
 		831CA63724E95FD600DB6BF3 /* PersonResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonResponse.swift; sourceTree = "<group>"; };
 		831CA63924E9648000DB6BF3 /* PersonMovieCreditResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonMovieCreditResponse.swift; sourceTree = "<group>"; };
 		831CA63B24E9743600DB6BF3 /* PersonMovieCredits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonMovieCredits.swift; sourceTree = "<group>"; };
@@ -490,6 +492,7 @@
 				837DCC5B2BAA7D2B003A29BA /* SearchScreenView.swift */,
 				836909D42BB9D41C00D6E405 /* SearchScreenViewModel.swift */,
 				83A372F32B9F95290016FB4F /* MovieDetailView.swift */,
+				8301CE5C2C2F2F0D00AE4045 /* CastDetailView.swift */,
 				83F772BC2BD5B32900F0A34A /* FavoritesScreenView.swift */,
 			);
 			path = Screens;
@@ -769,6 +772,7 @@
 				836909D52BB9D41C00D6E405 /* SearchScreenViewModel.swift in Sources */,
 				83F772C32BD73C0100F0A34A /* Actor.swift in Sources */,
 				83A372F62B9F99E50016FB4F /* MOImageLoaderView.swift in Sources */,
+				8301CE5D2C2F2F0D00AE4045 /* CastDetailView.swift in Sources */,
 				839601862B964108007FB1F4 /* MovieOSVisionApp.swift in Sources */,
 				83A372EB2B9B93CA0016FB4F /* LoadingViewModel.swift in Sources */,
 				839601A22B96658D007FB1F4 /* PersistenceManager.swift in Sources */,
