@@ -13,4 +13,6 @@ struct PersonMovieCreditResponse: Codable, Hashable {
     let title:String
     let character:String
     let posterPath:String?
+    
+    static let example = PersonMovieCreditResponse(id: 693134, title: "Dune: Part Two", character: "Paul Atreides", posterPath: "/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg")
 }
