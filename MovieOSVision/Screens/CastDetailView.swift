@@ -14,32 +14,34 @@ struct CastDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                HStack {
+                HStack(alignment: .top) {
                     MOImageLoaderView(imagePath: actor.profilePath, imageType: .cast)
                     .frame(width: 200, height: 300)
                     .clipShape(RoundedRectangle(cornerRadius: 20.0))
                     .padding(.bottom)
                     
-                    VStack {
+                    VStack(alignment: .leading) {
                         Text(actor.name)
                             .font(.extraLargeTitle)
-                            .padding()
+                            .padding([.leading, .bottom])
                         
-                        HStack {
-                            VStack(alignment: .center) {
-                                Text(age)
-                                    .font(.title)
-                                Text("Age")
-                                    .font(.title2)
-                            }
-                            
-                            VStack(alignment: .leading) {
-                                Text(actor.placeOfBirth ?? "Unknown")
-                                    .font(.title)
-                                Text("Place Of Birth")
-                                    .font(.title2)
-                            }
+                        Group {
+                            //TODO: Create localization for "Birthday"
+                            Text("Birthday")
+                                .font(.title2)
+                            Text(age)
+                                .font(.title)
+                                .padding(.bottom)
                         }
+                        .padding(.leading)
+                        
+                        Group {
+                            Text("Place Of Birth")
+                                .font(.title2)
+                            Text(actor.placeOfBirth ?? "Unknown")
+                                .font(.title)
+                        }
+                        .padding(.leading)
                     }
                 }
                 
@@ -64,21 +66,13 @@ struct CastDetailView: View {
         
         let form = DateComponentsFormatter()
         form.maximumUnitCount = 3
-        form.unitsStyle = .full
+        form.unitsStyle = .short
         form.allowedUnits = [.year]
-        let s = form.string(from: date, to: Date())
+        let age = form.string(from: date, to: Date()) ?? ""
         
-        var age = ""
+        dateFormatter.dateFormat = "MMMM d, yyyy"
         
-        for c in s!{
-            if c == " "{
-                break
-            }else{
-                age.append(c)
-            }
-        }
-        
-        return age
+        return "\(dateFormatter.string(from: date)) (\(age))"
     }
     
     private var bio: String {
