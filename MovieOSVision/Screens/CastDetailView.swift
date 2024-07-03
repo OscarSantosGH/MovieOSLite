@@ -11,6 +11,7 @@ import SwiftUI
 struct CastDetailView: View {
     var actor: PersonResponse
     @State private var relatedMovies: [MovieResponse] = []
+    @State private var selectedMovie: MovieDetailAPIResponse?
     
     var body: some View {
         ScrollView {
@@ -65,13 +66,16 @@ struct CastDetailView: View {
                                              title: cast.title,
                                              value: cast.character,
                                              style: .subtitle) {
-                                //TODO: Navigate to movie details
+                                presentMovieDetails(movieID: cast.id)
                             }
                         }
                     }
                 }
             }
             .padding()
+            .navigationDestination(item: $selectedMovie) { movie in
+                MovieDetailView(movie: movie)
+            }
         }
     }
     
@@ -102,6 +106,21 @@ struct CastDetailView: View {
             NSLocalizedString("No Movie Credit Found", comment: "No Movie Credit Found")
         } else {
             NSLocalizedString("Known For", comment: "Known For")
+        }
+    }
+    
+    private func presentMovieDetails(movieID: Int) {
+        //TODO: Make some loading animation while downloading the movie details
+        Task {
+            let response = await TMDBClient.shared.getMovie(withID: movieID)
+            
+            switch response {
+            case .success(let movieDetails):
+                selectedMovie = movieDetails
+            case .failure(let error):
+                //TODO: Create a view to display some message to the user to informed that the movie details fetching fails
+                print("Error getting movie details: \(error)")
+            }
         }
     }
 }
