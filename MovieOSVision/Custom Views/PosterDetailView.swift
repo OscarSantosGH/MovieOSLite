@@ -11,8 +11,14 @@ import SwiftUI
 struct PosterDetailView: View {
     var posterPath: String?
     var title: String
-    var rating: Float
+    var value: String
+    var style: PosterStyle
     var action: (() -> Void)
+    
+    enum PosterStyle {
+        case rating
+        case subtitle
+    }
     
     var body: some View {
         
@@ -32,16 +38,27 @@ struct PosterDetailView: View {
                         .multilineTextAlignment(.center)
                         .lineLimit(2)
                     
-                    HStack {
-                        Text(ratingText)
-                            .font(.headline)
-                            .foregroundStyle(.secondary)
-                        
-                        if rating > 0 {
-                            Spacer()
-                            Text(String(rating))
+                    if style == .subtitle {
+                        Text(value)
+                            .frame(height: 40)
+                            .font(.title2)
+                            .minimumScaleFactor(0.5)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2)
+                            .foregroundStyle(.orange)
+                            .padding(.bottom)
+                    } else {
+                        HStack {
+                            Text(ratingText)
                                 .font(.headline)
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(.secondary)
+                            
+                            if value != "0.0" {
+                                Spacer()
+                                Text(value)
+                                    .font(.headline)
+                                    .foregroundStyle(.orange)
+                            }
                         }
                     }
                 }
@@ -60,14 +77,22 @@ struct PosterDetailView: View {
     }
     
     var ratingText: String {
-        if rating == 0.0 {
-            NSLocalizedString("Not Rated", comment: "When the movie isn't rated")
-        }else{
-            NSLocalizedString("Rating: ", comment: "Rating: ")
+        guard style == .rating else {
+            return NSLocalizedString("Not Rated", comment: "When the movie isn't rated")
+        }
+        
+        if value == "0.0" {
+            return NSLocalizedString("Not Rated", comment: "When the movie isn't rated")
+        } else {
+            return NSLocalizedString("Rating: ", comment: "Rating: ")
         }
     }
 }
 
 #Preview {
-    PosterDetailView(posterPath: MovieResponse.example.posterPath, title: MovieResponse.example.title, rating: MovieResponse.example.voteAverage) {  }
+    PosterDetailView(posterPath: MovieResponse.example.posterPath, title: MovieResponse.example.title, value: String(MovieResponse.example.voteAverage), style: .rating) {  }
+}
+
+#Preview {
+    PosterDetailView(posterPath: MovieResponse.example.posterPath, title: MovieResponse.example.title, value: MovieResponse.example.originalTitle, style: .subtitle) {  }
 }

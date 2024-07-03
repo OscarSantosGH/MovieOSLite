@@ -32,7 +32,7 @@ struct FavoritesScreenView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 50) {
                         ForEach(movies) { movie in
-                            PosterDetailView(posterPath: movie.posterPath, title: movie.title, rating: movie.voteAverage) {
+                            PosterDetailView(posterPath: movie.posterPath, title: movie.title, value: String(movie.voteAverage), style: .rating) {
                                 presentMovie(movie)
                             }
                         }

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CastDetailView: View {
     var actor: PersonResponse
+    @State private var relatedMovies: [MovieResponse] = []
     
     var body: some View {
         ScrollView {
@@ -28,7 +29,7 @@ struct CastDetailView: View {
                         Group {
                             //TODO: Create localization for "Birthday"
                             Text("Birthday")
-                                .font(.title2)
+                                .font(.title3)
                             Text(age)
                                 .font(.title)
                                 .padding(.bottom)
@@ -37,7 +38,7 @@ struct CastDetailView: View {
                         
                         Group {
                             Text("Place Of Birth")
-                                .font(.title2)
+                                .font(.title3)
                             Text(actor.placeOfBirth ?? "Unknown")
                                 .font(.title)
                         }
@@ -53,7 +54,24 @@ struct CastDetailView: View {
                     .font(.body)
                     .padding(.vertical)
                 
+                Text(knownForLabel)
+                    .font(.title)
+                    .padding(.bottom)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    LazyHStack {
+                        ForEach(actor.movieCredits.cast, id: \.id) { cast in
+                            PosterDetailView(posterPath: cast.posterPath,
+                                             title: cast.title,
+                                             value: cast.character,
+                                             style: .subtitle) {
+                                //TODO: Navigate to movie details
+                            }
+                        }
+                    }
+                }
             }
+            .padding()
         }
     }
     
@@ -77,6 +95,14 @@ struct CastDetailView: View {
     
     private var bio: String {
         actor.biography == "" ? "No Biography Found" : actor.biography
+    }
+    
+    private var knownForLabel: String {
+        if actor.movieCredits.cast.count == 0 {
+            NSLocalizedString("No Movie Credit Found", comment: "No Movie Credit Found")
+        } else {
+            NSLocalizedString("Known For", comment: "Known For")
+        }
     }
 }
 

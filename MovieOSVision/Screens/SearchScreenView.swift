@@ -63,7 +63,7 @@ struct SearchScreenView: View {
                             ScrollView {
                                 LazyVGrid(columns: columns) {
                                     ForEach(viewModel.movies, id: \.id) { movie in
-                                        PosterDetailView(posterPath: movie.posterPath,title: movie.title, rating: movie.voteAverage) {
+                                        PosterDetailView(posterPath: movie.posterPath,title: movie.title, value: String(movie.voteAverage), style: .rating) {
                                             viewModel.presentMovieDetails(movie: movie)
                                         }
                                         .padding(.vertical)
